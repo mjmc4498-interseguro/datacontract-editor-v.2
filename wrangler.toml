@@ -2,7 +2,7 @@
 # GitHub Actions: set repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
 # After deploy, attach a route or workers.dev subdomain in the Cloudflare dashboard if needed.
 
-name = "datacontract-editor"
+name = "datacontract-editor-v2"
 compatibility_date = "2026-04-22"
 
 [assets]
