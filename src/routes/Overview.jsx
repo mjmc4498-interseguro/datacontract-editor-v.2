@@ -13,6 +13,7 @@ import {
   useStandardPropertyOverride
 } from '../hooks/useCustomization.js';
 import {CustomSections, UngroupedCustomProperties} from '../components/ui/CustomSection.jsx';
+import { es } from '../locale/es.js';
 
 const Overview = () => {
 	const id = useEditorStore(useShallow((state) => state.getValue('id')));
@@ -60,14 +61,7 @@ const Overview = () => {
 	const tagsOverride = useStandardPropertyOverride('root', 'tags');
 
 	// Default status options (can be overridden by customization)
-	const defaultStatusOptions = [
-		{ id: 'draft', name: 'draft' },
-		{ id: 'proposed', name: 'proposed' },
-		{ id: 'in development', name: 'in development' },
-		{ id: 'active', name: 'active' },
-		{ id: 'deprecated', name: 'deprecated' },
-		{ id: 'retired', name: 'retired' }
-	];
+	const defaultStatusOptions = es.overview.statusOptions;
 
 	// Apply status override
 	const statusOptions = useMemo(() => {
@@ -95,6 +89,11 @@ const Overview = () => {
 		}
 		return null;
 	}, [tenantOverride]);
+
+	const statusLabelById = useMemo(
+		() => Object.fromEntries(es.overview.statusOptions.map((o) => [o.id, o.name])),
+		[]
+	);
 
 	// Convert array format to object lookup for UI components
 	const customPropertiesLookup = useMemo(() => {
@@ -150,8 +149,8 @@ const Overview = () => {
 
 					{/* Fundamentals Section */}
 					<div>
-						<h3 className="text-base font-semibold leading-6 text-gray-900">Fundamentals</h3>
-						<p className="mt-1 text-xs leading-4 text-gray-500 mb-4">Core metadata identifying the data contract, including name, version, status, and organizational context.</p>
+						<h3 className="text-base font-semibold leading-6 text-gray-900">{es.overview.sectionTitle}</h3>
+						<p className="mt-1 text-xs leading-4 text-gray-500 mb-4">{es.overview.sectionDesc}</p>
 
 						<div className="space-y-4">
 							<div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
@@ -159,12 +158,12 @@ const Overview = () => {
 								{!isNameHidden && (
 									<ValidatedInput
 										name="name"
-										label={nameOverride?.title || "Name"}
+										label={nameOverride?.title || es.overview.name}
 										value={name}
 										onChange={(e) => setName(e.target.value)}
 										required={nameOverride?.required ?? true}
-										tooltip={nameOverride?.description || "The name of the data contract"}
-										placeholder={nameOverride?.placeholder || "Enter document name"}
+										tooltip={nameOverride?.description || es.overview.nameTooltip}
+										placeholder={nameOverride?.placeholder || es.overview.namePlaceholder}
 										pattern={nameOverride?.pattern}
 										patternMessage={nameOverride?.patternMessage}
 										minLength={nameOverride?.minLength}
@@ -179,11 +178,11 @@ const Overview = () => {
 								{!isVersionHidden && (
 									<ValidatedInput
 										name="version"
-										label={versionOverride?.title || "Version"}
+										label={versionOverride?.title || es.overview.version}
 										value={version}
 										onChange={(e) => setVersion(e.target.value)}
 										required={versionOverride?.required ?? true}
-										tooltip={versionOverride?.description || "Version number using semantic versioning"}
+										tooltip={versionOverride?.description || es.overview.versionTooltip}
 										placeholder={versionOverride?.placeholder || "1.0.0"}
 										pattern={versionOverride?.pattern}
 										patternMessage={versionOverride?.patternMessage}
@@ -198,12 +197,12 @@ const Overview = () => {
 								{!isIdHidden && (
 									<ValidatedInput
 										name="id"
-										label={idOverride?.title || "ID"}
+										label={idOverride?.title || es.overview.id}
 										value={id}
 										onChange={(e) => setId(e.target.value)}
 										required={idOverride?.required ?? true}
-										tooltip={idOverride?.description || "Unique identifier for this data contract"}
-										placeholder={idOverride?.placeholder || "unique-identifier"}
+										tooltip={idOverride?.description || es.overview.idTooltip}
+										placeholder={idOverride?.placeholder || es.overview.idPlaceholder}
 										pattern={idOverride?.pattern}
 										patternMessage={idOverride?.patternMessage}
 										minLength={idOverride?.minLength}
@@ -217,14 +216,15 @@ const Overview = () => {
 								{!isStatusHidden && (
 									<ValidatedCombobox
 										name="status"
-										label={statusOverride?.title || "Status"}
+										label={statusOverride?.title || es.overview.status}
 										options={statusOptions}
 										value={status}
 										onChange={(selectedValue) => setStatus(selectedValue || '')}
-										placeholder={statusOverride?.placeholder || "Select a status..."}
+										placeholder={statusOverride?.placeholder || es.overview.statusPlaceholder}
+										displayValue={(v) => (typeof v === 'string' && v ? (statusLabelById[v] || v) : '')}
 										acceptAnyInput={!statusOverride?.enum}
 										required={statusOverride?.required ?? true}
-										tooltip={statusOverride?.description || "Current status of the data contract"}
+										tooltip={statusOverride?.description || es.overview.statusTooltip}
 										pattern={statusOverride?.pattern}
 										patternMessage={statusOverride?.patternMessage}
 										validationKey="root.status"
@@ -236,14 +236,14 @@ const Overview = () => {
 								{!isTenantHidden && (
 									<ValidatedCombobox
 										name="tenant"
-										label={tenantOverride?.title || "Tenant"}
+										label={tenantOverride?.title || es.overview.tenant}
 										options={tenantOptions || []}
 										value={tenant}
 										onChange={(selectedValue) => setTenant(selectedValue || undefined)}
-										placeholder={tenantOverride?.placeholder || "company-A"}
+										placeholder={tenantOverride?.placeholder || es.overview.tenantPlaceholder}
 										acceptAnyInput={!tenantOverride?.enum}
 										required={tenantOverride?.required ?? false}
-										tooltip={tenantOverride?.description || "Tenant or organization this contract belongs to"}
+										tooltip={tenantOverride?.description || es.overview.tenantTooltip}
 										pattern={tenantOverride?.pattern}
 										patternMessage={tenantOverride?.patternMessage}
 										validationKey="root.tenant"
@@ -255,14 +255,14 @@ const Overview = () => {
 								{!isDomainHidden && (
 									<ValidatedCombobox
 										name="domain"
-										label={domainOverride?.title || "Domain"}
+										label={domainOverride?.title || es.overview.domain}
 										options={domainOptions || []}
 										value={domain}
 										onChange={(selectedValue) => setDomain(selectedValue || undefined)}
-										placeholder={domainOverride?.placeholder || "Select a domain..."}
+										placeholder={domainOverride?.placeholder || es.overview.domainPlaceholder}
 										acceptAnyInput={!domainOverride?.enum}
 										required={domainOverride?.required ?? false}
-										tooltip={domainOverride?.description || "Business domain or category of this data contract"}
+										tooltip={domainOverride?.description || es.overview.domainTooltip}
 										pattern={domainOverride?.pattern}
 										patternMessage={domainOverride?.patternMessage}
 										validationKey="root.domain"
@@ -274,11 +274,11 @@ const Overview = () => {
 								{!isTagsHidden && (
 									<div className="sm:col-span-2">
 										<TagsInput
-											label={tagsOverride?.title || "Tags"}
+											label={tagsOverride?.title || es.overview.tags}
 											value={tags}
 											onChange={(value) => setTags('tags', value)}
-											tooltip={tagsOverride?.description || "Categorize your data contract with tags"}
-											placeholder={tagsOverride?.placeholder || "Add a tag..."}
+											tooltip={tagsOverride?.description || es.overview.tagsTooltip}
+											placeholder={tagsOverride?.placeholder || es.overview.tagsPlaceholder}
                       managedTags={editorConfig.managedTags}
                       allowUnmanagedTags={editorConfig.allowUnmanagedTags}
 										/>
