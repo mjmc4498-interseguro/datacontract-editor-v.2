@@ -1,0 +1,9 @@
+# Cloudflare Workers static hosting: run `npm run build` first (output in dist/).
+# GitHub Actions: set repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+# After deploy, attach a route or workers.dev subdomain in the Cloudflare dashboard if needed.
+
+name = "datacontract-editor"
+compatibility_date = "2026-04-22"
+
+[assets]
+directory = "./dist"

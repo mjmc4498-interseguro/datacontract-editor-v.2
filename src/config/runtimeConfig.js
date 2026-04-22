@@ -13,13 +13,14 @@
  */
 export async function loadRuntimeConfig() {
   try {
-    const response = await fetch('/config.json');
+    const configUrl = new URL('config.json', document.baseURI).href;
+    const response = await fetch(configUrl);
     if (response.ok) {
       const config = await response.json();
       console.log('Loaded runtime config:', Object.keys(config));
       return config;
     }
-  } catch (e) {
+  } catch {
     // Expected when no config.json exists (e.g., editor.datacontract.com)
   }
   return {};
