@@ -20,14 +20,14 @@ const Team = () => {
 
 	const members = team && !Array.isArray(team) && team?.members ? team.members : [];
 
-  // Get customization config for team level
+  // Obtener configuración de personalización para team level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('team');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isNameHidden = useIsPropertyHidden('team', 'name');
   const isDescriptionHidden = useIsPropertyHidden('team', 'description');
 
-  // Get standard property overrides
+  // Obtener sobrescrituras de propiedades estándar
   const nameOverride = useStandardPropertyOverride('team', 'name');
   const nameOptions = convertEnumToOptions(nameOverride?.enum);
 
@@ -50,7 +50,7 @@ const Team = () => {
     ...customPropertiesLookup,
   }), [team, customPropertiesLookup]);
 
-	// Handle old flat team structure
+	// Gestiona la estructura plana antigua de equipo
 	useEffect(() => {
 		if(team && Array.isArray(team)) {
 			setValue('team', {
@@ -59,7 +59,7 @@ const Team = () => {
 		}
 	}, [])
 
-  // Update team object in YAML
+  // Actualiza el objeto de equipo en YAML
   const updateTeamObject = (updates) => {
     try {
 
@@ -92,7 +92,7 @@ const Team = () => {
     updateTeamObject({ [field]: value || undefined });
   };
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     // Convert object format to array format if needed
     let currentArray;
@@ -120,12 +120,12 @@ const Team = () => {
     }
   }, [team?.customProperties, updateTeamField]);
 
-  // Update members array
+  // Actualiza el arreglo de miembros
   const updateMembersArray = (members) => {
     updateTeamObject({ members: members && members.length > 0 ? members : undefined });
   };
 
-  // Update a specific member
+  // Actualiza un miembro específico
   const updateMember = (index, field, value) => {
     const updatedMembers = [...members];
     updatedMembers[index] = {
@@ -135,7 +135,7 @@ const Team = () => {
     updateMembersArray(updatedMembers);
   };
 
-  // Add a new member
+  // Añade un miembro nuevo
   const addMember = () => {
     const newMember = {
       username: '',
@@ -145,7 +145,7 @@ const Team = () => {
     updateMembersArray([...members, newMember]);
   };
 
-  // Remove a member
+  // Elimina un miembro
   const removeMember = (index) => {
     const updatedMembers = members.filter((_, i) => i !== index);
     updateMembersArray(updatedMembers);

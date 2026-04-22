@@ -44,7 +44,7 @@ export default function AiSidebar() {
 	const [width, setWidth] = useState(DEFAULT_WIDTH);
 	const [isResizing, setIsResizing] = useState(false);
 
-	// Check if AI is enabled
+	// Comprueba si la IA está habilitada
 	const aiEnabled = editorConfig?.ai?.enabled !== false;
 
 	const handleMouseDown = useCallback((e) => {

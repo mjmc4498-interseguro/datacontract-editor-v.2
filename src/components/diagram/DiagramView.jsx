@@ -50,7 +50,7 @@ const splitSchemaReference = (reference, schemaNames) => {
   return [reference.slice(0, firstDot), reference.slice(firstDot + 1)];
 };
 
-const PREVIEW_EDGE_STYLE = { stroke: '#EA0C90', strokeWidth: 2.5 };
+const PREVIEW_EDGE_STYLE = { stroke: '#0061AE', strokeWidth: 2.5 };
 
 // Forward-declared: ConnectionLinePreview needs SelfReferenceEdge, which
 // is defined below. The component is only used at render time so a
@@ -62,7 +62,7 @@ let _SelfReferenceEdge;
  * relationship. When the drag target is the SAME node as the source
  * (self-reference), reuse the committed self-reference edge component so
  * the preview path is visually identical to the final edge. Otherwise
- * render a plain bezier — both in fuchsia to match the hover accent.
+ * render a plain bezier — ambas en azul para mantener el acento visual de marca.
  */
 const ConnectionLinePreview = ({ fromX, fromY, toX, toY, fromPosition, toPosition, fromNode, toNode }) => {
   const isSelfRef = !!(fromNode && toNode && fromNode.id === toNode.id);
@@ -98,7 +98,7 @@ const ConnectionLinePreview = ({ fromX, fromY, toX, toY, fromPosition, toPositio
   });
   return (
     <g>
-      <path d={path} stroke="#EA0C90" strokeWidth={2.5} fill="none" />
+      <path d={path} stroke="#0061AE" strokeWidth={2.5} fill="none" />
     </g>
   );
 };
@@ -1416,7 +1416,7 @@ const DiagramViewInner = () => {
         onConnectEnd={() => setConnectingFrom(null)}
         isValidConnection={isValidConnection}
         connectionMode="strict"
-        connectionLineStyle={{ stroke: '#EA0C90', strokeWidth: 2.5 }}
+        connectionLineStyle={{ stroke: '#0061AE', strokeWidth: 2.5 }}
         connectionLineComponent={ConnectionLinePreview}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}

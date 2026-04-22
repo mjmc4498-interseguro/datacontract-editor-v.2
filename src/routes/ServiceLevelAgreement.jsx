@@ -44,7 +44,7 @@ const ServiceLevelAgreement = () => {
     { id: 'operational', name: 'operational' }
   ];
 
-  // Update YAML when form fields change
+  // Actualiza el YAML cuando cambian los campos del formulario
   const updateField = (value) => {
     try {
       setValue('slaProperties', value && value.length > 0 ? value : undefined);

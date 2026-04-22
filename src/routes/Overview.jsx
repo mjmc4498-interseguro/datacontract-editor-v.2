@@ -39,7 +39,7 @@ const Overview = () => {
 
 	const editorConfig = useEditorStore((state) => state.editorConfig);
 
-	// Get customization config for root level
+	// Obtener configuración de personalización para root level
 	const { customProperties: customPropertyConfigs, customSections } = useCustomization('root');
 
 	// Check hidden status for each standard property
@@ -51,7 +51,7 @@ const Overview = () => {
 	const isTenantHidden = useIsPropertyHidden('root', 'tenant');
 	const isTagsHidden = useIsPropertyHidden('root', 'tags');
 
-	// Get overrides for standard properties
+	// Obtener sobrescrituras de propiedades estándar
 	const nameOverride = useStandardPropertyOverride('root', 'name');
 	const versionOverride = useStandardPropertyOverride('root', 'version');
 	const idOverride = useStandardPropertyOverride('root', 'id');
@@ -106,7 +106,7 @@ const Overview = () => {
 		}, {});
 	}, [customProperties]);
 
-	// Handle custom property changes - stores as array format per ODCS standard
+	// Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
 	const updateCustomProperty = useCallback((property, value) => {
 		// Convert object format to array format if needed
 		let currentArray;

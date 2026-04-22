@@ -60,7 +60,7 @@ const DescriptionPreview = () => {
 	const description = useEditorStore(useShallow(state => state.getValue('description')));
   if (!description) return null;
 
-  // Check for custom properties - handle both array and object formats
+  // Comprueba propiedades personalizadas en formato array u objeto
   const hasCustomProperties = description.customProperties && (
     Array.isArray(description.customProperties) ? description.customProperties.length > 0 :
     typeof description.customProperties === 'object' && Object.keys(description.customProperties).length > 0

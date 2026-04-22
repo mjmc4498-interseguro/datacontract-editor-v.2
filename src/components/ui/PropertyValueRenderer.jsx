@@ -18,7 +18,7 @@ export default function PropertyValueRenderer({ value, depth = 0 }) {
   }
 
   if (typeof value === 'boolean') {
-    return <span className="text-purple-600 font-mono">{value.toString()}</span>;
+    return <span className="text-indigo-600 font-mono">{value.toString()}</span>;
   }
 
   // Handle arrays

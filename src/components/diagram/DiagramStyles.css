@@ -1,20 +1,20 @@
 /*
  * Interseguro-branded diagram styling.
  *
- * Diagram edges, handles and hover states use the corporate magenta ramp
- * (#EA0C90 / #D6058B / #B0046F) defined globally in src/index.css as
+ * Diagram edges, handles and hover states use the rampa azul corporativa
+ * (#0061AE / #00579D / #004A85) defined globally in src/index.css as
  * `--color-indigo-500/600/700` — driven through local CSS vars here so the
  * styles continue to work even when React Flow is rendered outside Tailwind's
  * scope (e.g. in tests).
  */
 :root {
-	--dce-edge-accent:        var(--color-indigo-500, #EA0C90);
-	--dce-edge-accent-dark:   var(--color-indigo-700, #B0046F);
+	--dce-edge-accent:        var(--color-indigo-500, #0061AE);
+	--dce-edge-accent-dark:   var(--color-indigo-700, #004A85);
 	--dce-edge-accent-soft:   color-mix(in srgb, var(--dce-edge-accent) 55%, transparent);
 	--dce-edge-accent-halo:   color-mix(in srgb, var(--dce-edge-accent) 25%, transparent);
 }
 
-/* Make selected edges more visible — corporate magenta stands out from node borders */
+/* Make selected edges more visible — el azul corporativo destaque sobre el borde de nodos */
 .react-flow__edge.selected .react-flow__edge-path {
   stroke: var(--dce-edge-accent) !important;
   stroke-width: 3px !important;

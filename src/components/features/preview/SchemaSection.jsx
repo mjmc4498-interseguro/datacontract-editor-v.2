@@ -8,6 +8,7 @@ import AuthoritativeDefinitionsPreview from '../../ui/AuthoritativeDefinitionsPr
 import CustomPropertiesPreview from '../../ui/CustomPropertiesPreview.jsx';
 import {useEditorStore} from "../../../store.js";
 import {useShallow} from "zustand/react/shallow";
+import { es } from '../../../locale/es.js';
 
 // Memoized property row component
 const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
@@ -62,15 +63,15 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 					{property.description ? (
 						<div>{property.description}</div>
 					) : (
-						<div className="text-gray-400">No description</div>
+						<div className="text-gray-400">Sin descripción</div>
 					)}
 
 					{property.examples && property.examples.length > 0 && (
 						<div className="mt-1 italic">
 							{property.examples.length === 1 ? (
-								<>Example: <span>{property.examples[0]}</span></>
+								<>Ejemplo: <span>{property.examples[0]}</span></>
 							) : (
-								<>Examples: <span>{property.examples.join(', ')}</span></>
+								<>Ejemplos: <span>{property.examples.join(', ')}</span></>
 							)}
 						</div>
 					)}
@@ -109,12 +110,12 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 						{property.criticalDataElement && (
 							<span
 								className="inline-flex items-center rounded-md bg-red-50 px-1 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">
-								critical data element
+								elemento crítico de datos
 							</span>
 						)}
 						{property.encryptedName && (
 							<span
-								className="inline-flex items-center rounded-md bg-purple-50 px-1 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+								className="inline-flex items-center rounded-md bg-indigo-50 px-1 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
 								{property.encryptedName}
 							</span>
 						)}
@@ -123,20 +124,20 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 								<div className="space-y-1">
 									{property.transformLogic && (
 										<div>
-											<div className="text-gray-300 font-medium">Transform Logic:</div>
+											<div className="text-gray-300 font-medium">Lógica de transformación:</div>
 											<div>{property.transformLogic}</div>
 										</div>
 									)}
 									{property.transformDescription && (
 										<div>
-											<div className="text-gray-300 font-medium">Description:</div>
+											<div className="text-gray-300 font-medium">Descripción:</div>
 											<div>{property.transformDescription}</div>
 										</div>
 									)}
 								</div>
 							}>
 								<span className="inline-flex items-center rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 mr-1 mt-1">
-									transformation
+									transformación
 								</span>
 							</Tooltip>
 						)}
@@ -145,39 +146,39 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 						{property.logicalTypeOptions?.format && (
 							<Tooltip content={
 								<div className="space-y-1">
-									<div className="text-gray-300">Format: {property.logicalTypeOptions.format}</div>
+									<div className="text-gray-300">Formato: {property.logicalTypeOptions.format}</div>
 									{property.logicalTypeOptions.minLength !== undefined && (
-										<div className="text-gray-300">Min Length: {property.logicalTypeOptions.minLength}</div>
+										<div className="text-gray-300">Longitud mínima: {property.logicalTypeOptions.minLength}</div>
 									)}
 									{property.logicalTypeOptions.maxLength !== undefined && (
-										<div className="text-gray-300">Max Length: {property.logicalTypeOptions.maxLength}</div>
+										<div className="text-gray-300">Longitud máxima: {property.logicalTypeOptions.maxLength}</div>
 									)}
 									{property.logicalTypeOptions.pattern && (
-										<div className="text-gray-300">Pattern: {property.logicalTypeOptions.pattern}</div>
+										<div className="text-gray-300">Patrón: {property.logicalTypeOptions.pattern}</div>
 									)}
 									{property.logicalTypeOptions.minimum !== undefined && (
-										<div className="text-gray-300">Minimum: {property.logicalTypeOptions.minimum}</div>
+										<div className="text-gray-300">Mínimo: {property.logicalTypeOptions.minimum}</div>
 									)}
 									{property.logicalTypeOptions.maximum !== undefined && (
-										<div className="text-gray-300">Maximum: {property.logicalTypeOptions.maximum}</div>
+										<div className="text-gray-300">Máximo: {property.logicalTypeOptions.maximum}</div>
 									)}
 									{property.logicalTypeOptions.exclusiveMinimum !== undefined && (
-										<div className="text-gray-300">Exclusive Minimum: {property.logicalTypeOptions.exclusiveMinimum}</div>
+										<div className="text-gray-300">Exclusive Mínimo: {property.logicalTypeOptions.exclusiveMinimum}</div>
 									)}
 									{property.logicalTypeOptions.exclusiveMaximum !== undefined && (
-										<div className="text-gray-300">Exclusive Maximum: {property.logicalTypeOptions.exclusiveMaximum}</div>
+										<div className="text-gray-300">Exclusive Máximo: {property.logicalTypeOptions.exclusiveMaximum}</div>
 									)}
 									{property.logicalTypeOptions.multipleOf !== undefined && (
-										<div className="text-gray-300">Multiple Of: {property.logicalTypeOptions.multipleOf}</div>
+										<div className="text-gray-300">Múltiplo de: {property.logicalTypeOptions.multipleOf}</div>
 									)}
 									{property.logicalTypeOptions.minItems !== undefined && (
-										<div className="text-gray-300">Min Items: {property.logicalTypeOptions.minItems}</div>
+										<div className="text-gray-300">Elementos mínimos: {property.logicalTypeOptions.minItems}</div>
 									)}
 									{property.logicalTypeOptions.maxItems !== undefined && (
-										<div className="text-gray-300">Max Items: {property.logicalTypeOptions.maxItems}</div>
+										<div className="text-gray-300">Elementos máximos: {property.logicalTypeOptions.maxItems}</div>
 									)}
 									{property.logicalTypeOptions.uniqueItems !== undefined && (
-										<div className="text-gray-300">Unique Items: {property.logicalTypeOptions.uniqueItems ? 'Yes' : 'No'}</div>
+										<div className="text-gray-300">Elementos únicos: {property.logicalTypeOptions.uniqueItems ? 'Yes' : 'No'}</div>
 									)}
 									{property.logicalTypeOptions.minProperties !== undefined && (
 										<div className="text-gray-300">Min Properties: {property.logicalTypeOptions.minProperties}</div>
@@ -186,13 +187,13 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 										<div className="text-gray-300">Max Properties: {property.logicalTypeOptions.maxProperties}</div>
 									)}
 									{property.logicalTypeOptions.required && Array.isArray(property.logicalTypeOptions.required) && (
-										<div className="text-gray-300">Required: {property.logicalTypeOptions.required.join(', ')}</div>
+										<div className="text-gray-300">Obligatorio: {property.logicalTypeOptions.required.join(', ')}</div>
 									)}
 									{property.logicalTypeOptions.timezone !== undefined && (
-										<div className="text-gray-300">Timezone: {property.logicalTypeOptions.timezone ? 'Yes' : 'No'}</div>
+										<div className="text-gray-300">Zona horaria: {property.logicalTypeOptions.timezone ? 'Yes' : 'No'}</div>
 									)}
 									{property.logicalTypeOptions.defaultTimezone && (
-										<div className="text-gray-300">Default Timezone: {property.logicalTypeOptions.defaultTimezone}</div>
+										<div className="text-gray-300">Default Zona horaria: {property.logicalTypeOptions.defaultTimezone}</div>
 									)}
 								</div>
 							}>
@@ -206,26 +207,26 @@ const SchemaProperty = ({ property, propertyName, schemaName, indent = 0 }) => {
 							const tooltipContent = (
 								<div className="space-y-1">
 									{qualityCheck.description && <div>{qualityCheck.description}</div>}
-									{qualityCheck.type && <div className="text-gray-300">Type: {qualityCheck.type}</div>}
+									{qualityCheck.type && <div className="text-gray-300">Tipo: {qualityCheck.type}</div>}
 									{qualityCheck.dimension &&
-										<div className="text-gray-300">Dimension: {qualityCheck.dimension}</div>}
+										<div className="text-gray-300">Dimensión: {qualityCheck.dimension}</div>}
 									{qualityCheck.metric &&
-										<div className="text-gray-300">Metric: {qualityCheck.metric}</div>}
+										<div className="text-gray-300">Métrica: {qualityCheck.metric}</div>}
 									{qualityCheck.mustBeGreaterThan !== undefined &&
-										<div className="text-gray-300">Must be &gt; {qualityCheck.mustBeGreaterThan}</div>}
+										<div className="text-gray-300">Debe ser &gt; {qualityCheck.mustBeGreaterThan}</div>}
 									{qualityCheck.mustBeLessThan !== undefined &&
-										<div className="text-gray-300">Must be &lt; {qualityCheck.mustBeLessThan}</div>}
+										<div className="text-gray-300">Debe ser &lt; {qualityCheck.mustBeLessThan}</div>}
 									{qualityCheck.mustBe !== undefined &&
-										<div className="text-gray-300">Must be {qualityCheck.mustBe}</div>}
+										<div className="text-gray-300">Debe ser {qualityCheck.mustBe}</div>}
 								</div>
 							);
 
 							return (
 								<Tooltip key={qIdx} content={tooltipContent}>
 									<span
-										className="inline-flex items-center gap-1 rounded-md bg-fuchsia-50 px-2 py-1 text-xs font-medium text-fuchsia-700 ring-1 ring-inset ring-fuchsia-600/20 mr-1 mt-1">
+										className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mr-1 mt-1">
 										<QualityIcon className="w-3 h-3"/>
-										{qualityCheck.name || 'Quality Check'}
+										{qualityCheck.name || 'Comprobación de calidad'}
 									</span>
 								</Tooltip>
 							);
@@ -280,7 +281,7 @@ const SchemaTable = memo(({ schemaName, schema }) => {
 							{schema.description ? (
 								<div className="text-sm font-normal text-gray-500">{schema.description}</div>
 							) : (
-								<div className="text-sm font-normal text-gray-400">No description</div>
+								<div className="text-sm font-normal text-gray-400">Sin descripción</div>
 							)}
 							<CustomPropertiesPreview properties={schema.customProperties} pillClassName="mr-1 mt-1"/>
               {schema && schema.tags && schema.tags.length > 0 && <Tags tags={schema.tags}/>}
@@ -292,20 +293,20 @@ const SchemaTable = memo(({ schemaName, schema }) => {
 											<div className="space-y-1">
 												{qualityCheck.description && <div>{qualityCheck.description}</div>}
 												{qualityCheck.type &&
-													<div className="text-gray-300">Type: {qualityCheck.type}</div>}
+													<div className="text-gray-300">Tipo: {qualityCheck.type}</div>}
 												{qualityCheck.dimension &&
-													<div className="text-gray-300">Dimension: {qualityCheck.dimension}</div>}
+													<div className="text-gray-300">Dimensión: {qualityCheck.dimension}</div>}
 												{qualityCheck.metric &&
-													<div className="text-gray-300">Metric: {qualityCheck.metric}</div>}
+													<div className="text-gray-300">Métrica: {qualityCheck.metric}</div>}
 											</div>
 										);
 
 										return (
 											<Tooltip key={idx} content={tooltipContent}>
 													<span
-														className="inline-flex items-center gap-1 rounded-md bg-fuchsia-50 px-2 py-1 text-xs font-medium text-fuchsia-700 ring-1 ring-inset ring-fuchsia-600/20 mr-1 mt-1">
+														className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mr-1 mt-1">
 														<QualityIcon className="w-3 h-3"/>
-														{qualityCheck.name || 'Quality Check'}
+														{qualityCheck.name || 'Comprobación de calidad'}
 													</span>
 											</Tooltip>
 										);

@@ -6,7 +6,7 @@ const Roles = () => {
   const roles = useEditorStore(useShallow((state) => state.getValue('roles')));
 	const setValue = useEditorStore(useShallow((state) => state.setValue));
 
-  // Update YAML when form fields change
+  // Actualiza el YAML cuando cambian los campos del formulario
   const updateRoles = (value) => {
     try {
       setValue('roles', value && value.length > 0 ? value : undefined);

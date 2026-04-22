@@ -23404,94 +23404,12 @@ slaProperties:
         }
       ),
       /* @__PURE__ */ o.jsxs("div", { className: "hidden md:flex flex-row flex-1 justify-start items-center gap-2", children: [
-        /* @__PURE__ */ o.jsxs(
-          "svg",
+        /* @__PURE__ */ o.jsx(
+          "img",
           {
-            className: "h-8 w-auto",
-            viewBox: "0 0 530 587",
-            xmlns: "http://www.w3.org/2000/svg",
-            style: { fillRule: "evenodd", clipRule: "evenodd", strokeLinejoin: "round", strokeMiterlimit: 2 },
-            children: [
-              /* @__PURE__ */ o.jsx(
-                "path",
-                {
-                  d: "M508.5,119.94L307.4,3.84C288.5,-7.06 264.9,6.54 264.9,28.34L264.9,132.14L376.1,196.34C389.3,203.94 397.4,217.94 397.4,233.14L397.4,514.44L508.6,450.24C521.8,442.64 529.9,428.64 529.9,413.44L529.9,156.64C529.9,141.44 521.8,127.44 508.6,119.84L508.5,119.94Z",
-                  style: { fill: "url(#_Linear1)", fillRule: "nonzero" }
-                }
-              ),
-              /* @__PURE__ */ o.jsx(
-                "path",
-                {
-                  d: "M376,196.44L174.9,80.34C156,69.44 132.4,83.04 132.4,104.84L132.4,208.64L206,251.14L243.6,272.84C245.2,273.74 246.8,274.84 248.3,275.94C249.8,277.04 251.2,278.34 252.5,279.64C260.3,287.54 264.9,298.24 264.9,309.64L264.9,586.54C269.8,586.54 274.7,585.24 279.1,582.74L397.4,514.44L397.4,233.14C397.4,217.94 389.3,203.94 376.1,196.34L376,196.44Z",
-                  style: { fill: "url(#_Linear2)", fillRule: "nonzero" }
-                }
-              ),
-              /* @__PURE__ */ o.jsx(
-                "path",
-                {
-                  d: "M262.9,586.54C261.3,586.44 259.6,586.14 258,585.74C259.6,586.14 261.2,586.44 262.9,586.54Z",
-                  style: { fill: "rgb(77,155,58)", fillRule: "nonzero" }
-                }
-              ),
-              /* @__PURE__ */ o.jsx(
-                "path",
-                {
-                  d: "M264.9,309.74C264.9,298.34 260.3,287.64 252.5,279.74C251.2,278.44 249.8,277.24 248.3,276.04C246.8,274.84 245.3,273.84 243.6,272.94L206,251.24L42.5,156.84C23.6,145.94 0,159.54 0,181.34L0,413.54C0,428.74 8.1,442.74 21.3,450.34L132.5,514.54L250.8,582.84C255.2,585.34 260.1,586.64 265,586.64L265,309.74L264.9,309.74Z",
-                  style: { fill: "url(#_Linear3)", fillRule: "nonzero" }
-                }
-              ),
-              /* @__PURE__ */ o.jsxs("defs", { children: [
-                /* @__PURE__ */ o.jsxs(
-                  "linearGradient",
-                  {
-                    id: "_Linear1",
-                    x1: "0",
-                    y1: "0",
-                    x2: "1",
-                    y2: "0",
-                    gradientUnits: "userSpaceOnUse",
-                    gradientTransform: "matrix(3.15004e-14,-514.44,514.44,3.15004e-14,397.4,514.44)",
-                    children: [
-                      /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(134,25,143)", stopOpacity: 1 } }),
-                      /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(134,25,143)", stopOpacity: 1 } })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ o.jsxs(
-                  "linearGradient",
-                  {
-                    id: "_Linear2",
-                    x1: "0",
-                    y1: "0",
-                    x2: "1",
-                    y2: "0",
-                    gradientUnits: "userSpaceOnUse",
-                    gradientTransform: "matrix(3.12309e-14,-510.04,510.04,3.12309e-14,264.9,586.54)",
-                    children: [
-                      /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(192,38,211)", stopOpacity: 1 } }),
-                      /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(217,70,239)", stopOpacity: 1 } })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ o.jsxs(
-                  "linearGradient",
-                  {
-                    id: "_Linear3",
-                    x1: "0",
-                    y1: "0",
-                    x2: "1",
-                    y2: "0",
-                    gradientUnits: "userSpaceOnUse",
-                    gradientTransform: "matrix(2.65528e-14,-433.64,433.64,2.65528e-14,132.5,586.64)",
-                    children: [
-                      /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(217,70,239)", stopOpacity: 1 } }),
-                      /* @__PURE__ */ o.jsx("stop", { offset: "0.39", style: { stopColor: "rgb(229,112,247)", stopOpacity: 1 } }),
-                      /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(232,121,249)", stopOpacity: 1 } })
-                    ]
-                  }
-                )
-              ] })
-            ]
+            src: "/logo-interseguro.png",
+            alt: "Logo Interseguro",
+            className: "h-8 w-8 rounded-sm object-contain bg-white"
           }
         ),
         /* @__PURE__ */ o.jsx("span", { className: "text-md leading-tight text-gray-900", children: k.titlePrefix ? `${k.titlePrefix} ${A}` : w4 })
@@ -24220,27 +24138,14 @@ const gte = [
         children: [
           /* @__PURE__ */ o.jsxs("div", { className: "flex items-center justify-between p-4 border-b border-gray-200", children: [
             /* @__PURE__ */ o.jsxs("div", { className: "flex items-center gap-2", children: [
-              /* @__PURE__ */ o.jsxs("svg", { className: "h-6 w-auto", viewBox: "0 0 530 587", xmlns: "http://www.w3.org/2000/svg", style: { fillRule: "evenodd", clipRule: "evenodd", strokeLinejoin: "round", strokeMiterlimit: 2 }, children: [
-                /* @__PURE__ */ o.jsx("path", { d: "M508.5,119.94L307.4,3.84C288.5,-7.06 264.9,6.54 264.9,28.34L264.9,132.14L376.1,196.34C389.3,203.94 397.4,217.94 397.4,233.14L397.4,514.44L508.6,450.24C521.8,442.64 529.9,428.64 529.9,413.44L529.9,156.64C529.9,141.44 521.8,127.44 508.6,119.84L508.5,119.94Z", style: { fill: "url(#_Linear1Mobile)", fillRule: "nonzero" } }),
-                /* @__PURE__ */ o.jsx("path", { d: "M376,196.44L174.9,80.34C156,69.44 132.4,83.04 132.4,104.84L132.4,208.64L206,251.14L243.6,272.84C245.2,273.74 246.8,274.84 248.3,275.94C249.8,277.04 251.2,278.34 252.5,279.64C260.3,287.54 264.9,298.24 264.9,309.64L264.9,586.54C269.8,586.54 274.7,585.24 279.1,582.74L397.4,514.44L397.4,233.14C397.4,217.94 389.3,203.94 376.1,196.34L376,196.44Z", style: { fill: "url(#_Linear2Mobile)", fillRule: "nonzero" } }),
-                /* @__PURE__ */ o.jsx("path", { d: "M262.9,586.54C261.3,586.44 259.6,586.14 258,585.74C259.6,586.14 261.2,586.44 262.9,586.54Z", style: { fill: "rgb(77,155,58)", fillRule: "nonzero" } }),
-                /* @__PURE__ */ o.jsx("path", { d: "M264.9,309.74C264.9,298.34 260.3,287.64 252.5,279.74C251.2,278.44 249.8,277.24 248.3,276.04C246.8,274.84 245.3,273.84 243.6,272.94L206,251.24L42.5,156.84C23.6,145.94 0,159.54 0,181.34L0,413.54C0,428.74 8.1,442.74 21.3,450.34L132.5,514.54L250.8,582.84C255.2,585.34 260.1,586.64 265,586.64L265,309.74L264.9,309.74Z", style: { fill: "url(#_Linear3Mobile)", fillRule: "nonzero" } }),
-                /* @__PURE__ */ o.jsxs("defs", { children: [
-                  /* @__PURE__ */ o.jsxs("linearGradient", { id: "_Linear1Mobile", x1: "0", y1: "0", x2: "1", y2: "0", gradientUnits: "userSpaceOnUse", gradientTransform: "matrix(3.15004e-14,-514.44,514.44,3.15004e-14,397.4,514.44)", children: [
-                    /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(134,25,143)", stopOpacity: 1 } }),
-                    /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(134,25,143)", stopOpacity: 1 } })
-                  ] }),
-                  /* @__PURE__ */ o.jsxs("linearGradient", { id: "_Linear2Mobile", x1: "0", y1: "0", x2: "1", y2: "0", gradientUnits: "userSpaceOnUse", gradientTransform: "matrix(3.12309e-14,-510.04,510.04,3.12309e-14,264.9,586.54)", children: [
-                    /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(192,38,211)", stopOpacity: 1 } }),
-                    /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(217,70,239)", stopOpacity: 1 } })
-                  ] }),
-                  /* @__PURE__ */ o.jsxs("linearGradient", { id: "_Linear3Mobile", x1: "0", y1: "0", x2: "1", y2: "0", gradientUnits: "userSpaceOnUse", gradientTransform: "matrix(2.65528e-14,-433.64,433.64,2.65528e-14,132.5,586.64)", children: [
-                    /* @__PURE__ */ o.jsx("stop", { offset: "0", style: { stopColor: "rgb(217,70,239)", stopOpacity: 1 } }),
-                    /* @__PURE__ */ o.jsx("stop", { offset: "0.39", style: { stopColor: "rgb(229,112,247)", stopOpacity: 1 } }),
-                    /* @__PURE__ */ o.jsx("stop", { offset: "1", style: { stopColor: "rgb(232,121,249)", stopOpacity: 1 } })
-                  ] })
-                ] })
-              ] }),
+              /* @__PURE__ */ o.jsx(
+                "img",
+                {
+                  src: "/logo-interseguro.png",
+                  alt: "Logo Interseguro",
+                  className: "h-6 w-6 rounded-sm object-contain bg-white"
+                }
+              ),
               /* @__PURE__ */ o.jsx("span", { className: "text-sm font-medium text-gray-900", children: w4 })
             ] }),
             /* @__PURE__ */ o.jsx(
@@ -50049,12 +49954,12 @@ const V1e = () => {
         )
       ] }),
       /* @__PURE__ */ o.jsxs("td", { className: "px-3 py-2 text-sm text-gray-500", children: [
-        e.description ? /* @__PURE__ */ o.jsx("div", { children: e.description }) : /* @__PURE__ */ o.jsx("div", { className: "text-gray-400", children: "No description" }),
+        e.description ? /* @__PURE__ */ o.jsx("div", { children: e.description }) : /* @__PURE__ */ o.jsx("div", { className: "text-gray-400", children: "Sin descripción" }),
         e.examples && e.examples.length > 0 && /* @__PURE__ */ o.jsx("div", { className: "mt-1 italic", children: e.examples.length === 1 ? /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
-          "Example: ",
+          "Ejemplo: ",
           /* @__PURE__ */ o.jsx("span", { children: e.examples[0] })
         ] }) : /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
-          "Examples: ",
+          "Ejemplos: ",
           /* @__PURE__ */ o.jsx("span", { children: e.examples.join(", ") })
         ] }) }),
         /* @__PURE__ */ o.jsxs("div", { className: "mt-1 flex gap-x-1 items-center flex-wrap", children: [
@@ -50107,75 +50012,75 @@ const V1e = () => {
             "span",
             {
               className: "inline-flex items-center rounded-md bg-red-50 px-1 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10",
-              children: "critical data element"
+              children: "elemento crítico de datos"
             }
           ),
           e.encryptedName && /* @__PURE__ */ o.jsx(
             "span",
             {
-              className: "inline-flex items-center rounded-md bg-purple-50 px-1 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10",
+              className: "inline-flex items-center rounded-md bg-indigo-50 px-1 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10",
               children: e.encryptedName
             }
           ),
           (e.transformLogic || e.transformDescription) && /* @__PURE__ */ o.jsx(Lt, { content: /* @__PURE__ */ o.jsxs("div", { className: "space-y-1", children: [
             e.transformLogic && /* @__PURE__ */ o.jsxs("div", { children: [
-              /* @__PURE__ */ o.jsx("div", { className: "text-gray-300 font-medium", children: "Transform Logic:" }),
+              /* @__PURE__ */ o.jsx("div", { className: "text-gray-300 font-medium", children: "Lógica de transformación:" }),
               /* @__PURE__ */ o.jsx("div", { children: e.transformLogic })
             ] }),
             e.transformDescription && /* @__PURE__ */ o.jsxs("div", { children: [
-              /* @__PURE__ */ o.jsx("div", { className: "text-gray-300 font-medium", children: "Description:" }),
+              /* @__PURE__ */ o.jsx("div", { className: "text-gray-300 font-medium", children: "Descripción:" }),
               /* @__PURE__ */ o.jsx("div", { children: e.transformDescription })
             ] })
-          ] }), children: /* @__PURE__ */ o.jsx("span", { className: "inline-flex items-center rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 mr-1 mt-1", children: "transformation" }) }),
+          ] }), children: /* @__PURE__ */ o.jsx("span", { className: "inline-flex items-center rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 mr-1 mt-1", children: "transformación" }) }),
           /* @__PURE__ */ o.jsx(mm, { properties: e.customProperties, pillClassName: "mr-1 mt-1" }),
           e.tags && Array.isArray(e.tags) && /* @__PURE__ */ o.jsx(G2, { tags: e.tags }),
           e.logicalTypeOptions?.format && /* @__PURE__ */ o.jsx(Lt, { content: /* @__PURE__ */ o.jsxs("div", { className: "space-y-1", children: [
             /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Format: ",
+              "Formato: ",
               e.logicalTypeOptions.format
             ] }),
             e.logicalTypeOptions.minLength !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Min Length: ",
+              "Longitud mínima: ",
               e.logicalTypeOptions.minLength
             ] }),
             e.logicalTypeOptions.maxLength !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Max Length: ",
+              "Longitud máxima: ",
               e.logicalTypeOptions.maxLength
             ] }),
             e.logicalTypeOptions.pattern && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Pattern: ",
+              "Patrón: ",
               e.logicalTypeOptions.pattern
             ] }),
             e.logicalTypeOptions.minimum !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Minimum: ",
+              "Mínimo: ",
               e.logicalTypeOptions.minimum
             ] }),
             e.logicalTypeOptions.maximum !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Maximum: ",
+              "Máximo: ",
               e.logicalTypeOptions.maximum
             ] }),
             e.logicalTypeOptions.exclusiveMinimum !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Exclusive Minimum: ",
+              "Exclusive Mínimo: ",
               e.logicalTypeOptions.exclusiveMinimum
             ] }),
             e.logicalTypeOptions.exclusiveMaximum !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Exclusive Maximum: ",
+              "Exclusive Máximo: ",
               e.logicalTypeOptions.exclusiveMaximum
             ] }),
             e.logicalTypeOptions.multipleOf !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Multiple Of: ",
+              "Múltiplo de: ",
               e.logicalTypeOptions.multipleOf
             ] }),
             e.logicalTypeOptions.minItems !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Min Items: ",
+              "Elementos mínimos: ",
               e.logicalTypeOptions.minItems
             ] }),
             e.logicalTypeOptions.maxItems !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Max Items: ",
+              "Elementos máximos: ",
               e.logicalTypeOptions.maxItems
             ] }),
             e.logicalTypeOptions.uniqueItems !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Unique Items: ",
+              "Elementos únicos: ",
               e.logicalTypeOptions.uniqueItems ? "Yes" : "No"
             ] }),
             e.logicalTypeOptions.minProperties !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
@@ -50187,15 +50092,15 @@ const V1e = () => {
               e.logicalTypeOptions.maxProperties
             ] }),
             e.logicalTypeOptions.required && Array.isArray(e.logicalTypeOptions.required) && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Required: ",
+              "Obligatorio: ",
               e.logicalTypeOptions.required.join(", ")
             ] }),
             e.logicalTypeOptions.timezone !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Timezone: ",
+              "Zona horaria: ",
               e.logicalTypeOptions.timezone ? "Yes" : "No"
             ] }),
             e.logicalTypeOptions.defaultTimezone && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Default Timezone: ",
+              "Default Zona horaria: ",
               e.logicalTypeOptions.defaultTimezone
             ] })
           ] }), children: /* @__PURE__ */ o.jsx("span", { className: "inline-flex items-center rounded-md bg-sky-50 px-2 py-1 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-600/20 mr-1 mt-1", children: e.logicalTypeOptions.format }) }),
@@ -50203,37 +50108,37 @@ const V1e = () => {
             const d = MB(s.type), h = /* @__PURE__ */ o.jsxs("div", { className: "space-y-1", children: [
               s.description && /* @__PURE__ */ o.jsx("div", { children: s.description }),
               s.type && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Type: ",
+                "Tipo: ",
                 s.type
               ] }),
               s.dimension && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Dimension: ",
+                "Dimensión: ",
                 s.dimension
               ] }),
               s.metric && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Metric: ",
+                "Métrica: ",
                 s.metric
               ] }),
               s.mustBeGreaterThan !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Must be > ",
+                "Debe ser > ",
                 s.mustBeGreaterThan
               ] }),
               s.mustBeLessThan !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Must be < ",
+                "Debe ser < ",
                 s.mustBeLessThan
               ] }),
               s.mustBe !== void 0 && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-                "Must be ",
+                "Debe ser ",
                 s.mustBe
               ] })
             ] });
             return /* @__PURE__ */ o.jsx(Lt, { content: h, children: /* @__PURE__ */ o.jsxs(
               "span",
               {
-                className: "inline-flex items-center gap-1 rounded-md bg-fuchsia-50 px-2 py-1 text-xs font-medium text-fuchsia-700 ring-1 ring-inset ring-fuchsia-600/20 mr-1 mt-1",
+                className: "inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mr-1 mt-1",
                 children: [
                   /* @__PURE__ */ o.jsx(d, { className: "w-3 h-3" }),
-                  s.name || "Quality Check"
+                  s.name || "Comprobación de calidad"
                 ]
               }
             ) }, c);
@@ -50280,32 +50185,32 @@ const RB = L.memo(({ schemaName: e, schema: t }) => /* @__PURE__ */ o.jsx("div",
             children: t.type
           }
         ),
-        t.description ? /* @__PURE__ */ o.jsx("div", { className: "text-sm font-normal text-gray-500", children: t.description }) : /* @__PURE__ */ o.jsx("div", { className: "text-sm font-normal text-gray-400", children: "No description" }),
+        t.description ? /* @__PURE__ */ o.jsx("div", { className: "text-sm font-normal text-gray-500", children: t.description }) : /* @__PURE__ */ o.jsx("div", { className: "text-sm font-normal text-gray-400", children: "Sin descripción" }),
         /* @__PURE__ */ o.jsx(mm, { properties: t.customProperties, pillClassName: "mr-1 mt-1" }),
         t && t.tags && t.tags.length > 0 && /* @__PURE__ */ o.jsx(G2, { tags: t.tags }),
         t && t.quality && t.quality.length > 0 && /* @__PURE__ */ o.jsx("div", { className: "mt-2", children: t.quality.map((n, r) => {
           const i = MB(n.type), a = /* @__PURE__ */ o.jsxs("div", { className: "space-y-1", children: [
             n.description && /* @__PURE__ */ o.jsx("div", { children: n.description }),
             n.type && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Type: ",
+              "Tipo: ",
               n.type
             ] }),
             n.dimension && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Dimension: ",
+              "Dimensión: ",
               n.dimension
             ] }),
             n.metric && /* @__PURE__ */ o.jsxs("div", { className: "text-gray-300", children: [
-              "Metric: ",
+              "Métrica: ",
               n.metric
             ] })
           ] });
           return /* @__PURE__ */ o.jsx(Lt, { content: a, children: /* @__PURE__ */ o.jsxs(
             "span",
             {
-              className: "inline-flex items-center gap-1 rounded-md bg-fuchsia-50 px-2 py-1 text-xs font-medium text-fuchsia-700 ring-1 ring-inset ring-fuchsia-600/20 mr-1 mt-1",
+              className: "inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mr-1 mt-1",
               children: [
                 /* @__PURE__ */ o.jsx(i, { className: "w-3 h-3" }),
-                n.name || "Quality Check"
+                n.name || "Comprobación de calidad"
               ]
             }
           ) }, r);
@@ -50353,7 +50258,7 @@ function c2({ value: e, depth: t = 0 }) {
   if (typeof e == "number")
     return /* @__PURE__ */ o.jsx("span", { className: "text-blue-600 font-mono", children: e });
   if (typeof e == "boolean")
-    return /* @__PURE__ */ o.jsx("span", { className: "text-purple-600 font-mono", children: e.toString() });
+    return /* @__PURE__ */ o.jsx("span", { className: "text-indigo-600 font-mono", children: e.toString() });
   if (Array.isArray(e))
     return e.length === 0 ? /* @__PURE__ */ o.jsx("span", { className: "text-gray-400 italic", children: "[]" }) : e.every(
       (r) => typeof r == "string" || typeof r == "number" || typeof r == "boolean"
@@ -75742,7 +75647,7 @@ const PP = /* @__PURE__ */ ju(C8e), Uw = (e, t) => {
   }
   const r = e.indexOf(".");
   return r === -1 ? [e, ""] : [e.slice(0, r), e.slice(r + 1)];
-}, D8e = { stroke: "#EA0C90", strokeWidth: 2.5 };
+}, D8e = { stroke: "#0061AE", strokeWidth: 2.5 };
 let Vw;
 const M8e = ({ fromX: e, fromY: t, toX: n, toY: r, fromPosition: i, toPosition: a, fromNode: s, toNode: c }) => {
   if (!!(s && c && s.id === c.id) && Vw && s?.id) {
@@ -75768,7 +75673,7 @@ const M8e = ({ fromX: e, fromY: t, toX: n, toY: r, fromPosition: i, toPosition: 
     targetY: r,
     targetPosition: a
   });
-  return /* @__PURE__ */ o.jsx("g", { children: /* @__PURE__ */ o.jsx("path", { d: y, stroke: "#EA0C90", strokeWidth: 2.5, fill: "none" }) });
+  return /* @__PURE__ */ o.jsx("g", { children: /* @__PURE__ */ o.jsx("path", { d: y, stroke: "#0061AE", strokeWidth: 2.5, fill: "none" }) });
 }, L8e = ({ id: e, sourceX: t, sourceY: n, targetX: r, targetY: i, sourcePosition: a, targetPosition: s, style: c }) => {
   const [d] = W2({ sourceX: t, sourceY: n, sourcePosition: a, targetX: r, targetY: i, targetPosition: s });
   return /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
@@ -76410,7 +76315,7 @@ const R8e = ({ id: e, source: t, target: n, sourceX: r, sourceY: i, targetX: a, 
         onConnectEnd: () => S(null),
         isValidConnection: Ne,
         connectionMode: "strict",
-        connectionLineStyle: { stroke: "#EA0C90", strokeWidth: 2.5 },
+        connectionLineStyle: { stroke: "#0061AE", strokeWidth: 2.5 },
         connectionLineComponent: M8e,
         onInit: M,
         nodeTypes: i,

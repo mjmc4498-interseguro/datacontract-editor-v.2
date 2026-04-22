@@ -13,7 +13,7 @@ const RolesList = ({ roles = [], onUpdate, className = '', serverName = null }) 
   const [lastAddedIndex, setLastAddedIndex] = useState(null);
   const roleInputRefs = useRef({});
 
-  // Update a specific role
+  // Actualiza un rol específico
   const updateRole = (index, field, value) => {
     const updatedRoles = [...roles];
     updatedRoles[index] = {
@@ -23,7 +23,7 @@ const RolesList = ({ roles = [], onUpdate, className = '', serverName = null }) 
     onUpdate(updatedRoles);
   };
 
-  // Add a new role
+  // Añade un rol nuevo
   const addRole = () => {
     // Determine the prefix based on context
     const prefix = serverName ? `${serverName}.` : '';
@@ -62,7 +62,7 @@ const RolesList = ({ roles = [], onUpdate, className = '', serverName = null }) 
     }
   }, [lastAddedIndex, roles]);
 
-  // Remove a role
+  // Elimina un rol
   const removeRole = (index) => {
     const updatedRoles = roles.filter((_, i) => i !== index);
     onUpdate(updatedRoles);
@@ -104,17 +104,17 @@ const RolesList = ({ roles = [], onUpdate, className = '', serverName = null }) 
 const RoleItem = ({ roleItem, index, updateRole, removeRole, roleInputRefs }) => {
   const yamlParts = useEditorStore((state) => state.yamlParts);
 
-  // Get customization config for roles level
+  // Obtener configuración de personalización para roles level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('roles');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isRoleHidden = useIsPropertyHidden('roles', 'role');
   const isDescriptionHidden = useIsPropertyHidden('roles', 'description');
   const isAccessHidden = useIsPropertyHidden('roles', 'access');
   const isFirstLevelApproversHidden = useIsPropertyHidden('roles', 'firstLevelApprovers');
   const isSecondLevelApproversHidden = useIsPropertyHidden('roles', 'secondLevelApprovers');
 
-  // Get standard property overrides
+  // Obtener sobrescrituras de propiedades estándar
   const roleOverride = useStandardPropertyOverride('roles', 'role');
   const accessOverride = useStandardPropertyOverride('roles', 'access');
   const firstLevelApproversOverride = useStandardPropertyOverride('roles', 'firstLevelApprovers');
@@ -142,7 +142,7 @@ const RoleItem = ({ roleItem, index, updateRole, removeRole, roleInputRefs }) =>
     ...customPropertiesLookup,
   }), [roleItem, customPropertiesLookup]);
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     // Convert object format to array format if needed
     let currentArray;

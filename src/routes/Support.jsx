@@ -14,10 +14,10 @@ import { es } from '../locale/es.js';
 const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOptions }) => {
   const yamlParts = useEditorStore((state) => state.yamlParts);
 
-  // Get customization config for support level
+  // Obtener configuración de personalización para support level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('support');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isChannelHidden = useIsPropertyHidden('support', 'channel');
   const isUrlHidden = useIsPropertyHidden('support', 'url');
   const isDescriptionHidden = useIsPropertyHidden('support', 'description');
@@ -25,7 +25,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
   const isScopeHidden = useIsPropertyHidden('support', 'scope');
   const isInvitationUrlHidden = useIsPropertyHidden('support', 'invitationUrl');
 
-  // Get standard property overrides
+  // Obtener sobrescrituras de propiedades estándar
   const channelOverride = useStandardPropertyOverride('support', 'channel');
   const urlOverride = useStandardPropertyOverride('support', 'url');
   const toolOverride = useStandardPropertyOverride('support', 'tool');
@@ -70,7 +70,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
     ...customPropertiesLookup,
   }), [item, customPropertiesLookup]);
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     // Convert object format to array format if needed
     let currentArray;
@@ -304,7 +304,7 @@ const Support = () => {
     { id: 'notifications', name: 'notifications' }
   ];
 
-  // Update YAML when form fields change
+  // Actualiza el YAML cuando cambian los campos del formulario
   const updateField = (value) => {
     try {
       setValue('support', value && value.length > 0 ? value : undefined);
@@ -313,7 +313,7 @@ const Support = () => {
     }
   };
 
-  // Update a specific support item
+  // Actualiza un elemento de soporte específico
   const updateSupportItem = (index, field, value) => {
     const updatedItems = [...support];
     updatedItems[index] = {
@@ -323,7 +323,7 @@ const Support = () => {
     updateField(updatedItems);
   };
 
-  // Add a new support item
+  // Añade un elemento de soporte
   const addSupportItem = () => {
     const newItem = {
       channel: '',
@@ -332,7 +332,7 @@ const Support = () => {
     updateField([...support, newItem]);
   };
 
-  // Remove a support item
+  // Elimina un elemento de soporte
   const removeSupportItem = (index) => {
     const updatedItems = support.filter((_, i) => i !== index);
 		console.log(updatedItems);

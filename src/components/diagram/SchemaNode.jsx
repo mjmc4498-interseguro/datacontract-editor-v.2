@@ -90,7 +90,7 @@ const SchemaNode = ({ data, id }) => {
     })
   );
 
-  // Handle drag end for property reordering
+  // Gestiona el fin del arrastre para reordenar propiedades
   const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -407,7 +407,7 @@ const SchemaNode = ({ data, id }) => {
         </div>
       </NodeToolbar>
 
-      {/* Accent Bar — Interseguro corporate magenta */}
+      {/* Accent Bar — azul corporativo de Interseguro */}
       <div className="h-1.5 rounded-t bg-indigo-600"></div>
 
       {/* Schema Container with Border */}

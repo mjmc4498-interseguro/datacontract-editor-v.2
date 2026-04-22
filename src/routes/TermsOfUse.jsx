@@ -15,16 +15,16 @@ const TermsOfUse = () => {
 	const setYamlValue = useEditorStore(useShallow((state) => state.setValue));
 	const yamlParts = useEditorStore((state) => state.yamlParts);
 
-	// Get customization config for description level
+	// Obtener configuración de personalización para description level
 	const { customProperties: customPropertyConfigs, customSections } = useCustomization('description');
 
-	// Check hidden status for standard properties
+	// Comprobar estado oculto de propiedades estándar
 	const isPurposeHidden = useIsPropertyHidden('description', 'purpose');
 	const isUsageHidden = useIsPropertyHidden('description', 'usage');
 	const isLimitationsHidden = useIsPropertyHidden('description', 'limitations');
 	const isAuthoritativeDefinitionsHidden = useIsPropertyHidden('description', 'authoritativeDefinitions');
 
-	// Get overrides for standard properties
+	// Obtener sobrescrituras de propiedades estándar
 	const purposeOverride = useStandardPropertyOverride('description', 'purpose');
 	const usageOverride = useStandardPropertyOverride('description', 'usage');
 	const limitationsOverride = useStandardPropertyOverride('description', 'limitations');
@@ -41,7 +41,7 @@ const TermsOfUse = () => {
 		}, {});
 	}, [description?.customProperties]);
 
-	// Handle custom property changes - stores as array format per ODCS standard
+	// Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
 	const updateCustomProperty = useCallback((property, value) => {
 		const currentProps = description?.customProperties;
 		let currentArray;

@@ -8,7 +8,7 @@ const Pricing = () => {
 	const setValue = useEditorStore(useShallow((state) => state.setValue));
 
 
-  // Update YAML when form fields change
+  // Actualiza el YAML cuando cambian los campos del formulario
   const updateField = (field, value) => {
     try {
 			const newPrice = { ...price };

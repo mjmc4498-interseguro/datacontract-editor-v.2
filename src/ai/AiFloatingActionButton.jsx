@@ -40,7 +40,7 @@ export default function AiFloatingActionButton() {
 		setIsHovered(false);
 	}, [isOpen]);
 
-	// Check if AI is enabled
+	// Comprueba si la IA está habilitada
 	const aiEnabled = editorConfig?.ai?.enabled !== false;
 
 	if (!aiEnabled) {

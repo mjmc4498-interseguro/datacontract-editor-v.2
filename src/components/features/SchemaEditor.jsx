@@ -67,7 +67,7 @@ const SchemaEditor = ({schemaIndex}) => {
 		})
 	);
 
-	// Handle drag end for property reordering
+	// Gestiona el fin del arrastre para reordenar propiedades
 	const handleDragEnd = useCallback((event) => {
 		const {active, over} = event;
 		if (!over || active.id === over.id) return;
@@ -81,10 +81,10 @@ const SchemaEditor = ({schemaIndex}) => {
 		}
 	}, [reorderProperty]);
 
-	// Get customization config for schema level
+	// Obtener configuración de personalización para schema level
 	const {customProperties: customPropertyConfigs, customSections} = useCustomization('schema');
 
-	// Check hidden status for standard properties
+	// Comprobar estado oculto de propiedades estándar
 	const isNameHidden = useIsPropertyHidden('schema', 'name');
 	const isPhysicalTypeHidden = useIsPropertyHidden('schema', 'physicalType');
 	const isPhysicalNameHidden = useIsPropertyHidden('schema', 'physicalName');
@@ -129,7 +129,7 @@ const SchemaEditor = ({schemaIndex}) => {
 		};
 	}, [schema, schemaIndex, customPropertiesLookup]);
 
-	// Handle custom property changes - stores as array format per ODCS standard
+	// Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
 	const updateCustomProperty = useCallback((propName, value) => {
 		const currentSchema = schema?.[schemaIndex] || {};
 		// Convert object format to array format if needed

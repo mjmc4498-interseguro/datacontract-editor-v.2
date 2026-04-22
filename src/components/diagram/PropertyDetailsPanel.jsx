@@ -54,10 +54,10 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
   const [definitionData, setDefinitionData] = useState(null);
   const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
 
-  // Get customization config for schema.properties level
+  // Obtener configuración de personalización para schema.properties level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('schema.properties');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isNameHidden = useIsPropertyHidden('schema.properties', 'name');
   const isBusinessNameHidden = useIsPropertyHidden('schema.properties', 'businessName');
   const isPhysicalNameHidden = useIsPropertyHidden('schema.properties', 'physicalName');
@@ -79,7 +79,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
   // Semantics/definitions enabled via embed config (not customization)
   const isSemanticsEnabled = !!editorConfig?.semantics?.baseUrl || !!editorConfig?.definitions?.baseUrl;
 
-  // Get overrides for standard properties
+  // Obtener sobrescrituras de propiedades estándar
   const nameOverride = useStandardPropertyOverride('schema.properties', 'name');
   const businessNameOverride = useStandardPropertyOverride('schema.properties', 'businessName');
   const physicalNameOverride = useStandardPropertyOverride('schema.properties', 'physicalName');
@@ -123,7 +123,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
     ...customPropertiesLookup,
   }), [property, customPropertiesLookup]);
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     // Convert object format to array format if needed
     let currentArray;

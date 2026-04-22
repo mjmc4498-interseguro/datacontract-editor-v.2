@@ -19,10 +19,10 @@ import { es } from '../../locale/es.js';
 const TeamMember = ({ member, index, onUpdate, onRemove }) => {
   const yamlParts = useEditorStore((state) => state.yamlParts);
 
-  // Get customization config for team.members level
+  // Obtener configuración de personalización para team.members level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('team.members');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isUsernameHidden = useIsPropertyHidden('team.members', 'username');
   const isNameHidden = useIsPropertyHidden('team.members', 'name');
   const isRoleHidden = useIsPropertyHidden('team.members', 'role');
@@ -30,7 +30,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
   const isDateInHidden = useIsPropertyHidden('team.members', 'dateIn');
   const isDateOutHidden = useIsPropertyHidden('team.members', 'dateOut');
 
-  // Get standard property overrides
+  // Obtener sobrescrituras de propiedades estándar
   const usernameOverride = useStandardPropertyOverride('team.members', 'username');
   const nameOverride = useStandardPropertyOverride('team.members', 'name');
   const roleOverride = useStandardPropertyOverride('team.members', 'role');
@@ -60,7 +60,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
     ...customPropertiesLookup,
   }), [member, customPropertiesLookup]);
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     // Convert object format to array format if needed
     let currentArray;

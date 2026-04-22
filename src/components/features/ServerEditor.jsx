@@ -18,16 +18,16 @@ const ServerEditor = ({ serverIndex }) => {
 	const setValue = useEditorStore(useShallow((state) => state.setValue))
 	const yamlParts = useEditorStore((state) => state.yamlParts);
 
-  // Get customization config for servers level
+  // Obtener configuración de personalización para servers level
   const { customProperties: customPropertyConfigs, customSections } = useCustomization('servers');
 
-  // Check hidden status for standard properties
+  // Comprobar estado oculto de propiedades estándar
   const isServerHidden = useIsPropertyHidden('servers', 'server');
   const isTypeHidden = useIsPropertyHidden('servers', 'type');
   const isEnvironmentHidden = useIsPropertyHidden('servers', 'environment');
   const isDescriptionHidden = useIsPropertyHidden('servers', 'description');
 
-  // Get overrides for standard properties
+  // Obtener sobrescrituras de propiedades estándar
   const serverOverride = useStandardPropertyOverride('servers', 'server');
   const typeOverride = useStandardPropertyOverride('servers', 'type');
   const environmentOverride = useStandardPropertyOverride('servers', 'environment');
@@ -56,7 +56,7 @@ const ServerEditor = ({ serverIndex }) => {
     };
   }, [servers, serverIndex, customPropertiesLookup]);
 
-  // Handle custom property changes - stores as array format per ODCS standard
+  // Gestiona cambios de propiedades personalizadas y los guarda en formato array según ODCS
   const updateCustomProperty = useCallback((propName, value) => {
     const currentServer = servers?.[serverIndex] || {};
     // Convert object format to array format if needed
