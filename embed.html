@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Contract Editor - Embed Example</title>
+    <link rel="stylesheet" href="./dist/datacontract-editor.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        }
+        html, body {
+            height: 100%;
+        }
+        #editor {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="editor"></div>
+
+<script type="module">
+    // Import the ESM build
+    import { init } from './dist/datacontract-editor.es.js';
+
+    // Function to load initial YAML content
+    async function loadInitialYaml() {
+        return `apiVersion: "v3.1.0"
+kind: "DataContract"
+id: embed-example
+version: "1.0.0"
+status: draft
+servers:
+  - server: production
+    type: snowflake
+    account: my-account
+    database: ANALYTICS_DB
+    schema: PUBLIC
+`;
+    }
+
+    // Team and domain lists
+    const teams = [
+        { id: 'team-1', name: 'Data Engineering Team' },
+        { id: 'team-2', name: 'Analytics Team' },
+        { id: 'team-3', name: 'Platform Team' }
+    ];
+
+    const domains = [
+        { id: 'logistics', name: 'Logistics' },
+        { id: 'finance', name: 'Finance' },
+        { id: 'sales', name: 'Sales' },
+        { id: 'marketing', name: 'Marketing' }
+    ];
+
+    // =========================================================================
+    // Mock Definition Search Callback
+    // =========================================================================
+
+    // =========================================================================
+    // Custom AI Tools - MCP-like extensibility
+    // =========================================================================
+
+    /**
+     * Example: Business Glossary Lookup Tool
+     * Allows AI to look up business term definitions
+     */
+    const businessGlossaryTool = {
+        name: 'lookupBusinessTerm',
+        description: 'Look up the definition of a business term from the company glossary. Use this when you need to understand what a field or concept means in the business context.',
+        parameters: {
+            type: 'object',
+            properties: {
+                term: {
+                    type: 'string',
+                    description: 'The business term to look up'
+                }
+            },
+            required: ['term']
+        },
+        handler: async ({ term }) => {
+            // Simulated glossary - in production, this would call your API
+            const glossary = {
+                'revenue': 'Total income generated from sales before any deductions',
+                'mrr': 'Monthly Recurring Revenue - predictable revenue from subscriptions',
+                'churn': 'Rate at which customers stop using the service',
+                'ltv': 'Lifetime Value - total revenue expected from a customer',
+                'cac': 'Customer Acquisition Cost - cost to acquire a new customer',
+                'arpu': 'Average Revenue Per User',
+                'nps': 'Net Promoter Score - customer loyalty metric',
+            };
+
+            const result = glossary[term.toLowerCase()];
+            if (result) {
+                return { term, definition: result, found: true };
+            }
+            return { term, found: false, message: `Term "${term}" not found in glossary` };
+        }
+    };
+
+    /**
+     * Example: Data Quality Validation Tool
+     * Allows AI to validate data contract against quality rules
+     */
+    const validateQualityTool = {
+        name: 'validateDataQuality',
+        description: 'Validate the data contract against enterprise data quality standards. Returns a list of quality issues and recommendations.',
+        parameters: {
+            type: 'object',
+            properties: {
+                checkType: {
+                    type: 'string',
+                    enum: ['all', 'naming', 'documentation', 'schema'],
+                    description: 'Type of quality check to perform'
+                }
+            },
+            required: ['checkType']
+        },
+        handler: async ({ checkType }, context) => {
+            // Access the current YAML from context
+            const yaml = context.yaml;
+            const issues = [];
+
+            // Simulated quality checks
+            if (checkType === 'all' || checkType === 'naming') {
+                if (yaml.includes('field1') || yaml.includes('col1')) {
+                    issues.push({
+                        type: 'naming',
+                        severity: 'warning',
+                        message: 'Generic field names detected. Use descriptive business names.'
+                    });
+                }
+            }
+
+            if (checkType === 'all' || checkType === 'documentation') {
+                if (!yaml.includes('description:')) {
+                    issues.push({
+                        type: 'documentation',
+                        severity: 'error',
+                        message: 'Missing descriptions. All fields should have descriptions.'
+                    });
+                }
+            }
+
+            if (checkType === 'all' || checkType === 'schema') {
+                if (!yaml.includes('type:')) {
+                    issues.push({
+                        type: 'schema',
+                        severity: 'warning',
+                        message: 'Some fields may be missing type definitions.'
+                    });
+                }
+            }
+
+            return {
+                checkType,
+                issueCount: issues.length,
+                issues,
+                passed: issues.filter(i => i.severity === 'error').length === 0
+            };
+        }
+    };
+
+    /**
+     * Example: Test Runner Tool
+     * Allows AI to execute data contract tests
+     */
+    const runTestsTool = {
+        name: 'runContractTests',
+        description: 'Execute tests against the data contract to verify it meets quality and schema requirements. Returns test results.',
+        parameters: {
+            type: 'object',
+            properties: {
+                server: {
+                    type: 'string',
+                    description: 'Optional server name to test against'
+                },
+                testType: {
+                    type: 'string',
+                    enum: ['schema', 'quality', 'all'],
+                    description: 'Type of tests to run'
+                }
+            },
+            required: []
+        },
+        handler: async ({ server, testType = 'all' }, context) => {
+            // In production, this would call your test API
+            // For demo, we'll use the editor's built-in test runner
+            try {
+                const store = context.editorConfig;
+                const testUrl = store?.tests?.dataContractCliApiServerUrl || 'https://api.datacontract.com';
+
+                // Simulated test result
+                return {
+                    testType,
+                    server: server || 'default',
+                    results: {
+                        passed: 8,
+                        failed: 2,
+                        skipped: 1,
+                        total: 11
+                    },
+                    summary: 'Most tests passed. 2 quality checks need attention.',
+                    testUrl
+                };
+            } catch (error) {
+                return { error: error.message };
+            }
+        }
+    };
+
+    /**
+     * Example: Schema Suggestion Tool
+     * Allows AI to get schema suggestions from external catalog
+     */
+    const schemaSuggestionTool = {
+        name: 'getSchemaSuggestions',
+        description: 'Get schema suggestions from the enterprise data catalog based on a table or dataset name.',
+        parameters: {
+            type: 'object',
+            properties: {
+                tableName: {
+                    type: 'string',
+                    description: 'Name of the table or dataset to get suggestions for'
+                },
+                database: {
+                    type: 'string',
+                    description: 'Optional database name'
+                }
+            },
+            required: ['tableName']
+        },
+        handler: async ({ tableName, database }) => {
+            // Simulated catalog lookup
+            const suggestions = {
+                'customers': {
+                    fields: [
+                        { name: 'customer_id', type: 'string', description: 'Unique customer identifier' },
+                        { name: 'email', type: 'string', description: 'Customer email address' },
+                        { name: 'created_at', type: 'timestamp', description: 'Account creation timestamp' },
+                        { name: 'status', type: 'string', description: 'Customer status (active, inactive, churned)' }
+                    ],
+                    owner: 'Data Engineering Team',
+                    lastUpdated: '2024-01-15'
+                },
+                'orders': {
+                    fields: [
+                        { name: 'order_id', type: 'string', description: 'Unique order identifier' },
+                        { name: 'customer_id', type: 'string', description: 'Reference to customer' },
+                        { name: 'total_amount', type: 'decimal', description: 'Order total in cents' },
+                        { name: 'order_date', type: 'date', description: 'Date order was placed' }
+                    ],
+                    owner: 'Analytics Team',
+                    lastUpdated: '2024-01-20'
+                }
+            };
+
+            const key = tableName.toLowerCase();
+            if (suggestions[key]) {
+                return {
+                    tableName,
+                    database: database || 'default',
+                    ...suggestions[key],
+                    found: true
+                };
+            }
+            return { tableName, found: false, message: `No schema found for table "${tableName}"` };
+        }
+    };
+
+    // Load initial YAML and initialize
+    const initialYaml = await loadInitialYaml();
+
+    // Initialize the editor with AI configuration and custom tools
+    const editor = init({
+        container: '#editor',
+        mode: 'EMBEDDED',
+        yaml: initialYaml,
+        schemaUrl: 'https://raw.githubusercontent.com/bitol-io/open-data-contract-standard/refs/heads/dev/schema/odcs-json-schema-v3.1.0.json',
+        initialView: 'form',
+
+        // Callbacks
+        onSave: (yaml, { markers, yamlParseError }) => {
+            const errors = markers.filter(m => m.severity === 8);
+            if (errors.length > 0) {
+                alert(`Cannot save: ${errors.length} validation error(s)`);
+                return false;
+            }
+            console.log('Save called with YAML:', yaml);
+            alert('Contract saved!');
+        },
+        onCancel: () => {
+            console.log('Cancel clicked');
+            alert('Cancel was called!');
+        },
+        onDelete: () => {
+            console.log('Delete clicked');
+            alert('Delete was called!');
+        },
+
+        // Semantics configuration
+        semantics: {
+            enabled: true,
+						baseUrl: "/embed/definitions.json",
+						queryParam: "q",
+						pageParam: "page",
+						definitionAcceptHeader: "application/json"
+        },
+
+        // Test configuration
+        tests: {
+            enabled: false,
+            dataContractCliApiServerUrl: 'https://api.datacontract.com',
+        },
+
+        // Teams and domains
+        teams: teams,
+        domains: domains,
+
+        managedTags: [{ tag: "pii"}, { tag: "example", href: "https://example.com"}],
+
+        // =====================================================================
+        // AI Configuration - OpenAI-compatible endpoint
+        // =====================================================================
+        ai: {
+            enabled: true,
+
+            // OpenAI-compatible endpoint (works with OpenAI, Azure, Ollama, OpenRouter, etc.)
+            // Azure example:     'https://your-resource.cognitiveservices.azure.com/openai/v1/chat/completions'
+            // OpenAI:            'https://api.openai.com/v1/chat/completions'
+            // Ollama:            'http://localhost:11434/v1/chat/completions'
+            // OpenRouter:        'https://openrouter.ai/api/v1/chat/completions'  (or omit with provider: 'openrouter')
+            endpoint: 'https://datacontract-editor-ai.cognitiveservices.azure.com/openai/v1/chat/completions',
+
+            // provider: 'openrouter',  // uncomment for OpenRouter (endpoint + model will default automatically)
+
+            // API Key
+            apiKey: '<your-api-key>',
+
+            // Model/deployment name
+            model: 'model-router',
+
+            // Auth header style: 'bearer' (default) or 'api-key' (Azure style)
+            authHeader: 'api-key',
+
+            // Custom headers (optional)
+            headers: {
+                // 'X-Custom-Header': 'value'
+            },
+
+            // Custom tools - MCP-like extensibility
+            tools: [
+                businessGlossaryTool,
+                validateQualityTool,
+                runTestsTool,
+                schemaSuggestionTool,
+            ],
+        },
+
+        persistence: 'sessionStorage'
+    });
+
+    console.log('Editor initialized with AI tools:', editor);
+
+    // =========================================================================
+    // Runtime tool registration example
+    // =========================================================================
+
+    // You can also register tools after initialization
+    editor.ai.registerTool({
+        name: 'getSystemTime',
+        description: 'Get the current system time. Useful for adding timestamps.',
+        parameters: {
+            type: 'object',
+            properties: {
+                timezone: {
+                    type: 'string',
+                    description: 'Timezone (e.g., "UTC", "America/New_York")'
+                }
+            },
+            required: []
+        },
+        handler: async ({ timezone = 'UTC' }) => {
+            const now = new Date();
+            return {
+                iso: now.toISOString(),
+                formatted: now.toLocaleString('en-US', { timeZone: timezone }),
+                timezone
+            };
+        }
+    });
+
+    // Example using helper templates
+    // const lookupTool = editor.ai.helpers.createLookupTool({
+    //     name: 'lookupColumn',
+    //     description: 'Look up column metadata from the data dictionary',
+    //     lookupFn: async (query) => {
+    //         // Your lookup logic here
+    //         return [{ name: query, type: 'string', description: '...' }];
+    //     }
+    // });
+    // lookupTool.register();
+
+</script>
+</body>
+</html>

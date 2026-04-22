@@ -1,0 +1,1014 @@
+import { memo, useState, useEffect, useRef, Fragment, useCallback } from 'react';
+import { Handle, Position, NodeToolbar, useReactFlow, useStore } from '@xyflow/react';
+import KeyIcon from '../ui/icons/KeyIcon.jsx';
+import { TypeSelector } from '../ui/TypeSelector';
+import { getLogicalTypeIcon } from '../features/schema/propertyIcons';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
+
+// Disable layout animation to prevent visual glitch on drop
+const animateLayoutChanges = () => false;
+
+// Sortable property row wrapper component
+const SortablePropertyRow = ({ id: propId, children }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: propId,
+    animateLayoutChanges,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: isDragging ? transition : 'none', // Only animate while dragging
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : 'auto',
+    position: 'relative',
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      {children({ dragHandleProps: { ...attributes, ...listeners }, isDragging })}
+    </div>
+  );
+};
+
+const SchemaNode = ({ data, id }) => {
+  const { getNode } = useReactFlow();
+  // Current canvas zoom. Used to keep the connection-handle "grab target"
+  // large in screen space when the user zooms out (otherwise the handle
+  // visually shrinks and becomes hard to click).
+  const zoom = useStore((s) => s.transform[2]);
+  const [isEditingSchemaName, setIsEditingSchemaName] = useState(false);
+  const [editedSchemaName, setEditedSchemaName] = useState('');
+  const [editingPropertyIndex, setEditingPropertyIndex] = useState(null);
+  const [editedPropertyName, setEditedPropertyName] = useState('');
+  const [editingNestedProperty, setEditingNestedProperty] = useState(null); // { parentIndex, nestedIndex, field: 'name' }
+  const [editedNestedValue, setEditedNestedValue] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+  const [contextMenu, setContextMenu] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const menuRef = useRef(null);
+  const contextMenuRef = useRef(null);
+  const shouldEditNextProperty = useRef(false);
+  const previousPropertyCount = useRef(data.schema.properties?.length || 0);
+  const isSavingRef = useRef(false);
+  const hoverTimeoutRef = useRef(null);
+  const propertyRowsRef = useRef([]);
+  const propertyHoverTimeoutRef = useRef(null);
+  const openPropertyDetails = data.openPropertyDetails;
+
+  // Drag-and-drop sensors configuration
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px threshold prevents accidental drags and conflicts with React Flow
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // Handle drag end for property reordering
+  const handleDragEnd = useCallback((event) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    // Extract indices from IDs (format: "prop-{index}")
+    const fromIndex = parseInt(active.id.toString().replace('prop-', ''), 10);
+    const toIndex = parseInt(over.id.toString().replace('prop-', ''), 10);
+
+    if (!isNaN(fromIndex) && !isNaN(toIndex) && data.onReorderProperty) {
+      data.onReorderProperty(id, fromIndex, toIndex);
+    }
+  }, [data, id]);
+
+  // Cleanup hover timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      if (propertyHoverTimeoutRef.current) {
+        clearTimeout(propertyHoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is inside a dialog/modal (Headless UI adds data-headlessui-state)
+      const isInsideDialog = event.target.closest('[role="dialog"]') ||
+                            event.target.closest('[data-headlessui-state]');
+
+      if (!isInsideDialog) {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+          setShowMenu(false);
+        }
+        if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+          setContextMenu(null);
+        }
+      }
+    };
+
+    if (showMenu || contextMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showMenu, contextMenu]);
+
+  // Auto-edit newly added property
+  useEffect(() => {
+    const currentPropertyCount = data.schema.properties?.length || 0;
+
+    if (shouldEditNextProperty.current && currentPropertyCount > previousPropertyCount.current) {
+      // A new property was added, start editing it
+      const newPropertyIndex = currentPropertyCount - 1;
+      const newPropertyName = data.schema.properties?.[newPropertyIndex]?.name || '';
+      setEditingPropertyIndex(newPropertyIndex);
+      setEditedPropertyName(newPropertyName);
+      shouldEditNextProperty.current = false;
+    }
+
+    previousPropertyCount.current = currentPropertyCount;
+  }, [data.schema.properties]);
+
+  const handleAddProperty = () => {
+    data.onAddProperty(id, {
+      name: '',
+      logicalType: 'string',
+      required: false,
+      primaryKey: false
+    });
+  };
+
+  const handleDeleteProperty = (propertyIndex) => {
+    data.onDeleteProperty(id, propertyIndex);
+  };
+
+  const handleAddNestedProperty = (propertyIndex) => {
+    if (data.onAddNestedProperty) {
+      data.onAddNestedProperty(id, propertyIndex);
+    }
+  };
+
+  const handleUpdateProperty = (propertyIndex, updates) => {
+    const updatedProperties = [...(data.schema.properties || [])];
+    const updatedProperty = {
+      ...updatedProperties[propertyIndex],
+      ...updates
+    };
+
+    // Remove undefined values from the updated property
+    Object.keys(updatedProperty).forEach(key => {
+      if (updatedProperty[key] === undefined) {
+        delete updatedProperty[key];
+      }
+    });
+
+    updatedProperties[propertyIndex] = updatedProperty;
+    data.onUpdateSchema(id, {
+      ...data.schema,
+      properties: updatedProperties
+    });
+  };
+
+  const handleDeleteSchema = () => {
+    data.onDeleteSchema(id);
+  };
+
+  const handleStartEditSchemaName = () => {
+    setEditedSchemaName(data.schema.name || '');
+    setIsEditingSchemaName(true);
+  };
+
+  const handleSaveSchemaName = () => {
+    if (editedSchemaName.trim()) {
+      data.onUpdateSchema(id, {
+        ...data.schema,
+        name: editedSchemaName.trim()
+      });
+    }
+    setIsEditingSchemaName(false);
+  };
+
+  const handleStartEditPropertyName = (index, currentName) => {
+    setEditingPropertyIndex(index);
+    setEditedPropertyName(currentName || '');
+  };
+
+  const handleSavePropertyName = (index, shouldAddNext = false) => {
+    // Prevent duplicate saves from blur event
+    if (isSavingRef.current) {
+      return;
+    }
+
+    isSavingRef.current = true;
+
+    // Check if we should add a new property after saving
+    const isLastProperty = index === (data.schema.properties?.length || 0) - 1;
+    // Ensure name is always a string
+    const trimmedName = String(editedPropertyName || '').trim();
+
+    if (shouldAddNext && isLastProperty) {
+      // Combined operation: save current property AND add new one in a single update
+      const updatedProperties = [...(data.schema.properties || [])];
+
+      // Update the current property with the new name (can be empty)
+      updatedProperties[index] = {
+        ...updatedProperties[index],
+        name: trimmedName
+      };
+
+      // Add the new property
+      updatedProperties.push({
+        name: '',
+        logicalType: 'string',
+        required: false,
+        primaryKey: false
+      });
+
+      // Single state update with both changes
+      data.onUpdateSchema(id, {
+        ...data.schema,
+        properties: updatedProperties
+      });
+
+      // Set flag to auto-edit the next property
+      shouldEditNextProperty.current = true;
+    } else {
+      // Normal case: always save (even if name is empty)
+      handleUpdateProperty(index, {
+        name: trimmedName
+      });
+
+      // Close the editor
+      setEditingPropertyIndex(null);
+      setEditedPropertyName('');
+    }
+
+    // Reset the saving flag after a short delay
+    setTimeout(() => {
+      isSavingRef.current = false;
+    }, 100);
+  };
+
+  const handlePropertyContextMenu = (event, propertyIndex) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      propertyIndex
+    });
+  };
+
+  const handleMouseEnter = () => {
+    // Clear any pending timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Set a delay before hiding (800ms)
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 800);
+  };
+
+  const handlePropertyHover = (index) => {
+    // Clear any existing timeout
+    if (propertyHoverTimeoutRef.current) {
+      clearTimeout(propertyHoverTimeoutRef.current);
+    }
+
+    // Show details after a short delay (300ms)
+    propertyHoverTimeoutRef.current = setTimeout(() => {
+      const node = getNode(id);
+      if (!node) return;
+
+      // Calculate the property offset within the node
+      const headerHeight = 40;
+      const propertyRowHeight = 42;
+      const propertyOffset = headerHeight + (index * propertyRowHeight);
+
+      data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'hover');
+    }, 300);
+  };
+
+  const handleUpdateNestedProperty = (parentIndex, nestedIndex, updates) => {
+    const updatedProperties = [...(data.schema.properties || [])];
+    const parentProperty = { ...updatedProperties[parentIndex] };
+    const nestedProperties = [...(parentProperty.properties || [])];
+
+    nestedProperties[nestedIndex] = {
+      ...nestedProperties[nestedIndex],
+      ...updates
+    };
+
+    parentProperty.properties = nestedProperties;
+    updatedProperties[parentIndex] = parentProperty;
+
+    data.onUpdateSchema(id, {
+      ...data.schema,
+      properties: updatedProperties
+    });
+  };
+
+  const handleStartEditNestedProperty = (parentIndex, nestedIndex, field, currentValue) => {
+    setEditingNestedProperty({ parentIndex, nestedIndex, field });
+    setEditedNestedValue(currentValue || '');
+  };
+
+  const handleSaveNestedProperty = (parentIndex, nestedIndex, field) => {
+    // Ensure value is always a string, especially for 'name' field
+    const stringValue = String(editedNestedValue || '');
+    const trimmedValue = stringValue.trim();
+    handleUpdateNestedProperty(parentIndex, nestedIndex, {
+      [field]: trimmedValue || undefined
+    });
+    setEditingNestedProperty(null);
+    setEditedNestedValue('');
+  };
+
+  return (
+    <div
+      className="min-w-[250px] group/node dce-schema-node"
+      style={{ '--dce-handle-hover-scale': Math.min(4, Math.max(1.6, 1.4 / Math.max(zoom || 1, 0.1))) }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Node Toolbar */}
+      <NodeToolbar isVisible={isHovered} position={Position.Bottom} offset={10}>
+        <div className="flex items-center gap-1 bg-white rounded-md shadow-lg border border-gray-200 p-1">
+          <button
+            onClick={handleAddProperty}
+            className="p-1.5 text-gray-700 hover:bg-gray-100 rounded transition-colors"
+            title="Add property"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setShowMenu(!showMenu)}
+              className="p-1.5 text-gray-700 hover:bg-gray-100 rounded transition-colors"
+              title="More options"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              </svg>
+            </button>
+            {showMenu && (
+              <div className="absolute top-full right-0 mt-1 bg-white rounded-md shadow-lg py-1 z-50 min-w-[180px]">
+                <button
+                  onClick={() => {
+                    handleDeleteSchema();
+                    setShowMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50 flex items-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Delete Schema
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </NodeToolbar>
+
+      {/* Accent Bar */}
+      <div className="h-1.5 rounded-t bg-fuchsia-700"></div>
+
+      {/* Schema Container with Border */}
+      <div className="border-[3px] rounded-b border-solid border-[#E9EEF4]">
+        {/* Schema Header */}
+        <div className="flex items-center bg-[#E9EEF4] px-2 py-1.5">
+          {/* Table Icon */}
+          <span className="mr-1.5 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="#000">
+              <path d="M1.930848 1.960304C1.164656 2.0890560000000002 0.5672480000000001 2.720784 0.481104 3.493344C0.45718400000000003 3.707872 0.45718400000000003 12.292128000000002 0.481104 12.506656000000001C0.556416 13.182064 1.023328 13.757952 1.67112 13.9744C1.955984 14.069584 1.5522719999999999 14.063872 8 14.063872C14.428111999999999 14.063872 14.025120000000001 14.069504 14.32 13.975567999999999C14.967136 13.769408 15.44312 13.186208 15.518896000000002 12.506656000000001C15.542816 12.292128000000002 15.542816 3.707872 15.518896000000002 3.493344C15.432112 2.714992 14.832336 2.0853919999999997 14.058 1.959808C13.930848000000001 1.939184 13.146432 1.936336 7.984 1.937712C3.166448 1.938992 2.03256 1.9432159999999998 1.930848 1.960304M1.981696 2.981056C1.74744 3.060912 1.557504 3.262384 1.4968320000000002 3.4953600000000002C1.475616 3.576832 1.472 3.742864 1.472 4.6353599999999995L1.472 5.68 8 5.68L14.528 5.68 14.528 4.6353599999999995C14.528 3.742864 14.524384 3.576832 14.503168 3.4953600000000002C14.441392 3.258128 14.239951999999999 3.0488000000000004 14.002992 2.975616C13.901808 2.944368 13.832176 2.944 7.99432 2.9444160000000004L2.088 2.944832 1.981696 2.981056M1.472 8.064L1.472 9.44 3.3120000000000003 9.44L5.152 9.44 5.152 8.064L5.152 6.688 3.3120000000000003 6.688L1.472 6.688 1.472 8.064M6.16 8.064L6.16 9.44 8 9.44L9.84 9.44 9.84 8.064L9.84 6.688 8 6.688L6.16 6.688 6.16 8.064M10.848 8.064L10.848 9.44 12.688 9.44L14.528 9.44 14.528 8.064L14.528 6.688 12.688 6.688L10.848 6.688 10.848 8.064M1.472 11.420639999999999C1.472 12.262528 1.47568 12.423440000000001 1.4968320000000002 12.50464C1.558608 12.741871999999999 1.760048 12.951200000000002 1.9970080000000001 13.024384C2.09592 13.054943999999999 2.1507359999999998 13.056000000000001 3.62568 13.056000000000001L5.152 13.056000000000001 5.152 11.744L5.152 10.432 3.3120000000000003 10.432L1.472 10.432 1.472 11.420639999999999M6.16 11.744L6.16 13.056000000000001 8 13.056000000000001L9.84 13.056000000000001 9.84 11.744L9.84 10.432 8 10.432L6.16 10.432 6.16 11.744M10.848 11.744L10.848 13.056000000000001 12.374319999999999 13.056000000000001C13.849264 13.056000000000001 13.90408 13.054943999999999 14.002992 13.024384C14.239951999999999 12.951200000000002 14.441392 12.741871999999999 14.503168 12.50464C14.52432 12.423440000000001 14.528 12.262528 14.528 11.420639999999999L14.528 10.432 12.688 10.432L10.848 10.432 10.848 11.744" fillRule="evenodd"/>
+            </svg>
+          </span>
+          {isEditingSchemaName ? (
+            <input
+              type="text"
+              value={editedSchemaName}
+              onChange={(e) => setEditedSchemaName(e.target.value)}
+              onBlur={handleSaveSchemaName}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSaveSchemaName();
+                } else if (e.key === 'Escape') {
+                  setIsEditingSchemaName(false);
+                }
+              }}
+              className="flex-1 px-2 py-1 text-sm bg-white text-gray-900 rounded border-2 border-indigo-300 focus:outline-none focus:border-indigo-400"
+              autoFocus
+            />
+          ) : (
+            <div
+              className="cursor-pointer hover:opacity-80 flex-1 min-w-0"
+              onClick={handleStartEditSchemaName}
+              title="Click to edit"
+            >
+              <span className="font-bold text-md truncate">{data.schema.name || 'Unnamed Schema'}</span>
+            </div>
+          )}
+          {/* Collapse toggle: full ↔ keys only */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onToggleCollapse?.(data.schema.name);
+            }}
+            className="ml-1 flex-shrink-0 p-1 rounded text-gray-600 hover:bg-white hover:text-gray-900 transition-colors"
+            title={data.collapseMode === 'keys' ? 'Show all properties' : 'Show keys only'}
+          >
+            {data.collapseMode === 'keys' ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 6h16M4 12h10M4 18h16" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Properties List with Drag-and-Drop */}
+        <div className="bg-white rounded-b divide-y divide-[#E9EEF4]">
+        {data.schema.properties && data.schema.properties.length > 0 ? (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          >
+            <SortableContext
+              items={data.schema.properties.map((_, idx) => `prop-${idx}`)}
+              strategy={verticalListSortingStrategy}
+            >
+              {data.schema.properties.map((prop, index) => {
+                // In "keys only" collapse mode, hide rows that are neither
+                // a primary key, a FK owner, nor the target of any edge —
+                // target rows must stay so their handles exist for edges.
+                if (data.collapseMode === 'keys') {
+                  const isPk = !!prop?.primaryKey;
+                  const isFk = Array.isArray(prop?.relationships) && prop.relationships.length > 0;
+                  const isReferenced = data.referencedPropertyNames?.has(prop?.name);
+                  if (!isPk && !isFk && !isReferenced) return null;
+                }
+                const isPropertyDetailsOpen = openPropertyDetails?.propertyIndex === index &&
+                                              openPropertyDetails?.nestedIndex == null;
+                return (
+                  <SortablePropertyRow key={`prop-${index}`} id={`prop-${index}`}>
+                    {({ dragHandleProps, isDragging }) => (
+                      <Fragment>
+                        <div
+                          className={`pl-2 pr-3 py-2 group dce-prop-row relative cursor-pointer ${
+                            isPropertyDetailsOpen ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-gray-50'
+                          } ${isDragging ? 'shadow-lg bg-white' : ''}`}
+                          onContextMenu={(e) => handlePropertyContextMenu(e, index)}
+                onClick={(e) => {
+                // Ignore clicks originating on a connection handle so a
+                // failed drag (mousedown+mouseup on the same spot) doesn't
+                // accidentally open the property details drawer.
+                if (e.target.closest('.dce-prop-handle')) return;
+
+                // Cancel any pending hover timeout when clicking
+                if (propertyHoverTimeoutRef.current) {
+                  clearTimeout(propertyHoverTimeoutRef.current);
+                  propertyHoverTimeoutRef.current = null;
+                }
+
+                const node = getNode(id);
+                if (!node) return;
+                const headerHeight = 40;
+                const propertyRowHeight = 42;
+                const propertyOffset = headerHeight + (index * propertyRowHeight);
+                data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click');
+              }}
+            >
+              {/* Property handles for connections.
+                  Left (source) can start a drag, right (target) can only
+                  receive — users can't initiate a connection from the right. */}
+              <Handle
+                type="source"
+                position={Position.Left}
+                id={`${id}-prop-${index}-source`}
+                className="dce-prop-handle dce-prop-handle-source"
+                style={{ left: -1 }}
+                title="Drag from here to a property on another table to create a relationship"
+              />
+              <Handle
+                type="target"
+                position={Position.Right}
+                id={`${id}-prop-${index}-target`}
+                isConnectableStart={false}
+                className="dce-prop-handle dce-prop-handle-target"
+                style={{ right: -1 }}
+                title="Drop a relationship here"
+              />
+              <div className="flex justify-between items-center">
+                {/* Left side: Name and icons */}
+                <div className="flex items-center flex-1 min-w-0">
+                  {editingPropertyIndex === index ? (
+                    <input
+                      type="text"
+                      value={editedPropertyName}
+                      onChange={(e) => setEditedPropertyName(e.target.value)}
+                      onBlur={() => handleSavePropertyName(index)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleSavePropertyName(index, true);
+                        } else if (e.key === 'Escape') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setEditingPropertyIndex(null);
+                          setEditedPropertyName('');
+                        }
+                      }}
+                      className="flex-1 px-2 py-1 text-sm bg-white text-gray-900 rounded border border-indigo-300 focus:outline-none focus:border-indigo-500"
+                      placeholder="property name"
+                      autoFocus
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  ) : (
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      {/* Type Icon left of column name - also serves as drag handle */}
+                      {/* nodrag class prevents React Flow from dragging the node */}
+                      <span
+                        {...dragHandleProps}
+                        className="nodrag cursor-grab active:cursor-grabbing touch-none"
+                        onClick={(e) => e.stopPropagation()}
+                        title="Drag to reorder"
+                      >
+                        {(() => {
+                          const TypeIcon = getLogicalTypeIcon(prop.logicalType);
+                          return TypeIcon ? <TypeIcon className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" /> : null;
+                        })()}
+                      </span>
+                      <span
+                        className={`text-sm font-medium truncate cursor-pointer hover:text-indigo-600 ${
+                          !prop.name || (typeof prop.name === 'string' && prop.name.trim() === '') ? 'text-gray-400 italic' : 'text-gray-900'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStartEditPropertyName(index, prop.name);
+                          // Also show property details sidebar
+                          const node = getNode(id);
+                          if (node) {
+                            const headerHeight = 40;
+                            const propertyRowHeight = 42;
+                            const propertyOffset = headerHeight + (index * propertyRowHeight);
+                            data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click');
+                          }
+                        }}
+                        title="Click to edit"
+                      >
+                        {!prop.name || (typeof prop.name === 'string' && prop.name.trim() === '') ? 'unnamed property' : prop.name}
+                      </span>
+                      {/* Add nested property button - only shown for object types */}
+                      {prop.logicalType === 'object' && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddNestedProperty(index);
+                          }}
+                          className="p-0.5 text-indigo-600 rounded transition-opacity flex-shrink-0 opacity-0 group-hover:opacity-100 hover:opacity-100 hover:bg-indigo-50"
+                          title="Add nested property"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right side: Type with Key Icon */}
+                <div className="flex items-center gap-1.5 ml-2" onClick={(e) => e.stopPropagation()}>
+                  {editingPropertyIndex !== index && (
+                    <div className="flex items-center gap-1">
+                      {/* Key Icon for Primary Key */}
+                      {prop.primaryKey && (
+                        <KeyIcon className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+                      )}
+                      <TypeSelector
+                        logicalType={prop.logicalType}
+                        onLogicalTypeChange={(value) => handleUpdateProperty(index, { logicalType: value || undefined })}
+                        physicalType={prop.physicalType}
+                        onPhysicalTypeChange={(value) => handleUpdateProperty(index, { physicalType: value || undefined })}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Render array items if they exist */}
+            {prop.logicalType === 'array' && prop.items && (
+              <>
+                <div
+                  className="pl-8 pr-3 py-1.5 hover:bg-gray-50 relative cursor-pointer bg-gray-50/50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const node = getNode(id);
+                    if (!node) return;
+                    const headerHeight = 40;
+                    const propertyRowHeight = 42;
+                    const itemsRowHeight = 30;
+                    const propertyOffset = headerHeight + (index * propertyRowHeight) + itemsRowHeight;
+                    data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click');
+                  }}
+                >
+                  <div className="flex justify-between items-center text-xs">
+                    {/* Left side: Name with [] */}
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      <span className="text-gray-600 font-medium">
+                        {prop.name}[]
+                      </span>
+                    </div>
+
+                    {/* Right side: Items Type */}
+                    <div className="flex items-center gap-2 ml-2" onClick={(e) => e.stopPropagation()}>
+                      <TypeSelector
+                        logicalType={prop.items.logicalType}
+                        onLogicalTypeChange={(value) => handleUpdateProperty(index, {
+                          items: { ...prop.items, logicalType: value || undefined }
+                        })}
+                        physicalType={prop.items.physicalType}
+                        onPhysicalTypeChange={(value) => handleUpdateProperty(index, {
+                          items: { ...prop.items, physicalType: value || undefined }
+                        })}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Render nested properties within array items if items is an object */}
+                {prop.items.properties && prop.items.properties.length > 0 && (
+                  prop.items.properties.map((itemProp, itemPropIndex) => {
+                    const isItemPropertyDetailsOpen = openPropertyDetails?.propertyIndex === index &&
+                                                       openPropertyDetails?.nestedIndex === `items-${itemPropIndex}`;
+                    return (
+                    <div
+                      key={`${index}-items-${itemPropIndex}`}
+                      className={`pl-12 pr-3 py-1.5 relative cursor-pointer ${
+                        isItemPropertyDetailsOpen ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-gray-50'
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const node = getNode(id);
+                        if (!node) return;
+                        const headerHeight = 40;
+                        const propertyRowHeight = 42;
+                        const itemsRowHeight = 30;
+                        const nestedPropertyRowHeight = 30;
+                        const propertyOffset = headerHeight + (index * propertyRowHeight) + itemsRowHeight + ((itemPropIndex + 1) * nestedPropertyRowHeight);
+                        data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click', `items-${itemPropIndex}`);
+                      }}
+                    >
+                      <div className="flex justify-between items-center text-xs">
+                        {/* Left side: Type Icon + Name */}
+                        <div className="flex items-center gap-1 flex-1 min-w-0">
+                          {/* Type Icon left of array item property name */}
+                          {(() => {
+                            const TypeIcon = getLogicalTypeIcon(itemProp.logicalType);
+                            return TypeIcon ? <TypeIcon className="h-3 w-3 flex-shrink-0 text-gray-400" /> : null;
+                          })()}
+                          {editingNestedProperty?.parentIndex === index &&
+                           editingNestedProperty?.nestedIndex === `items-${itemPropIndex}` &&
+                           editingNestedProperty?.field === 'name' ? (
+                            <input
+                              type="text"
+                              value={editedNestedValue}
+                              onChange={(e) => setEditedNestedValue(e.target.value)}
+                              onBlur={() => {
+                                const trimmedValue = editedNestedValue.trim();
+                                const updatedItems = { ...prop.items };
+                                const updatedItemProperties = [...(updatedItems.properties || [])];
+                                updatedItemProperties[itemPropIndex] = {
+                                  ...updatedItemProperties[itemPropIndex],
+                                  name: trimmedValue || undefined
+                                };
+                                updatedItems.properties = updatedItemProperties;
+                                handleUpdateProperty(index, { items: updatedItems });
+                                setEditingNestedProperty(null);
+                                setEditedNestedValue('');
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  const trimmedValue = editedNestedValue.trim();
+                                  const updatedItems = { ...prop.items };
+                                  const updatedItemProperties = [...(updatedItems.properties || [])];
+                                  updatedItemProperties[itemPropIndex] = {
+                                    ...updatedItemProperties[itemPropIndex],
+                                    name: trimmedValue || undefined
+                                  };
+                                  updatedItems.properties = updatedItemProperties;
+                                  handleUpdateProperty(index, { items: updatedItems });
+                                  setEditingNestedProperty(null);
+                                  setEditedNestedValue('');
+                                } else if (e.key === 'Escape') {
+                                  e.preventDefault();
+                                  setEditingNestedProperty(null);
+                                  setEditedNestedValue('');
+                                }
+                              }}
+                              className="flex-1 px-1 py-0.5 text-xs bg-white text-gray-900 rounded border border-indigo-300 focus:outline-none focus:border-indigo-500"
+                              placeholder="property name"
+                              autoFocus
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          ) : (
+                            <span
+                              className={`text-gray-600 truncate cursor-pointer hover:text-indigo-600 ${
+                                !itemProp.name || (typeof itemProp.name === 'string' && itemProp.name.trim() === '') ? 'italic text-gray-400' : ''
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingNestedProperty({ parentIndex: index, nestedIndex: `items-${itemPropIndex}`, field: 'name' });
+                                setEditedNestedValue(itemProp.name || '');
+                              }}
+                              title="Click to edit"
+                            >
+                              {itemProp.name || 'unnamed'}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Right side: Type */}
+                        <div className="flex items-center gap-2 ml-2" onClick={(e) => e.stopPropagation()}>
+                          <TypeSelector
+                            logicalType={itemProp.logicalType}
+                            onLogicalTypeChange={(value) => {
+                              const updatedItems = { ...prop.items };
+                              const updatedItemProperties = [...(updatedItems.properties || [])];
+                              updatedItemProperties[itemPropIndex] = {
+                                ...updatedItemProperties[itemPropIndex],
+                                logicalType: value || undefined
+                              };
+                              updatedItems.properties = updatedItemProperties;
+                              handleUpdateProperty(index, { items: updatedItems });
+                            }}
+                            physicalType={itemProp.physicalType}
+                            onPhysicalTypeChange={(value) => {
+                              const updatedItems = { ...prop.items };
+                              const updatedItemProperties = [...(updatedItems.properties || [])];
+                              updatedItemProperties[itemPropIndex] = {
+                                ...updatedItemProperties[itemPropIndex],
+                                physicalType: value || undefined
+                              };
+                              updatedItems.properties = updatedItemProperties;
+                              handleUpdateProperty(index, { items: updatedItems });
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    );
+                  })
+                )}
+
+                {/* Render nested array items if items is also an array (e.g., array of arrays) */}
+                {prop.items.logicalType === 'array' && prop.items.items && (
+                  <div
+                    className="pl-12 pr-3 py-1.5 hover:bg-gray-50 relative cursor-pointer bg-gray-50/50"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const node = getNode(id);
+                      if (!node) return;
+                      const headerHeight = 40;
+                      const propertyRowHeight = 42;
+                      const itemsRowHeight = 30;
+                      const nestedItemsRowHeight = 30;
+                      const propertyOffset = headerHeight + (index * propertyRowHeight) + itemsRowHeight + nestedItemsRowHeight;
+                      data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click');
+                    }}
+                  >
+                    <div className="flex justify-between items-center text-xs">
+                      {/* Left side: Name with [][] */}
+                      <div className="flex items-center gap-1 flex-1 min-w-0">
+                        <span className="text-gray-600 font-medium">
+                          {prop.name}[][]
+                        </span>
+                      </div>
+
+                      {/* Right side: Nested Items Type */}
+                      <div className="flex items-center gap-2 ml-2" onClick={(e) => e.stopPropagation()}>
+                        <TypeSelector
+                          logicalType={prop.items.items.logicalType}
+                          onLogicalTypeChange={(value) => handleUpdateProperty(index, {
+                            items: {
+                              ...prop.items,
+                              items: { ...prop.items.items, logicalType: value || undefined }
+                            }
+                          })}
+                          physicalType={prop.items.items.physicalType}
+                          onPhysicalTypeChange={(value) => handleUpdateProperty(index, {
+                            items: {
+                              ...prop.items,
+                              items: { ...prop.items.items, physicalType: value || undefined }
+                            }
+                          })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Render nested properties if they exist */}
+            {prop.properties && prop.properties.length > 0 && (
+              prop.properties.map((nestedProp, nestedIndex) => {
+                const isNestedPropertyDetailsOpen = openPropertyDetails?.propertyIndex === index &&
+                                                     openPropertyDetails?.nestedIndex === nestedIndex;
+                return (
+                <div
+                  key={`${index}-${nestedIndex}`}
+                  className={`pl-8 pr-3 py-1.5 relative cursor-pointer ${
+                    isNestedPropertyDetailsOpen ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-gray-50'
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const node = getNode(id);
+                    if (!node) return;
+                    const headerHeight = 40;
+                    const propertyRowHeight = 42;
+                    const nestedPropertyRowHeight = 30; // Nested rows are smaller
+                    const propertyOffset = headerHeight + (index * propertyRowHeight) + ((nestedIndex + 1) * nestedPropertyRowHeight);
+                    data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click', nestedIndex);
+                  }}
+                >
+                  <div className="flex justify-between items-center text-xs">
+                    {/* Left side: Type Icon + Name */}
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      {/* Type Icon left of nested property name */}
+                      {(() => {
+                        const TypeIcon = getLogicalTypeIcon(nestedProp.logicalType);
+                        return TypeIcon ? <TypeIcon className="h-3 w-3 flex-shrink-0 text-gray-400" /> : null;
+                      })()}
+                      {editingNestedProperty?.parentIndex === index &&
+                       editingNestedProperty?.nestedIndex === nestedIndex &&
+                       editingNestedProperty?.field === 'name' ? (
+                        <input
+                          type="text"
+                          value={editedNestedValue}
+                          onChange={(e) => setEditedNestedValue(e.target.value)}
+                          onBlur={() => handleSaveNestedProperty(index, nestedIndex, 'name')}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              handleSaveNestedProperty(index, nestedIndex, 'name');
+                            } else if (e.key === 'Escape') {
+                              e.preventDefault();
+                              setEditingNestedProperty(null);
+                              setEditedNestedValue('');
+                            }
+                          }}
+                          className="flex-1 px-1 py-0.5 text-xs bg-white text-gray-900 rounded border border-indigo-300 focus:outline-none focus:border-indigo-500"
+                          placeholder="property name"
+                          autoFocus
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      ) : (
+                        <span
+                          className={`text-gray-600 truncate cursor-pointer hover:text-indigo-600 ${
+                            !nestedProp.name || (typeof nestedProp.name === 'string' && nestedProp.name.trim() === '') ? 'italic text-gray-400' : ''
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStartEditNestedProperty(index, nestedIndex, 'name', nestedProp.name);
+                          }}
+                          title="Click to edit"
+                        >
+                          {nestedProp.name || 'unnamed'}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Right side: Type */}
+                    <div className="flex items-center gap-2 ml-2" onClick={(e) => e.stopPropagation()}>
+                      <TypeSelector
+                        logicalType={nestedProp.logicalType}
+                        onLogicalTypeChange={(value) => handleUpdateNestedProperty(index, nestedIndex, { logicalType: value || undefined })}
+                        physicalType={nestedProp.physicalType}
+                        onPhysicalTypeChange={(value) => handleUpdateNestedProperty(index, nestedIndex, { physicalType: value || undefined })}
+                      />
+                    </div>
+                  </div>
+                </div>
+                );
+              })
+            )}
+                      </Fragment>
+                    )}
+                  </SortablePropertyRow>
+                );
+              })}
+            </SortableContext>
+          </DndContext>
+        ) : (
+          <div
+            className="px-4 py-3 text-xs text-gray-400 italic cursor-pointer hover:bg-gray-50"
+            onClick={handleAddProperty}
+          >
+            No properties defined
+          </div>
+        )}
+        {data.schema.properties?.length > 0 && data.collapseMode === 'keys' && (() => {
+          const total = data.schema.properties?.length || 0;
+          const visible = (data.schema.properties || []).filter((prop) => {
+            const isPk = !!prop?.primaryKey;
+            const isFk = Array.isArray(prop?.relationships) && prop.relationships.length > 0;
+            const isReferenced = data.referencedPropertyNames?.has(prop?.name);
+            return isPk || isFk || isReferenced;
+          }).length;
+          const hidden = total - visible;
+          if (hidden <= 0) return null;
+          return (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                data.onToggleCollapse?.(data.schema.name, 'full');
+              }}
+              className="w-full px-3 py-1.5 text-xs text-gray-500 hover:text-indigo-700 hover:bg-indigo-50 flex items-center justify-center gap-1 transition-colors"
+              title="Show all properties"
+            >
+              <span>+{hidden} hidden</span>
+              <span className="text-gray-400">·</span>
+              <span className="font-medium">Show all</span>
+            </button>
+          );
+        })()}
+        </div>
+      </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          ref={contextMenuRef}
+          className="fixed bg-white rounded-md shadow-lg py-1 z-50 min-w-[120px] border border-gray-200"
+          style={{
+            left: `${contextMenu.x}px`,
+            top: `${contextMenu.y}px`
+          }}
+        >
+          <button
+            onClick={() => {
+              handleDeleteProperty(contextMenu.propertyIndex);
+              setContextMenu(null);
+            }}
+            className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50 flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Delete
+          </button>
+        </div>
+      )}
+
+    </div>
+  );
+};
+
+export default memo(SchemaNode);

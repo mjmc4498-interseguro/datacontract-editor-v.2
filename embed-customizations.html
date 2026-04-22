@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Contract Editor - Customization Example</title>
+    <link rel="stylesheet" href="./dist/datacontract-editor.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        }
+        html, body {
+            height: 100%;
+        }
+        #editor {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="editor"></div>
+
+<script type="module">
+    import { init } from './dist/datacontract-editor.es.js';
+
+    // Sample customizations configuration demonstrating all features
+    const customizations = {
+      dataContract: {
+        // Root level customizations
+        root: {
+        standardProperties: [
+          // Hide tenant field
+          { property: 'tenant', hidden: true },
+          // Customize status with fixed enum
+          {
+            property: 'status',
+            title: 'Contract Status',
+            description: 'Current lifecycle stage of this contract',
+            enum: ['draft', 'review', 'approved', 'active', 'deprecated']
+          },
+          // Customize domain with enum
+          {
+            property: 'domain',
+            title: 'Business Domain',
+            enum: [{
+							value: "finance",
+							label: "Finance",
+						},
+							{
+								value: "operations",
+								label: "Operations",
+							}]
+	        },
+          // Pattern on name
+          {
+            property: 'name',
+            title: 'Contract Name',
+            pattern: '^[A-Z][a-zA-Z0-9 ]*$',
+            patternMessage: 'Must start with uppercase letter, only letters/numbers/spaces allowed.',
+            minLength: 3,
+            maxLength: 80,
+            placeholder: 'My Data Contract'
+          },
+          // Pattern on id
+          {
+            property: 'id',
+            pattern: '^[a-z][a-z0-9-]*$',
+            patternMessage: 'Must be lowercase kebab-case (e.g., my-contract-id).',
+            required: true
+          },
+          // Version pattern
+          {
+            property: 'version',
+            pattern: '^\\d+\\.\\d+\\.\\d+$',
+            patternMessage: 'Must follow semver format: X.Y.Z'
+          }
+        ],
+        customProperties: [
+          {
+            property: 'dataOwner',
+            title: 'Data Owner',
+            type: 'text',
+            description: 'Person responsible for the data',
+            required: true,
+            placeholder: 'john.doe@company.com'
+          },
+          {
+            property: 'costCenter',
+            title: 'Cost Center',
+            type: 'select',
+            description: 'Department cost center',
+            enum: ['CC-100', 'CC-200', 'CC-300', 'CC-400']
+          },
+          {
+            property: 'complianceFrameworks',
+            title: 'Compliance Frameworks',
+            type: 'multiselect',
+            description: 'Applicable compliance frameworks',
+            enum: ['GDPR', 'CCPA', 'HIPAA', 'SOX', 'PCI-DSS'],
+            minItems: 1,
+            maxItems: 3
+          },
+          {
+            property: 'retentionDays',
+            title: 'Retention Period (Days)',
+            type: 'integer',
+            description: 'How long to retain data',
+            minimum: 1,
+            maximum: 3650,
+            placeholder: '365'
+          },
+          {
+            property: 'isPublic',
+            title: 'Public Dataset',
+            type: 'boolean',
+            description: 'Is this dataset publicly accessible?'
+          },
+          {
+            property: 'effectiveDate',
+            title: 'Effective Date',
+            type: 'date',
+            description: 'When this contract becomes effective'
+          },
+          {
+            property: 'notes',
+            title: 'Internal Notes',
+            type: 'textarea',
+            description: 'Internal notes about this contract',
+            rows: 4
+          }
+        ],
+        customSections: [
+          {
+            section: 'governance',
+            title: 'Governance',
+            customProperties: ['dataOwner', 'costCenter', 'complianceFrameworks']
+          },
+          {
+            section: 'lifecycle',
+            title: 'Lifecycle',
+            customProperties: ['retentionDays', 'effectiveDate', 'isPublic']
+          }
+        ]
+      },
+
+      // Schema properties level customizations
+      'schema.properties': {
+        standardProperties: [
+          // Hide some advanced fields
+          { property: 'encryptedName', hidden: true },
+          { property: 'name',
+            pattern: "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+            patternMessage: "Must be lowercase snake_case (e.g., user_id, created_at)."
+          },
+          {
+            property: 'physicalName',
+            title: 'DB Column Name',
+            pattern: '^[A-Z][A-Z0-9_]*$',
+            patternMessage: 'Must be uppercase SNAKE_CASE (e.g., CUSTOMER_ID).',
+            placeholder: 'COLUMN_NAME'
+          },
+          {
+            property: 'businessName',
+            title: 'Business Field Name',
+            minLength: 2,
+            maxLength: 60,
+            placeholder: 'Customer Identifier'
+          },
+          { property: 'transformSourceObjects', hidden: true },
+          // Customize classification with fixed options
+          {
+            property: 'classification',
+            title: 'Data Classification',
+            enum: ['public', 'internal', 'confidential', 'restricted']
+          }
+        ],
+        customProperties: [
+          {
+            property: 'piiCategory',
+            title: 'PII Category',
+            type: 'select',
+            description: 'Type of personally identifiable information',
+            enum: ['none', 'direct', 'indirect', 'sensitive']
+          },
+          {
+            property: 'piiHandling',
+            title: 'PII Handling Instructions',
+            type: 'textarea',
+            description: 'How to handle this PII data',
+            condition: "piiCategory != 'none'"
+          },
+          {
+            property: 'maskingRequired',
+            title: 'Masking Required',
+            type: 'boolean',
+            description: 'Does this field require data masking?',
+            condition: "classification == 'confidential' || classification == 'restricted'"
+          },
+          {
+            property: 'gdprLegalBasis',
+            title: 'GDPR Legal Basis',
+            type: 'select',
+            description: 'Legal basis for processing under GDPR',
+            enum: ['consent', 'contract', 'legal_obligation', 'vital_interests', 'public_task', 'legitimate_interests'],
+            condition: "piiCategory != 'none'"
+          }
+        ],
+        customSections: [
+          {
+            section: 'privacy',
+            title: 'Privacy & Compliance',
+            customProperties: ['piiCategory', 'piiHandling', 'maskingRequired', 'gdprLegalBasis']
+          }
+        ]
+      },
+
+      // Description (Terms of Use) level customizations
+      description: {
+        standardProperties: [
+          // Hide limitations field
+          { property: 'limitations', hidden: true },
+          // Customize purpose field
+          {
+            property: 'purpose',
+            title: 'Business Purpose',
+            description: 'Why this data exists and its intended business use'
+          }
+        ],
+        customProperties: [
+          {
+            property: 'dataClassification',
+            title: 'Data Classification',
+            type: 'select',
+            description: 'Classification level for this data',
+            enum: ['Public', 'Internal', 'Confidential', 'Restricted']
+          },
+          {
+            property: 'retentionPolicy',
+            title: 'Retention Policy',
+            type: 'text',
+            description: 'Data retention requirements',
+            placeholder: 'e.g., 7 years per compliance'
+          }
+        ],
+        customSections: [
+          {
+            section: 'compliance',
+            title: 'Compliance Info',
+            customProperties: ['dataClassification', 'retentionPolicy']
+          }
+        ]
+      },
+
+      // Schema level customizations
+      schema: {
+        standardProperties: [
+          {
+            property: 'physicalName',
+            title: 'Physical Name',
+            description: 'Use an uppercase first letter for each word, with underscores for spaces. Well-known acronyms can remain fully uppercase. The PhysicalName must always be the same as the Name.',
+            pattern: '^(?:[A-Z]+|[A-Z][a-z]+)(?:_[A-Z][a-z]+)*$',
+            patternMessage: 'Must be snake_case with capitalized words. First word must be Title Case, well known acroynms can be ALL CAPS; subsequent words must be Title Case (e.g., Customer_Account_Name or AR_Customers).',
+            required: true
+          },
+          {
+            property: 'name',
+            title: 'Schema Name',
+            description: 'Use an uppercase first letter for each word, with underscores for spaces. Well-known acronyms can remain fully uppercase. The Name must always be the same as the PhysicalName.',
+            pattern: '^(?:[A-Z]+|[A-Z][a-z]+)(?:_[A-Z][a-z]+)*$',
+            patternMessage: 'Must be snake_case with capitalized words. First word must be Title Case, well known acroynms can be ALL CAPS; subsequent words must be Title Case (e.g., Customer_Account_Name or AR_Customers).',
+            required: true
+          },
+          {
+            property: 'businessName',
+            required: true
+          },
+          {
+            property: 'description',
+            required: true
+          }
+        ],
+        customProperties: [
+          {
+            property: 'dataRetentionPolicy',
+            title: 'Data Retention Policy',
+            type: 'select',
+            enum: ['30days', '90days', '1year', '3years', '7years', 'indefinite']
+          }
+        ]
+      },
+
+      // Server level customizations
+      servers: {
+        standardProperties: [
+          {
+            property: 'server',
+            title: 'Server Name',
+            pattern: '^[a-z][a-z0-9-]*$',
+            patternMessage: 'Must be lowercase with hyphens only (e.g., prod-db).',
+            required: true,
+            placeholder: 'my-server'
+          },
+          {
+            property: 'type',
+            title: 'Platform Type',
+            enum: ['snowflake', 'bigquery', 'postgres', 'databricks', 's3']
+          },
+          {
+            property: 'environment',
+            title: 'Deployment Environment',
+            enum: ['production', 'staging', 'development']
+          }
+        ],
+        customProperties: [
+          {
+            property: 'slaLevel',
+            title: 'SLA Level',
+            type: 'select',
+            enum: ['gold', 'silver', 'bronze']
+          },
+          {
+            property: 'maintenanceWindow',
+            title: 'Maintenance Window',
+            type: 'text',
+            placeholder: 'Sunday 2:00-4:00 UTC'
+          }
+        ]
+      },
+
+      // Team level customizations
+      team: {
+        standardProperties: [
+          {
+            property: 'name',
+            title: 'Team Name',
+            pattern: '^[A-Z]',
+            patternMessage: 'Team name must start with an uppercase letter.',
+            required: true,
+            minLength: 3,
+            placeholder: 'Data Engineering'
+          }
+        ],
+        customProperties: [
+          {
+            property: 'slackChannel',
+            title: 'Slack Channel',
+            type: 'text',
+            placeholder: '#data-team'
+          }
+        ]
+      },
+
+        // Team members level customizations
+        'team.members': {
+          standardProperties: [
+            { property: 'dateOut', hidden: true },
+            {
+              property: 'username',
+              title: 'Email',
+              pattern: '^[^@]+@[^@]+\\.[^@]+$',
+              patternMessage: 'Must be a valid email address.',
+              required: true,
+              placeholder: 'user@company.com'
+            },
+            {
+              property: 'name',
+              title: 'Display Name',
+              minLength: 2,
+              maxLength: 50
+            },
+            {
+              property: 'role',
+              title: 'Team Role',
+              pattern: '^[a-z][a-z_ ]*$',
+              patternMessage: 'Role must be lowercase.',
+              placeholder: 'data steward'
+            }
+          ],
+          customProperties: [
+            {
+              property: 'department',
+              title: 'Department',
+              type: 'select',
+              enum: ['Engineering', 'Data Science', 'Analytics', 'Platform']
+            }
+          ]
+        },
+
+        // Roles level customizations
+        roles: {
+          standardProperties: [
+            {
+              property: 'role',
+              title: 'IAM Role ARN',
+              pattern: '^arn:',
+              patternMessage: 'Must start with "arn:" (e.g., arn:aws:iam::123456789:role/Reader).',
+              required: true
+            },
+            {
+              property: 'access',
+              title: 'Access Level',
+              placeholder: 'read / write / admin'
+            },
+            {
+              property: 'firstLevelApprovers',
+              title: 'Primary Approver',
+              pattern: '^[^@]+@[^@]+\\.[^@]+$',
+              patternMessage: 'Must be a valid email address.',
+              placeholder: 'approver@company.com'
+            },
+            {
+              property: 'secondLevelApprovers',
+              title: 'Secondary Approver',
+              pattern: '^[^@]+@[^@]+\\.[^@]+$',
+              patternMessage: 'Must be a valid email address.',
+              placeholder: 'director@company.com'
+            }
+          ]
+        },
+
+        // Support level customizations
+        support: {
+          standardProperties: [
+            {
+              property: 'channel',
+              title: 'Channel Name',
+              pattern: '^#?[a-z][a-z0-9-]*$',
+              patternMessage: 'Must be lowercase with hyphens (e.g., #data-support).',
+              required: true,
+              placeholder: '#data-support'
+            },
+            {
+              property: 'url',
+              title: 'Channel URL',
+              pattern: '^https?://',
+              patternMessage: 'Must start with http:// or https://.',
+              placeholder: 'https://slack.com/channels/data-support'
+            },
+            {
+              property: 'invitationUrl',
+              title: 'Invite Link',
+              pattern: '^https?://',
+              patternMessage: 'Must be a valid URL starting with http:// or https://.'
+            },
+            {
+              property: 'tool',
+              title: 'Platform',
+              enum: ['slack', 'teams', 'email', 'ticket']
+            },
+            {
+              property: 'scope',
+              title: 'Usage Scope'
+            }
+          ]
+        }
+      }
+    };
+
+    // Sample YAML with some custom properties pre-filled (using ODCS array format)
+    const sampleYaml = `apiVersion: "v3.1.0"
+kind: "DataContract"
+id: customization-test
+name: Customization Test Contract
+version: "1.0.0"
+status: draft
+domain: finance
+customProperties:
+  - property: dataOwner
+    value: jane.doe@company.com
+  - property: costCenter
+    value: CC-200
+  - property: complianceFrameworks
+    value:
+      - GDPR
+      - SOX
+  - property: retentionDays
+    value: 365
+  - property: isPublic
+    value: false
+schema:
+  - name: transactions
+    description: Financial transactions
+    physicalType: table
+    properties:
+      - name: customer_id
+        logicalType: string
+        description: Customer identifier
+        classification: confidential
+        customProperties:
+          - property: piiCategory
+            value: direct
+          - property: maskingRequired
+            value: true
+      - name: amount
+        logicalType: number
+        description: Transaction amount
+servers:
+  - server: prod-db
+    type: snowflake
+    environment: production
+    account: xy12345
+    database: ANALYTICS
+    schema: PUBLIC
+team:
+  name: Data Engineering
+  description: Responsible for data pipelines
+  members:
+    - username: jane@company.com
+      name: Jane Doe
+      role: data steward
+      dateIn: "2024-01-15"
+    - username: bob@company.com
+      name: Bob Smith
+      role: owner
+roles:
+  - role: arn:aws:iam::123456789:role/DataReader
+    access: read
+    description: Read-only access to analytics tables
+    firstLevelApprovers: manager@company.com
+    secondLevelApprovers: director@company.com
+support:
+  - channel: "#data-support"
+    url: https://slack.com/channels/data-support
+    tool: slack
+    scope: interactive
+`;
+
+    // Initialize the editor with customizations
+    const editor = init({
+        container: '#editor',
+        yaml: sampleYaml,
+        customizations: customizations,
+        initialView: 'form',
+        showPreview: true,
+        tests: {
+            enabled: false
+        },
+        persistence: 'none'
+    });
+
+    console.log('Editor initialized with customizations');
+    console.log('Customizations config:', customizations);
+</script>
+</body>
+</html>
