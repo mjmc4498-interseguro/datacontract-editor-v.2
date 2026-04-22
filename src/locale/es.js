@@ -1,0 +1,379 @@
+/**
+ * Cadenas de interfaz en español (único idioma de la aplicación).
+ */
+
+export const es = {
+  common: {
+    save: 'Guardar',
+    cancel: 'Cancelar',
+    close: 'Cerrar',
+    confirm: 'Confirmar',
+    required: 'Obligatorio',
+    error: 'Error',
+    unknownError: 'Error desconocido',
+    unknownFormError: 'Error de formulario desconocido',
+    delete: 'Eliminar',
+    add: 'Añadir',
+    retry: 'Reintentar',
+    reloadApp: 'Recargar aplicación',
+    settings: 'Ajustes',
+    help: 'Ayuda',
+    hideHelp: 'Ocultar ayuda',
+    showHelp: 'Mostrar ayuda',
+    logs: 'Registros',
+    clear: 'Borrar',
+    passed: 'Correcto',
+    failed: 'Fallido',
+    current: 'Actual',
+    name: 'Nombre',
+    type: 'Tipo',
+    properties: 'Propiedades',
+    version: 'Versión',
+    status: 'Estado',
+    id: 'ID',
+    tenant: 'Inquilino',
+    domain: 'Dominio',
+    tags: 'Etiquetas',
+    description: 'Descripción',
+    channel: 'Canal',
+    url: 'URL',
+    tool: 'Herramienta',
+    scope: 'Ámbito',
+    invitationUrl: 'URL de invitación',
+    server: 'Servidor',
+    selectServer: 'Seleccionar servidor',
+  },
+
+  nav: {
+    fundamentals: 'Fundamentos',
+    termsOfUse: 'Términos de uso',
+    schemas: 'Esquemas',
+    servers: 'Servidores',
+    team: 'Equipo',
+    support: 'Soporte',
+    roles: 'Roles',
+    pricing: 'Precios',
+    sla: 'ANS',
+    customProperties: 'Propiedades personalizadas',
+  },
+
+  pages: {
+    overview: 'Resumen',
+    termsOfUse: 'Términos de uso',
+    schemas: 'Esquemas',
+    schema: 'Esquema',
+    pricing: 'Precios',
+    team: 'Equipo',
+    support: 'Soporte',
+    servers: 'Servidores',
+    server: 'Servidor',
+    roles: 'Roles',
+    sla: 'Acuerdo de nivel de servicio',
+    customProperties: 'Propiedades personalizadas',
+  },
+
+  formError: {
+    title: 'Error en el formulario',
+    intro: (pageName) =>
+      `El formulario «${pageName}» encontró un error y no pudo mostrarse.`,
+    whatYouCanDo: 'Qué puede hacer:',
+    tips: [
+      'Cambie a la vista YAML para editar el contrato directamente',
+      'Compruebe que la estructura del YAML es válida',
+      'Intente ir a otra página del formulario',
+      'Sus datos están a salvo: el YAML se ha conservado',
+    ],
+    retryForm: 'Reintentar formulario',
+    editYaml: 'Editar YAML directamente',
+    devDetails: 'Detalles para desarrolladores',
+  },
+
+  yamlParseErrorPage: {
+    title: 'Error de análisis YAML',
+    body:
+      'El YAML contiene errores de sintaxis y no puede analizarse. El formulario no está disponible hasta corregirlos.',
+    goToYaml: 'Ir a la vista YAML',
+  },
+
+  app: {
+    applicationError: 'Error de la aplicación',
+    criticalError: (appName) =>
+      `${appName} encontró un error grave y no puede continuar.`,
+    tryAgain: 'Intentar de nuevo',
+    reloadApplication: 'Recargar aplicación',
+    sharedLinkInvalid:
+      'No se pudo cargar el contrato compartido. El enlace puede no ser válido.',
+  },
+
+  header: {
+    openMenu: 'Abrir menú',
+    diagram: 'Diagrama',
+    form: 'Formulario',
+    yaml: 'YAML',
+    preview: 'Vista previa',
+    validation: 'Validación',
+    valid: 'Válido',
+    tests: 'Pruebas',
+    testsPassed: 'Pruebas correctas',
+    testsFailed: 'Pruebas fallidas',
+    new: 'Nuevo',
+    loadExample: 'Cargar ejemplo',
+    open: 'Abrir',
+    cannotSaveTitle: 'No se puede guardar',
+    cannotSaveBody:
+      'El YAML contiene errores de sintaxis y no se puede guardar. Corrija primero los errores en la vista YAML.',
+    goToYamlView: 'Ir a la vista YAML',
+    confirmLeave: '¿Seguro que desea salir de esta página?',
+    confirmDelete:
+      '¿Eliminar este contrato de datos? Esta acción no se puede deshacer.',
+    confirmNew:
+      '¿Crear un contrato nuevo? Se perderán los cambios no guardados.',
+    confirmExample:
+      '¿Cargar un contrato de ejemplo? Se perderán los cambios no guardados.',
+    saveFailed: (msg) => `No se pudo guardar el archivo: ${msg}`,
+    cancel: 'Cancelar',
+    delete: 'Eliminar',
+  },
+
+  overview: {
+    sectionTitle: 'Fundamentos',
+    sectionDesc:
+      'Metadatos principales del contrato de datos: nombre, versión, estado y contexto organizativo.',
+    name: 'Nombre',
+    nameTooltip: 'Nombre del contrato de datos',
+    namePlaceholder: 'Introduzca el nombre del documento',
+    version: 'Versión',
+    versionTooltip: 'Número de versión con versionado semántico',
+    id: 'ID',
+    idTooltip: 'Identificador único de este contrato de datos',
+    idPlaceholder: 'identificador-unico',
+    status: 'Estado',
+    statusTooltip: 'Estado actual del contrato de datos',
+    statusPlaceholder: 'Seleccione un estado…',
+    tenant: 'Inquilino',
+    tenantTooltip: 'Inquilino u organización a la que pertenece el contrato',
+    tenantPlaceholder: 'empresa-A',
+    domain: 'Dominio',
+    domainTooltip: 'Dominio de negocio o categoría del contrato',
+    domainPlaceholder: 'Seleccione un dominio…',
+    tags: 'Etiquetas',
+    tagsTooltip: 'Clasifique el contrato con etiquetas',
+    tagsPlaceholder: 'Añadir una etiqueta…',
+    statusOptions: [
+      { id: 'draft', name: 'Borrador' },
+      { id: 'proposed', name: 'Propuesto' },
+      { id: 'in development', name: 'En desarrollo' },
+      { id: 'active', name: 'Activo' },
+      { id: 'deprecated', name: 'Obsoleto' },
+      { id: 'retired', name: 'Retirado' },
+    ],
+  },
+
+  termsOfUse: {
+    sectionTitle: 'Términos de uso',
+    sectionDesc:
+      'Descripción de alto nivel del conjunto de datos: finalidad, pautas de uso y limitaciones.',
+    purpose: 'Finalidad',
+    purposeTooltip: 'Finalidad prevista de los datos',
+    purposePlaceholder: 'Describa la finalidad de este contrato de datos…',
+    usage: 'Uso',
+    usageTooltip: 'Cómo deben usarse estos datos',
+    usagePlaceholder: 'Describa cómo usar estos datos…',
+    limitations: 'Limitaciones',
+    limitationsTooltip: 'Limitaciones técnicas, de cumplimiento y legales',
+    limitationsPlaceholder: 'Describa limitaciones o restricciones…',
+  },
+
+  pricing: {
+    sectionTitle: 'Precios',
+    sectionDesc: 'Defina la estructura de coste de suscripción para el acceso a los datos.',
+    priceAmount: 'Importe',
+    priceAmountTooltip: 'Precio de suscripción por unidad',
+    currency: 'Moneda',
+    currencyTooltip: 'Código de moneda (p. ej. USD, EUR)',
+    priceUnit: 'Unidad de precio',
+    priceUnitTooltip: 'Unidad de medida (p. ej. megabyte, gigabyte)',
+  },
+
+  roles: {
+    sectionTitle: 'Roles',
+  },
+
+  team: {
+    sectionTitle: 'Equipo',
+    teamName: 'Nombre del equipo',
+    teamPlaceholder: 'Equipo de ingeniería de datos',
+    selectTeam: 'Seleccione un equipo…',
+  },
+
+  support: {
+    sectionTitle: 'Soporte',
+    sectionIntro:
+      'Canales de soporte y comunicación para que los consumidores obtengan ayuda.',
+  },
+
+  sla: {
+    sectionTitle: 'Acuerdo de nivel de servicio',
+  },
+
+  customProperties: {
+    sectionTitle: 'Propiedades personalizadas',
+  },
+
+  schemasEditor: {
+    title: 'Esquemas',
+    subtitle:
+      'Modelos de datos que describen la estructura, campos y tipos de los conjuntos de este contrato.',
+    addSchema: 'Añadir esquema',
+    noSchemasTitle: 'Sin esquemas',
+    noSchemasBody: 'Comience creando un esquema nuevo.',
+    newSchema: 'Esquema nuevo',
+    schemaN: (n) => `Esquema ${n}`,
+    nameLabel: 'Nombre',
+    typeLabel: 'Tipo',
+    propertiesLabel: 'Propiedades',
+  },
+
+  sidebar: {
+    untitledSchema: 'Esquema sin título',
+    serverN: (n) => `Servidor ${n}`,
+    progressAria: 'Progreso',
+  },
+
+  warningsPanel: {
+    noIssuesTitle: 'Sin incidencias',
+    noIssuesBody: 'Su YAML es válido, sin errores ni advertencias.',
+    problems: (n) => `Problemas (${n})`,
+    lineCol: (line, col) => `Línea ${line}, columna ${col}`,
+  },
+
+  testPanel: {
+    title: 'Pruebas del contrato de datos',
+    passed: 'Correcto',
+    failedTests: 'Pruebas fallidas',
+    allPassedTitle: 'Todas las pruebas correctas',
+    runTest: 'Ejecutar prueba',
+    running: 'La prueba se está ejecutando…',
+    runTestsVia: 'Ejecutar pruebas en:',
+    noResultsTitle: 'Aún no hay resultados',
+    noResultsBody: 'Pulse «Ejecutar prueba» arriba para probar su contrato de datos.',
+    noTestData: 'No hay datos de prueba',
+    errorLabel: 'Error:',
+    showHelp: 'Mostrar ayuda',
+    helpTitle: 'Ayuda',
+    hideHelpTitle: 'Ocultar ayuda',
+    cliHelpTitle: 'Cómo iniciar la CLI de Data Contract',
+    cliHelpP1Before: 'Para ejecutar el servidor API de',
+    cliHelpP1After: ', use el siguiente comando:',
+    cliHelpP2Before: 'La API está en',
+    cliHelpP3Before: 'Más información en',
+    clearResultsTitle: 'Borrar resultados de prueba',
+    unnamedServer: 'Servidor sin nombre',
+    serverLabel: 'Servidor:',
+  },
+
+  settingsModal: {
+    title: 'Ajustes',
+    apiUrlLabel: 'URL del servidor API de Data Contract CLI',
+    apiUrlHint:
+      'URL base del servidor API. Déjelo vacío para usar el valor predeterminado.',
+    apiKeyLabel: 'X-API-KEY',
+    apiKeyHint:
+      'Clave API opcional para autenticarse con el servidor de Data Contract CLI.',
+    apiKeyPlaceholder: 'Introduzca su clave API',
+  },
+
+  store: {
+    yamlParseUnknown: 'Error de análisis YAML desconocido',
+    savedTitle: 'Guardado correctamente',
+    savedMessage: (filename) => `Se ha guardado ${filename}`,
+    testConnectError: (url) =>
+      `No se puede conectar a Data Contract CLI en ${url}.`,
+    testInvalidJson:
+      'El servidor de pruebas devolvió una respuesta no válida. Puede estar mal configurado o no responder correctamente.',
+    untitled: 'sin-titulo',
+  },
+
+  validated: {
+    fieldRequired: 'Este campo es obligatorio',
+    patternFallback: (pattern) => `El valor debe coincidir con el patrón: ${pattern}`,
+    minLength: (min, cur) => `La longitud mínima es ${min} (actual: ${cur})`,
+    maxLength: (max, cur) => `La longitud máxima es ${max} (actual: ${cur})`,
+    minValue: (min) => `El valor mínimo es ${min}`,
+    maxValue: (max) => `El valor máximo es ${max}`,
+  },
+
+  combobox: {
+    defaultPlaceholder: 'Seleccione una opción…',
+    typeOrSelect: 'Escriba un valor o elija de la lista',
+    noOptions: 'No hay opciones disponibles',
+  },
+
+  yamlEditor: {
+    edit: 'Editar',
+    diff: 'Diferencias',
+    split: 'Dividido',
+    unified: 'Unificado',
+    schemaError: 'Error de esquema:',
+    noChangesTitle: 'Sin cambios',
+    noChangesBody: 'El contrato coincide con la última versión guardada.',
+    yamlPlaceholder: '# Escriba su YAML aquí\n',
+  },
+
+  modal: {
+    confirm: 'Confirmar',
+    cancel: 'Cancelar',
+  },
+
+  preview: {
+    teamTitle: 'Equipo',
+    teamSubtitle: 'Personas responsables del contrato de datos.',
+    slaTitle: 'Acuerdo de nivel de servicio',
+    slaSubtitle: 'Compromisos de calidad y disponibilidad.',
+    serversTitle: 'Servidores',
+    serversSubtitle: 'Orígenes y sistemas de datos descritos en el contrato.',
+    schemaTitle: 'Esquema',
+    schemaSubtitle: 'Definición del modelo de datos.',
+    rolesTitle: 'Roles',
+    rolesSubtitle: 'Roles y permisos sobre los datos.',
+    priceTitle: 'Precio',
+    priceSubtitle: 'Información de precios y facturación.',
+    customPropertiesTitle: 'Propiedades personalizadas',
+    customPropertiesSubtitle: 'Campos adicionales definidos por su organización.',
+    fundamentalsTitle: 'Fundamentos',
+    fundamentalsSubtitle: 'Información sobre el contrato de datos',
+    contractNoData: 'Aún no hay datos',
+    untitledContract: 'Contrato sin título',
+    noId: 'sin-id',
+    noTeam: 'Sin equipo',
+    name: 'Nombre',
+    version: 'Versión',
+    id: 'ID',
+    status: 'Estado',
+    tenant: 'Inquilino',
+    domain: 'Dominio',
+    dataProduct: 'Producto de datos',
+    contractCreated: 'Contrato creado',
+    tags: 'Etiquetas',
+    supportChannelsTitle: 'Soporte y canales de comunicación',
+    supportChannelsSubtitle:
+      'Los canales de soporte ayudan a los consumidores a obtener ayuda sobre el uso del contrato de datos.',
+    channel: 'Canal',
+    scope: 'Ámbito',
+    description: 'Descripción',
+    invitationUrl: 'URL de invitación',
+  },
+
+  ai: {
+    notConfiguredTitle: 'Asistente de IA no configurado',
+    assistantTitle: 'Asistente de contratos de datos',
+    newConversation: 'Nueva conversación',
+    closePanel: 'Cerrar panel',
+  },
+
+  aria: {
+    progress: 'Progreso',
+  },
+};
+
+export default es;

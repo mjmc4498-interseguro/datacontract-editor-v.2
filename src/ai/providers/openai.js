@@ -1,3 +1,5 @@
+import { APP_DISPLAY_NAME } from '../../config/defaults.js';
+
 /**
  * OpenAI Provider Adapter
  *
@@ -36,7 +38,7 @@ export function buildHeaders(config) {
       (typeof window !== 'undefined' ? window.location?.origin : '') ||
       '';
     if (referer) headers['HTTP-Referer'] = referer;
-    headers['X-Title'] = config.siteName || 'Data Contract Editor';
+    headers['X-Title'] = config.siteName || APP_DISPLAY_NAME;
   }
 
   // Add custom headers if provided (can override auth / defaults)

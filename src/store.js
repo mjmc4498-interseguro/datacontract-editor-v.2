@@ -6,6 +6,7 @@ import { stringifyYaml, setYamlFormatConfig } from './utils/yaml.js';
 import { DEFAULT_AI_CONFIG, DEFAULT_TESTS_CONFIG } from './config/defaults.js';
 import { getStorageConfig } from './utils/persistence.js';
 import { isSafeKey } from './utils/safeProperty.js';
+import { es } from './locale/es.js';
 
 // Storage backend instance - can be set via setFileStorageBackend
 let fileStorageBackend = new LocalFileStorageBackend();
@@ -87,7 +88,7 @@ export function extractParseErrorMessage(e) {
 	} catch {
 		// ignore
 	}
-	return 'Unknown YAML parse error';
+	return es.store.yamlParseUnknown;
 }
 
 export function extractParseErrorPos(e) {
@@ -266,10 +267,10 @@ export function defaultStoreConfig(set, get) {
 
 				if (error.name === 'TypeError' && error.message.includes('fetch')) {
 					const displayUrl = editorConfig?.tests?.dataContractCliApiServerUrl || 'https://api.datacontract.com';
-					errorMessage = `Cannot connect to Data Contract CLI at ${displayUrl}.`;
+					errorMessage = es.store.testConnectError(displayUrl);
 					isConnectionError = true;
 				} else if (error.message === 'Unexpected end of JSON input' || error.message.includes('JSON')) {
-					errorMessage = 'Test server returned an invalid response. The server may be misconfigured or not responding correctly.';
+					errorMessage = es.store.testInvalidJson;
 				}
 
 				const errorResult = {
@@ -315,10 +316,10 @@ export function defaultStoreConfig(set, get) {
 				const yamlContent = await fileStorageBackend.loadYamlFile(filename);
 
 				// Try to parse the YAML to get the contract name
-				let contractName = 'untitled';
+				let contractName = es.store.untitled;
 				try {
 					const parsed = Yaml.parse(yamlContent);
-					contractName = parsed.name || 'untitled';
+					contractName = parsed.name || es.store.untitled;
 				} catch {
 					// If parsing fails, use default
 				}
@@ -344,7 +345,7 @@ export function defaultStoreConfig(set, get) {
 			const {yaml, lastSaveInfo} = get();
 			const dataContract = Yaml.parse(yaml);
 
-			const dataContractName = (dataContract.name || 'untitled').replace(/[^a-zA-Z0-9_-]/g, '_');
+			const dataContractName = (dataContract.name || es.store.untitled).replace(/[^a-zA-Z0-9_-]/g, '_');
 			const suggestedFilename = `${suggestedName || dataContractName}.yaml`;
 
 			// If we have a previous save, pass the filename to update the existing file
@@ -370,8 +371,8 @@ export function defaultStoreConfig(set, get) {
 			const {addNotification} = get();
 			addNotification({
 				type: 'success',
-				title: 'Saved successfully',
-				message: `${result?.filename || suggestedFilename} has been saved`,
+				title: es.store.savedTitle,
+				message: es.store.savedMessage(result?.filename || suggestedFilename),
 				duration: 3000
 			});
 		},

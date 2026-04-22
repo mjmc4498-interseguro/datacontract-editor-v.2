@@ -7,6 +7,7 @@ import { useEditorStore } from "../store.js";
 import YamlParseErrorPage from "../components/features/code/YamlParseErrorPage.jsx";
 import { PreviewErrorBoundary, DiagramErrorBoundary, FormPageErrorBoundary, ErrorBoundary } from "../components/error/index.js";
 import ResizeDivider from "../components/ui/ResizeDivider.jsx";
+import { es } from '../locale/es.js';
 
 const MainContent = () => {
   const isPreviewVisible = useEditorStore((state) => state.isPreviewVisible);
@@ -106,73 +107,73 @@ const MainContent = () => {
               ) : (
               <Routes>
                 <Route path="/" element={
-                  <FormPageErrorBoundary pageName="Overview">
+                  <FormPageErrorBoundary pageName={es.pages.overview}>
                     <Overview />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/overview" element={
-                  <FormPageErrorBoundary pageName="Overview">
+                  <FormPageErrorBoundary pageName={es.pages.overview}>
                     <Overview />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/terms-of-use" element={
-                  <FormPageErrorBoundary pageName="Terms of Use">
+                  <FormPageErrorBoundary pageName={es.pages.termsOfUse}>
                     <TermsOfUse />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/schemas" element={
-                  <FormPageErrorBoundary pageName="Schemas">
+                  <FormPageErrorBoundary pageName={es.pages.schemas}>
                     <Schemas />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/schemas/:schemaId" element={
-                  <FormPageErrorBoundary pageName="Schema">
+                  <FormPageErrorBoundary pageName={es.pages.schema}>
                     <Schema />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/pricing" element={
-                  <FormPageErrorBoundary pageName="Pricing">
+                  <FormPageErrorBoundary pageName={es.pages.pricing}>
                     <Pricing />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/team" element={
-                  <FormPageErrorBoundary pageName="Team">
+                  <FormPageErrorBoundary pageName={es.pages.team}>
                     <Team />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/support" element={
-                  <FormPageErrorBoundary pageName="Support">
+                  <FormPageErrorBoundary pageName={es.pages.support}>
                     <Support />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/servers" element={
-                  <FormPageErrorBoundary pageName="Servers">
+                  <FormPageErrorBoundary pageName={es.pages.servers}>
                     <Servers />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/servers/:serverId" element={
-                  <FormPageErrorBoundary pageName="Server">
+                  <FormPageErrorBoundary pageName={es.pages.server}>
                     <Server />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/roles" element={
-                  <FormPageErrorBoundary pageName="Roles">
+                  <FormPageErrorBoundary pageName={es.pages.roles}>
                     <Roles />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/sla" element={
-                  <FormPageErrorBoundary pageName="Service Level Agreement">
+                  <FormPageErrorBoundary pageName={es.pages.sla}>
                     <ServiceLevelAgreement />
                   </FormPageErrorBoundary>
                 } />
                 <Route path="/custom-properties" element={
-                  <FormPageErrorBoundary pageName="Custom Properties">
+                  <FormPageErrorBoundary pageName={es.pages.customProperties}>
                     <CustomProperties />
                   </FormPageErrorBoundary>
                 } />
                 {/* Catch-all route for unmatched paths (e.g., /diagram during view transition) */}
                 <Route path="*" element={
-                  <FormPageErrorBoundary pageName="Overview">
+                  <FormPageErrorBoundary pageName={es.pages.overview}>
                     <Overview />
                   </FormPageErrorBoundary>
                 } />

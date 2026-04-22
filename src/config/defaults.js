@@ -1,3 +1,6 @@
+/** Nombre mostrado en cabecera, pestaña del navegador y mensajes de error. */
+export const APP_DISPLAY_NAME = 'ISDataContractEditor360';
+
 /**
  * Default configuration for the Data Contract Editor
  *
