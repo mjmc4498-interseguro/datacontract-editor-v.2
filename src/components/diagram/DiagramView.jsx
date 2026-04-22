@@ -50,7 +50,7 @@ const splitSchemaReference = (reference, schemaNames) => {
   return [reference.slice(0, firstDot), reference.slice(firstDot + 1)];
 };
 
-const PREVIEW_EDGE_STYLE = { stroke: '#d946ef', strokeWidth: 2.5 };
+const PREVIEW_EDGE_STYLE = { stroke: '#EA0C90', strokeWidth: 2.5 };
 
 // Forward-declared: ConnectionLinePreview needs SelfReferenceEdge, which
 // is defined below. The component is only used at render time so a
@@ -98,7 +98,7 @@ const ConnectionLinePreview = ({ fromX, fromY, toX, toY, fromPosition, toPositio
   });
   return (
     <g>
-      <path d={path} stroke="#d946ef" strokeWidth={2.5} fill="none" />
+      <path d={path} stroke="#EA0C90" strokeWidth={2.5} fill="none" />
     </g>
   );
 };
@@ -1416,7 +1416,7 @@ const DiagramViewInner = () => {
         onConnectEnd={() => setConnectingFrom(null)}
         isValidConnection={isValidConnection}
         connectionMode="strict"
-        connectionLineStyle={{ stroke: '#d946ef', strokeWidth: 2.5 }}
+        connectionLineStyle={{ stroke: '#EA0C90', strokeWidth: 2.5 }}
         connectionLineComponent={ConnectionLinePreview}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}

@@ -1,6 +1,22 @@
-/* Make selected edges more visible — fuchsia stands out from node borders */
+/*
+ * Interseguro-branded diagram styling.
+ *
+ * Diagram edges, handles and hover states use the corporate magenta ramp
+ * (#EA0C90 / #D6058B / #B0046F) defined globally in src/index.css as
+ * `--color-indigo-500/600/700` — driven through local CSS vars here so the
+ * styles continue to work even when React Flow is rendered outside Tailwind's
+ * scope (e.g. in tests).
+ */
+:root {
+	--dce-edge-accent:        var(--color-indigo-500, #EA0C90);
+	--dce-edge-accent-dark:   var(--color-indigo-700, #B0046F);
+	--dce-edge-accent-soft:   color-mix(in srgb, var(--dce-edge-accent) 55%, transparent);
+	--dce-edge-accent-halo:   color-mix(in srgb, var(--dce-edge-accent) 25%, transparent);
+}
+
+/* Make selected edges more visible — corporate magenta stands out from node borders */
 .react-flow__edge.selected .react-flow__edge-path {
-  stroke: #d946ef !important; /* fuchsia-500 */
+  stroke: var(--dce-edge-accent) !important;
   stroke-width: 3px !important;
 }
 
@@ -12,7 +28,7 @@
 /* Only tint on hover when the edge is not already selected — selection
    must visually win over hover. */
 .react-flow__edge:hover:not(.selected) .react-flow__edge-path {
-  stroke: rgba(217, 70, 239, 0.55) !important; /* fuchsia-500 @ 55% */
+  stroke: var(--dce-edge-accent-soft) !important;
   stroke-width: 2.5px !important;
 }
 
@@ -100,8 +116,8 @@
   width: 14px !important;
   height: 14px !important;
   border-radius: 9999px !important;
-  background: #d946ef !important; /* fuchsia-500 */
-  border: 2px solid #a21caf !important; /* fuchsia-700 */
+  background: var(--dce-edge-accent) !important;
+  border: 2px solid var(--dce-edge-accent-dark) !important;
   left: -10px !important;
   top: calc(50% - 7px) !important;
   transform: none !important;
@@ -185,10 +201,10 @@
  */
 .dce-is-connecting-from-source .react-flow__handle.dce-prop-handle-target {
   opacity: 1 !important;
-  background: #d946ef !important; /* fuchsia-500 */
-  border-color: #a21caf !important; /* fuchsia-700 */
+  background: var(--dce-edge-accent) !important;
+  border-color: var(--dce-edge-accent-dark) !important;
   transform: scale(var(--dce-handle-hover-scale, 1.6)) !important;
-  box-shadow: 0 0 0 4px rgba(217, 70, 239, 0.25);
+  box-shadow: 0 0 0 4px var(--dce-edge-accent-halo);
 }
 
 /* Crosshair cursor across the canvas while connecting */

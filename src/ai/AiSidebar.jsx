@@ -95,7 +95,7 @@ export default function AiSidebar() {
 			</div>
 			<div style={{ width: `${width}px` }} className="h-full flex flex-col bg-white">
 				{/* Header */}
-				<div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3">
+				<div className="bg-gradient-to-r from-indigo-600 to-isblue-600 px-4 py-3">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
 							<SparklesIcon className="h-5 w-5 text-white" />

@@ -406,8 +406,8 @@ const SchemaNode = ({ data, id }) => {
         </div>
       </NodeToolbar>
 
-      {/* Accent Bar */}
-      <div className="h-1.5 rounded-t bg-fuchsia-700"></div>
+      {/* Accent Bar — Interseguro corporate magenta */}
+      <div className="h-1.5 rounded-t bg-indigo-600"></div>
 
       {/* Schema Container with Border */}
       <div className="border-[3px] rounded-b border-solid border-[#E9EEF4]">

@@ -1,10 +1,79 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/*
+ * =============================================================================
+ * Interseguro brand palette
+ * =============================================================================
+ *
+ * Colors sourced from the live interseguro.com.pe stylesheet:
+ *   - Magenta    #EA0C90  (primary brand color, used as the main action color)
+ *   - Magenta-2  #D6058B  (darker brand magenta)
+ *   - Blue       #0855C4  (corporate blue, Intercorp group)
+ *   - Blue-Light #C8D1F1  (soft brand background)
+ *   - Dark       #454A6C  (muted blue-grey text)
+ *   - Grey-Light #DDE0E9  (surface background)
+ *   - Grey-XLt   #F2F2F2  (page background)
+ *
+ * The editor was originally styled with Tailwind's `indigo-*` ramp. To make the
+ * brand roll out across every component automatically (buttons, links,
+ * badges, focus rings, AI UI, EasyMDE, ...) we override the `indigo-*` color
+ * tokens with the Interseguro magenta ramp below. Any class of the form
+ * `bg-indigo-600`, `text-indigo-500`, `ring-indigo-400`, etc. now renders in
+ * the corporate magenta.
+ *
+ * `isblue-*` and `isgray-*` are additive palettes you can reach from utility
+ * classes as `bg-isblue-600`, `text-isgray-500`, etc.
+ */
 @theme {
 	--animate-sparkle: sparkle 1.2s ease-in-out infinite;
 	--animate-sparkle-delayed-1: sparkle 1.2s ease-in-out 0.3s infinite;
 	--animate-sparkle-delayed-2: sparkle 1.2s ease-in-out 0.6s infinite;
+
+	/* Interseguro magenta — primary (overrides Tailwind's indigo ramp) */
+	--color-indigo-50:  #FDEAF5;
+	--color-indigo-100: #FBCCE6;
+	--color-indigo-200: #F799CE;
+	--color-indigo-300: #F266B5;
+	--color-indigo-400: #EE3AA1;
+	--color-indigo-500: #EA0C90;
+	--color-indigo-600: #D6058B;
+	--color-indigo-700: #B0046F;
+	--color-indigo-800: #8A0357;
+	--color-indigo-900: #600342;
+	--color-indigo-950: #3D0128;
+
+	/* Interseguro corporate blue — secondary accent */
+	--color-isblue-50:  #E7EFFB;
+	--color-isblue-100: #C8D1F1;
+	--color-isblue-200: #98B1E8;
+	--color-isblue-300: #5C85D6;
+	--color-isblue-400: #3069CE;
+	--color-isblue-500: #0F57C7;
+	--color-isblue-600: #0855C4;
+	--color-isblue-700: #0748A5;
+	--color-isblue-800: #053A85;
+	--color-isblue-900: #042C64;
+	--color-isblue-950: #021A3D;
+
+	/* Interseguro neutral (blue-tinted) greys */
+	--color-isgray-50:  #F7F7F9;
+	--color-isgray-100: #F2F2F2;
+	--color-isgray-200: #DDE0E9;
+	--color-isgray-300: #C7CBD6;
+	--color-isgray-400: #989DB3;
+	--color-isgray-500: #454A6C;
+	--color-isgray-600: #3A3E5C;
+	--color-isgray-700: #2E314A;
+	--color-isgray-800: #232538;
+	--color-isgray-900: #171827;
+
+	/* Semantic aliases (use these in new components) */
+	--color-brand-primary:        var(--color-indigo-600);  /* #D6058B */
+	--color-brand-primary-hover:  var(--color-indigo-700);  /* #B0046F */
+	--color-brand-primary-soft:   var(--color-indigo-50);   /* #FDEAF5 */
+	--color-brand-accent:         var(--color-isblue-600);  /* #0855C4 */
+	--color-brand-accent-soft:    var(--color-isblue-100);  /* #C8D1F1 */
 }
 
 @keyframes sparkle {
