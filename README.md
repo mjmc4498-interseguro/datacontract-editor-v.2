@@ -1,79 +1,84 @@
-# Data Contract Editor
+# ISDataContractEditor360
 
-A web-based editor for creating and managing data contracts using the [Open Data Contract Standard](https://bitol-io.github.io/open-data-contract-standard/latest/) (ODCS).
+Editor web para crear y gestionar contratos de datos con el estándar [Open Data Contract Standard (ODCS)](https://bitol-io.github.io/open-data-contract-standard/latest/), con soporte para ODCS v3.1.0.
 
-![Screenshot](https://raw.githubusercontent.com/datacontract/datacontract-editor/main/docs/screenshot.png)
+## Características principales
 
-## Features
+- **Edición visual**: define modelos de datos y relaciones en un diagrama interactivo.
+- **Edición por formulario**: completa campos guiados para construir el contrato.
+- **Edición YAML**: modifica directamente el contrato con ayuda de autocompletado.
+- **Vista previa**: renderizado HTML del contrato en tiempo real.
+- **Validación**: detección de errores y advertencias sobre la estructura del contrato.
+- **Pruebas**: ejecución de pruebas mediante Data Contract CLI API Server.
+- **Asistente de IA**: soporte para generación y mejora de contratos (configurable).
 
-- **Open Data Contract Standard**: ODCS is the industry-standard for data contracts. Now with support for v3.1.0.
-- **Editing Modes**:
-  - **Visual Editor**: Define data models and relationships using a visual interface
-  - **Form Editor**: Get guided input with a simple form interface
-  - **YAML Editor**: Edit data contracts directly in YAML format with code completion
-- **Preview**: Live preview of data contracts as HTML
-- **Validation**: Get instant feedback on your data contracts
-- **Test**: Test your data contract directly against your data using the Data Contract CLI API Server.
+## Personalización aplicada en esta versión
 
+- Nombre de aplicación configurado como **ISDataContractEditor360**.
+- Interfaz y textos de producto en **español**.
+- **Logo** y **favicon** personalizados con `public/logo-interseguro.png`.
+- Paleta visual ajustada al azul de marca (base `#0061AE`) en toda la UI.
 
-## Usage
+## Uso
 
-### Web Editor
+### Editor web
 
-Open the editor as web application:
+Accede al editor hospedado:
 
-https://editor.datacontract.com
+<https://editor.datacontract.com>
 
+### Ejecución local (CLI)
 
-### Standalone Application
+Inicia el editor localmente:
 
-You can start the editor locally using the following command:
-
-```
+```bash
 npx datacontract-editor
 ```
 
-Or edit a data contract file directly:
+Abrir un contrato específico:
 
+```bash
+npx datacontract-editor mi-contrato.odcs.yaml
 ```
-npx datacontract-editor mydatacontract.odcs.yaml
-```
-
-
 
 ### Docker
 
-Run the editor locally in a Docker container:
+Ejecuta el editor en contenedor:
 
-```
+```bash
 docker run -d -p 4173:4173 datacontract/editor
 ```
 
-Then open http://localhost:4173
+Luego abre:
 
-#### Configure AI Assistant
+<http://localhost:4173>
 
-The AI Assistant is disabled by default in Docker. To enable it, provide your own OpenAI-compatible endpoint:
+## Configuración del asistente de IA (Docker)
 
-**OpenAI:**
+En Docker, el asistente de IA está desactivado por defecto. Para activarlo, configura un endpoint compatible con OpenAI.
+
+### OpenAI
+
 ```bash
 docker run -d -p 4173:4173 \
   -e AI_ENDPOINT=https://api.openai.com/v1/chat/completions \
-  -e AI_API_KEY=sk-your-api-key \
+  -e AI_API_KEY=sk-tu-api-key \
   -e AI_MODEL=gpt-4o \
   datacontract/editor
 ```
 
-**Azure OpenAI:**
+### Azure OpenAI
+
 ```bash
 docker run -d -p 4173:4173 \
-  -e AI_ENDPOINT=https://your-resource.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview \
-  -e AI_API_KEY=your-azure-key \
+  -e AI_ENDPOINT=https://tu-recurso.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview \
+  -e AI_API_KEY=tu-clave-azure \
   -e AI_AUTH_HEADER=api-key \
   datacontract/editor
 ```
 
-**Local LLM (Ollama):**
+### LLM local (Ollama)
+
 ```bash
 docker run -d -p 4173:4173 \
   -e AI_ENDPOINT=http://host.docker.internal:11434/v1/chat/completions \
@@ -82,32 +87,25 @@ docker run -d -p 4173:4173 \
   datacontract/editor
 ```
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `AI_ENDPOINT` | OpenAI-compatible chat completions URL | Hosted API |
-| `AI_API_KEY` | API key for authentication | Hosted API |
-| `AI_MODEL` | Model name | `gpt-4o` |
-| `AI_AUTH_HEADER` | Auth header: `bearer` or `api-key` | `bearer` |
+| Variable | Descripción | Valor por defecto |
+|----------|-------------|-------------------|
+| `AI_ENDPOINT` | URL de chat completions compatible con OpenAI | API hospedada |
+| `AI_API_KEY` | Clave API de autenticación | API hospedada |
+| `AI_MODEL` | Nombre del modelo | `gpt-4o` |
+| `AI_AUTH_HEADER` | Tipo de cabecera: `bearer` o `api-key` | `bearer` |
 
+## Integración con Data Contract CLI
 
-### Data Contract CLI
+Puede iniciarse desde la CLI de Data Contract:
 
-Coming soon!
-
-You can start the editor from the Data Contract CLI:
-
-```
+```bash
 datacontract editor datacontract.yaml
 ```
 
+## Producto comercial
 
+Data Contract Editor forma parte del producto comercial [Entropy Data](https://entropy-data.com), orientado a gestionar múltiples contratos de datos en una sola aplicación.
 
-### Entropy Data
+## Licencia
 
-The Data Contract Editor is fully integrated in our commercial product [Entropy Data](https://entropy-data.com) to manage multiple data contracts in a single application.
-
-
-
-## License
-
-This project is maintained by [Entropy Data](https://entropy-data.com) and licensed under the [MIT LICENSE](LICENSE).
+Este proyecto es mantenido por [Entropy Data](https://entropy-data.com) y se distribuye bajo licencia [MIT](LICENSE).
