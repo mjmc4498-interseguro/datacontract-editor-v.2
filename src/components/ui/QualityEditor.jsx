@@ -347,15 +347,15 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
           {/* SQL-specific fields */}
           {showSqlFields && (
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">SQL Query</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.sqlQuery}</label>
               <textarea
                 value={rule.query || ''}
                 onChange={(e) => onUpdate(index, 'query', e.target.value)}
                 rows={4}
                 className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
-                placeholder="SELECT COUNT(*) FROM {object} WHERE..."
+                placeholder={es.forms.exampleSql}
               />
-              <p className="text-xs text-gray-500 mt-1">Hint: Use {`{object}`} and {`{property}`} as placeholders</p>
+              <p className="text-xs text-gray-500 mt-1">{es.qualityEditor.sqlPlaceholdersHint}</p>
             </div>
           )}
 
@@ -363,24 +363,24 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
           {showCustomFields && (
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Engine</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.engine}</label>
                 <input
                   type="text"
                   value={rule.engine || ''}
                   onChange={(e) => onUpdate(index, 'engine', e.target.value)}
                   className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                  placeholder="e.g., soda, greatExpectations, montecarlo"
+                  placeholder={es.forms.exampleVendors}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Implementation</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.implementation}</label>
                 <textarea
                   value={rule.implementation || ''}
                   onChange={(e) => onUpdate(index, 'implementation', e.target.value)}
                   rows={4}
                   className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
-                  placeholder="Vendor-specific configuration block"
+                  placeholder={es.forms.vendorConfig}
                 />
               </div>
             </div>
@@ -393,11 +393,11 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                 <div>
                   <ValidatedCombobox
                     name="operator"
-                    label="Operator"
+                    label={es.qualityEditor.operator}
                     options={operatorOptions.map(op => ({ id: op.value, name: op.label }))}
                     value={selectedOperator || ''}
                     onChange={handleOperatorChange}
-                    placeholder="Select operator..."
+                    placeholder={es.forms.selectOperator}
                     required={true}
                     acceptAnyInput={false}
                     displayValue={(val) => {
@@ -411,25 +411,25 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Value</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.value}</label>
                   <input
                     type="number"
                     value={selectedOperator ? (rule[selectedOperator] ?? '') : ''}
                     onChange={(e) => handleOperatorValueChange(e.target.value ? Number(e.target.value) : undefined)}
                     disabled={!selectedOperator}
                     className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed text-xs"
-                    placeholder={selectedOperator ? "Enter numeric value" : "Select operator first"}
+                    placeholder={selectedOperator ? es.qualityEditor.enterNumeric : es.qualityEditor.selectOperatorFirst}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Unit</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.unit}</label>
                   <select
                     value={rule.unit || ''}
                     onChange={(e) => onUpdate(index, 'unit', e.target.value)}
                     className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
                   >
-                    <option value="">Default (rows)</option>
+                    <option value="">{es.qualityEditor.defaultRows}</option>
                     <option value="rows">rows</option>
                     <option value="percent">percent</option>
                   </select>
@@ -445,7 +445,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
               onClick={() => setIsAdditionalDetailsExpanded(!isAdditionalDetailsExpanded)}
               className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded bg-gray-50"
             >
-              <h4 className="text-xs font-medium text-gray-700">Additional Details</h4>
+              <h4 className="text-xs font-medium text-gray-700">{es.qualityEditor.additionalDetails}</h4>
               <ChevronDownIcon
                 className={`h-4 w-4 text-gray-500 transition-transform ${isAdditionalDetailsExpanded ? 'rotate-180' : ''}`}
               />
@@ -455,13 +455,13 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
               <div className="space-y-3 mt-2">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Dimension</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.dimension}</label>
                     <select
                       value={rule.dimension || ''}
                       onChange={(e) => onUpdate(index, 'dimension', e.target.value)}
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
                     >
-                      <option value="">Select...</option>
+                      <option value="">{es.qualityEditor.selectPlaceholder}</option>
                       {dimensionOptions.map(opt => (
                         <option key={opt} value={opt}>{opt}</option>
                       ))}

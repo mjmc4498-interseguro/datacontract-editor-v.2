@@ -558,6 +558,20 @@ export const es = {
     opMustBeGreaterOrEqual: 'Debe ser mayor o igual (≥)',
     opMustBeLessThan: 'Debe ser menor que (<)',
     opMustBeLessOrEqual: 'Debe ser menor o igual (≤)',
+    selectMetric: 'Seleccione métrica…',
+    validValuesOrPattern: 'Valores válidos (una por línea) O patrón',
+    validValuesOrPatternLead: 'Valores válidos O',
+    patternRegexLead: 'Patrón (regex)',
+    missingBeyondNull: 'Valores tratados como ausentes además de null',
+    acceptableValuesList: 'Lista de valores admisibles',
+    regexValidationHelp: 'Expresión regular para la validación',
+    dupColumnHint: 'Columnas para comprobar combinaciones duplicadas',
+    sqlPlaceholdersHint:
+      'Sugerencia: use {object} y {property} como marcadores de posición',
+    defaultRows: 'Predeterminado (filas)',
+    additionalDetails: 'Detalles adicionales',
+    enterNumeric: 'Introduzca un valor numérico',
+    selectOperatorFirst: 'Seleccione primero un operador',
   },
 
   ai: {
