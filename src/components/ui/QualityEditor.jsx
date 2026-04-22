@@ -469,48 +469,48 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Severity</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.severity}</label>
                     <input
                       type="text"
                       value={rule.severity || ''}
                       onChange={(e) => onUpdate(index, 'severity', e.target.value)}
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                      placeholder="e.g., critical, warning"
+                      placeholder={es.forms.severityExample}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Business Impact</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.businessImpact}</label>
                   <textarea
                     value={rule.businessImpact || ''}
                     onChange={(e) => onUpdate(index, 'businessImpact', e.target.value)}
                     rows={2}
                     className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                    placeholder="Consequences of rule failure"
+                    placeholder={es.forms.failureConsequences}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Scheduler</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.scheduler}</label>
                     <input
                       type="text"
                       value={rule.scheduler || ''}
                       onChange={(e) => onUpdate(index, 'scheduler', e.target.value)}
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                      placeholder="e.g., cron"
+                      placeholder={es.forms.cronExample}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Schedule</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">{es.qualityEditor.schedule}</label>
                     <input
                       type="text"
                       value={rule.schedule || ''}
                       onChange={(e) => onUpdate(index, 'schedule', e.target.value)}
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                      placeholder="e.g., 0 20 * * *"
+                      placeholder={es.forms.cronExprExample}
                     />
                   </div>
                 </div>

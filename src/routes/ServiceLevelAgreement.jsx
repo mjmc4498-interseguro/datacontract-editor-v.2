@@ -120,7 +120,7 @@ const ServiceLevelAgreement = () => {
                           required={true}
                           className="bg-white"
                           tooltip="SLA metric identifier"
-                          placeholder="latency"
+                          placeholder={es.forms.latencyExample}
                           validationKey={`sla.${index}.property`}
                           validationSection={es.validationSections.sla}
                         />
@@ -139,7 +139,7 @@ const ServiceLevelAgreement = () => {
                               value={sla?.value ?? ''}
                               onChange={(e) => updateSLA(index, 'value', e.target.value)}
                               className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                              placeholder="100"
+                              placeholder={es.forms.numberExample100}
                             />
                             <button
                               type="button"
@@ -167,7 +167,7 @@ const ServiceLevelAgreement = () => {
                             value={sla?.unit || ''}
                             onChange={(e) => updateSLA(index, 'unit', e.target.value)}
                             className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                            placeholder="ms"
+                            placeholder={es.forms.latencyUnitExample}
                           />
                         </div>
                         <div>
@@ -183,7 +183,7 @@ const ServiceLevelAgreement = () => {
                             options={schemaPropertySuggestions}
                             value={sla?.element || ''}
                             onChange={(selectedValue) => updateSLA(index, 'element', selectedValue || '')}
-                            placeholder="schema.property"
+                            placeholder={es.forms.schemaPropertyPathExample}
                             acceptAnyInput={true}
                             filterKey="name"
                             displayValue={(opt) => opt?.name || opt || ''}
@@ -202,7 +202,7 @@ const ServiceLevelAgreement = () => {
                             options={driverOptions}
                             value={sla?.driver || ''}
                             onChange={(selectedValue) => updateSLA(index, 'driver', selectedValue || '')}
-                            placeholder="Select driver..."
+                            placeholder={es.forms.selectDriver}
                             acceptAnyInput={true}
                           />
                         </div>
@@ -220,7 +220,7 @@ const ServiceLevelAgreement = () => {
                             value={sla?.scheduler || ''}
                             onChange={(e) => updateSLA(index, 'scheduler', e.target.value)}
                             className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                            placeholder="cron"
+                            placeholder={es.forms.cronPlaceholder}
                           />
                         </div>
                         <div>
@@ -237,7 +237,7 @@ const ServiceLevelAgreement = () => {
                             value={sla?.schedule || ''}
                             onChange={(e) => updateSLA(index, 'schedule', e.target.value)}
                             className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                            placeholder="0 20 * * *"
+                            placeholder={es.forms.cronScheduleExample}
                           />
                         </div>
                         <div className="sm:col-span-2">
@@ -254,7 +254,7 @@ const ServiceLevelAgreement = () => {
                             value={sla?.description || ''}
                             onChange={(e) => updateSLA(index, 'description', e.target.value)}
                             className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                            placeholder="Human-readable explanation..."
+                            placeholder={es.forms.humanReadableExplanation}
                           />
                         </div>
                       </div>

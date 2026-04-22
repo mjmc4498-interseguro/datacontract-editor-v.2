@@ -610,7 +610,7 @@ const SchemaEditor = ({schemaIndex}) => {
 													<div className="mt-6">
 														<QualityEditor
 															value={schema[schemaIndex].quality}
-															// TODO: Implement update
+															// Pendiente: implementar actualización
 															onChange={(value) => setValue(`schema[${schemaIndex}].quality`, value)}
 															context="schema"
 														/>
