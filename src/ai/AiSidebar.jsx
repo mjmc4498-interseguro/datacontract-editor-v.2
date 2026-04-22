@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useEditorStore } from '../store.js';
 import AiChat from './AiChat.jsx';
+import { es } from '../locale/es.js';
 
 const DEFAULT_WIDTH = 400;
 const MIN_WIDTH = 300;
@@ -88,7 +89,7 @@ export default function AiSidebar() {
 			<div
 				onMouseDown={handleMouseDown}
 				className="relative flex-shrink-0 cursor-col-resize w-px h-full bg-gray-300 hover:bg-blue-400 transition-colors"
-				title="Drag to resize"
+				title={es.ai.dragResize}
 			>
 				{/* Invisible wider hit area */}
 				<div className="absolute inset-y-0 -left-1 -right-1" />
@@ -100,7 +101,7 @@ export default function AiSidebar() {
 						<div className="flex items-center gap-2">
 							<SparklesIcon className="h-5 w-5 text-white" />
 							<h2 className="text-sm font-semibold text-white">
-								Data Contract Assistant
+								{es.ai.assistantTitle}
 							</h2>
 						</div>
 						<div className="flex items-center gap-1">
@@ -109,9 +110,9 @@ export default function AiSidebar() {
 									type="button"
 									onClick={resetAiChat}
 									className="rounded-md text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-white p-1"
-									title="New conversation"
+									title={es.ai.newConversation}
 								>
-									<span className="sr-only">New conversation</span>
+									<span className="sr-only">{es.ai.newConversation}</span>
 									<PlusIcon className="h-5 w-5" />
 								</button>
 							)}
@@ -119,9 +120,9 @@ export default function AiSidebar() {
 								type="button"
 								onClick={closeAiPanel}
 								className="rounded-md text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-white p-1"
-								title="Close panel"
+								title={es.ai.closePanel}
 							>
-								<span className="sr-only">Close panel</span>
+								<span className="sr-only">{es.ai.closePanel}</span>
 								<XIcon className="h-5 w-5" />
 							</button>
 						</div>

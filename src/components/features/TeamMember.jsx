@@ -7,6 +7,7 @@ import ValidatedInput from '../ui/ValidatedInput.jsx';
 import { useEditorStore } from '../../store.js';
 import { useCustomization, useIsPropertyHidden, useStandardPropertyOverride } from '../../hooks/useCustomization.js';
 import { CustomSections, UngroupedCustomProperties } from '../ui/CustomSection.jsx';
+import { es } from '../../locale/es.js';
 
 /**
  * TeamMember component for displaying and editing a single team member
@@ -115,7 +116,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
               maxLength={usernameOverride?.maxLength}
               className="bg-white"
               validationKey={`team.members.${index}.username`}
-              validationSection="Team Members"
+              validationSection={es.validationSections.teamMembers}
               data-1p-ignore
             />
           )}
@@ -263,7 +264,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
           context={memberContext}
           yamlParts={yamlParts}
           validationKeyPrefix={`team.members.${index}`}
-          validationSection="Team Members"
+          validationSection={es.validationSections.teamMembers}
         />
 
         {/* Ungrouped Custom Properties */}
@@ -275,7 +276,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
           context={memberContext}
           yamlParts={yamlParts}
           validationKeyPrefix={`team.members.${index}`}
-          validationSection="Team Members"
+          validationSection={es.validationSections.teamMembers}
         />
 
         {/* Custom Properties (raw key-value editor) */}

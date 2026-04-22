@@ -23,6 +23,7 @@ import {isExternalUrl, toAbsoluteUrl} from '../../lib/urlUtils.js';
 import {useDefinition} from '../../hooks/useDefinition.js';
 import PhysicalTypeCombobox from '../ui/TypeSelector/PhysicalTypeCombobox.jsx';
 import {useActiveServerType} from '../../hooks/useActiveServerType.js';
+import { es } from '../../locale/es.js';
 
 const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focusNonce, focusRelationshipTo }) => {
   const relationshipsSectionRef = useRef(null);
@@ -253,7 +254,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
       context={propertyContext}
       yamlParts={yamlParts}
       validationKeyPrefix={`schema.properties.${property.name}`}
-      validationSection="Schema Properties"
+      validationSection={es.validationSections.schemaProperties}
     />
   );
 
@@ -269,7 +270,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
       context={propertyContext}
       yamlParts={yamlParts}
       validationKeyPrefix={`schema.properties.${property.name}`}
-      validationSection="Schema Properties"
+      validationSection={es.validationSections.schemaProperties}
     />
   );
 
@@ -1266,7 +1267,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
         context={propertyContext}
         yamlParts={yamlParts}
         validationKeyPrefix={`schema.properties.${property.name}`}
-        validationSection="Schema Properties"
+        validationSection={es.validationSections.schemaProperties}
       />
 
       {/* Ungrouped Custom Properties */}
@@ -1278,7 +1279,7 @@ const PropertyDetailsPanel = ({ property, onUpdate, onDelete, focusSection, focu
         context={propertyContext}
         yamlParts={yamlParts}
         validationKeyPrefix={`schema.properties.${property.name}`}
-        validationSection="Schema Properties"
+        validationSection={es.validationSections.schemaProperties}
       />
 
       {/* Custom Properties Section (raw key-value editor) */}

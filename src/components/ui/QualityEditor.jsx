@@ -4,6 +4,7 @@ import { getSchemaEnumValues } from '../../lib/schemaEnumExtractor.js';
 import ValidatedCombobox from './ValidatedCombobox.jsx';
 import ChevronDownIcon from './icons/ChevronDownIcon.jsx';
 import ChevronRightIcon from './icons/ChevronRightIcon.jsx';
+import { es } from '../../locale/es.js';
 
 /**
  * QualityEditor - Custom component for editing ODCS 3.1.0 quality rules
@@ -408,7 +409,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                       return found ? found.label : val || '';
                     }}
                     validationKey={`quality.${index}.operator`}
-                    validationSection="Quality"
+                    validationSection={es.validationSections.quality}
                   />
                 </div>
 

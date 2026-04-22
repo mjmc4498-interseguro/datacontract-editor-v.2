@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { es } from '../../locale/es.js';
 import { createPortal } from 'react-dom';
 
 const Modal = ({
@@ -8,8 +9,8 @@ const Modal = ({
   children,
   onConfirm,
   onCancel,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText = es.modal.confirm,
+  cancelText = es.modal.cancel,
   type = 'default' // 'default', 'warning', 'danger'
 }) => {
   // Handle ESC key press

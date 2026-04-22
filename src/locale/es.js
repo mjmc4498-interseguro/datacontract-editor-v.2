@@ -72,6 +72,45 @@ export const es = {
     customProperties: 'Propiedades personalizadas',
   },
 
+  validationSections: {
+    overview: 'Resumen',
+    termsOfUse: 'Términos de uso',
+    team: 'Equipo',
+    teamMembers: 'Miembros del equipo',
+    support: 'Soporte',
+    sla: 'ANS',
+    quality: 'Calidad',
+    servers: 'Servidores',
+    schema: 'Esquema',
+    schemaProperties: 'Propiedades del esquema',
+    roles: 'Roles',
+  },
+
+  termsOfUseForm: {
+    sectionIntro:
+      'Descripción de alto nivel del conjunto de datos: finalidad, pautas de uso y limitaciones.',
+    purpose: 'Finalidad',
+    purposeTooltip: 'Finalidad prevista de los datos descritos en este contrato.',
+    purposePlaceholder: 'Describa la finalidad de este contrato de datos…',
+    usage: 'Uso',
+    usageTooltip: 'Cómo deben utilizarse estos datos.',
+    usagePlaceholder: 'Describa cómo deben utilizarse estos datos…',
+    limitations: 'Limitaciones',
+    limitationsTooltip:
+      'Limitaciones técnicas, de cumplimiento y legales sobre el uso de los datos.',
+    limitationsPlaceholder: 'Describa limitaciones o restricciones…',
+  },
+
+  descriptionPreview: {
+    showMore: 'Mostrar más…',
+    showLess: 'Mostrar menos',
+    termsIntro:
+      'Descripción de alto nivel del conjunto de datos: finalidad, pautas de uso y limitaciones.',
+    purpose: 'Finalidad',
+    usage: 'Uso',
+    limitations: 'Limitaciones',
+  },
+
   formError: {
     title: 'Error en el formulario',
     intro: (pageName) =>
@@ -362,6 +401,18 @@ export const es = {
     scope: 'Ámbito',
     description: 'Descripción',
     invitationUrl: 'URL de invitación',
+    teamListDescription: 'Esta sección muestra la información del equipo y sus miembros.',
+    teamDateIn: 'Entrada',
+    teamDateOut: 'Salida',
+    teamReplacedBy: (name) => `Sustituido por: ${name}`,
+    invitationLink: 'Invitación',
+    slaFieldProperty: 'Propiedad',
+    slaFieldValue: 'Valor',
+    slaFieldUnit: 'Unidad',
+    slaFieldElements: 'Elemento(s)',
+    slaFieldDriver: 'Controlador',
+    slaFieldScheduler: 'Planificador',
+    slaFieldSchedule: 'Programación',
   },
 
   ai: {
@@ -369,6 +420,7 @@ export const es = {
     assistantTitle: 'Asistente de contratos de datos',
     newConversation: 'Nueva conversación',
     closePanel: 'Cerrar panel',
+    dragResize: 'Arrastrar para redimensionar',
   },
 
   aria: {

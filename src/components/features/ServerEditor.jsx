@@ -11,6 +11,7 @@ import RolesList from '../features/RolesList.jsx';
 import {useShallow} from "zustand/react/shallow";
 import { convertEnumToOptions, useCustomization, useIsPropertyHidden, useStandardPropertyOverride } from '../../hooks/useCustomization.js';
 import { CustomSections, UngroupedCustomProperties } from '../ui/CustomSection.jsx';
+import { es } from '../../locale/es.js';
 
 const ServerEditor = ({ serverIndex }) => {
 	const servers = useEditorStore(useShallow((state) => state.getValue('servers'))) || {};
@@ -267,7 +268,7 @@ const ServerEditor = ({ serverIndex }) => {
                     minLength={serverOverride?.minLength}
                     maxLength={serverOverride?.maxLength}
                     validationKey={`servers.${serverIndex}.server`}
-                    validationSection="Servers"
+                    validationSection={es.validationSections.servers}
                   />
                 )}
                 {!isEnvironmentHidden && (
@@ -320,7 +321,7 @@ const ServerEditor = ({ serverIndex }) => {
                       placeholder={typeOverride?.placeholder || "Select server type..."}
                       acceptAnyInput={!typeOverride?.enum}
                       validationKey={`servers.${serverIndex}.type`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                       renderSelectedIcon={(value) => {
                         const IconComponent = serverIcons[value];
                         return IconComponent ? (
@@ -363,7 +364,7 @@ const ServerEditor = ({ serverIndex }) => {
                         className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
                         placeholder="my-project"
                         validationKey={`servers.${serverIndex}.project`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                     <div>
@@ -380,7 +381,7 @@ const ServerEditor = ({ serverIndex }) => {
                         className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
                         placeholder="my_dataset"
                         validationKey={`servers.${serverIndex}.dataset`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                   </>
@@ -402,7 +403,7 @@ const ServerEditor = ({ serverIndex }) => {
                         className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
                         placeholder="account-name"
                         validationKey={`servers.${serverIndex}.account`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                     <div>
@@ -419,7 +420,7 @@ const ServerEditor = ({ serverIndex }) => {
                         className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
                         placeholder="MY_DATABASE"
                         validationKey={`servers.${serverIndex}.database`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                     <div>
@@ -436,7 +437,7 @@ const ServerEditor = ({ serverIndex }) => {
                         className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
                         placeholder="MY_SCHEMA"
                         validationKey={`servers.${serverIndex}.schema`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
 										<div>
@@ -468,7 +469,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -479,7 +480,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="5432"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -489,7 +490,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="postgres"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -499,7 +500,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="public"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -515,7 +516,7 @@ const ServerEditor = ({ serverIndex }) => {
                         required={true}
                         placeholder="s3://bucket-name/path"
                         validationKey={`servers.${serverIndex}.location`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                     <div>
@@ -555,7 +556,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -565,7 +566,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="public"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -592,7 +593,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="hive_metastore"
                       validationKey={`servers.${serverIndex}.catalog`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -602,7 +603,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -629,7 +630,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="abfss://container@storage.dfs.core.windows.net/path"
                       validationKey={`servers.${serverIndex}.location`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="format"
@@ -639,7 +640,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="parquet"
                       validationKey={`servers.${serverIndex}.format`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -666,7 +667,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="123456789012"
                       validationKey={`servers.${serverIndex}.account`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -676,7 +677,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="my_database"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -703,7 +704,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="s3://bucket/athena-results/"
                       validationKey={`servers.${serverIndex}.stagingDir`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -713,7 +714,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -740,7 +741,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="broker:9092"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -767,7 +768,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="workspace.sql.azuresynapse.net"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -778,7 +779,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="1433"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -788,7 +789,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -804,7 +805,7 @@ const ServerEditor = ({ serverIndex }) => {
                         required={true}
                         placeholder="https://api.example.com/v1"
                         validationKey={`servers.${serverIndex}.location`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                   </>
@@ -820,7 +821,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -831,7 +832,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="9000"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -841,7 +842,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -856,7 +857,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -867,7 +868,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="3306"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -877,7 +878,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -887,7 +888,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="public"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -902,7 +903,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -913,7 +914,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="50000"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -923,7 +924,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -938,7 +939,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -949,7 +950,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="9999"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -964,7 +965,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -975,7 +976,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="31010"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -990,7 +991,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="/path/to/database.duckdb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1005,7 +1006,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -1015,7 +1016,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1050,7 +1051,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="/path/to/data"
                       validationKey={`servers.${serverIndex}.path`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="format"
@@ -1060,7 +1061,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="csv"
                       validationKey={`servers.${serverIndex}.format`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1075,7 +1076,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -1086,7 +1087,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="3306"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -1096,7 +1097,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1111,7 +1112,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -1122,7 +1123,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="1521"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="serviceName"
@@ -1132,7 +1133,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="ORCL"
                       validationKey={`servers.${serverIndex}.serviceName`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1148,7 +1149,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1163,7 +1164,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="my-project"
                       validationKey={`servers.${serverIndex}.project`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1179,7 +1180,7 @@ const ServerEditor = ({ serverIndex }) => {
                         required={true}
                         placeholder="sftp://host/path/to/file"
                         validationKey={`servers.${serverIndex}.location`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                   </>
@@ -1195,7 +1196,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -1206,7 +1207,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="8080"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="catalog"
@@ -1216,7 +1217,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="hive"
                       validationKey={`servers.${serverIndex}.catalog`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -1226,7 +1227,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1241,7 +1242,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="port"
@@ -1252,7 +1253,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="5433"
                       validationKey={`servers.${serverIndex}.port`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="database"
@@ -1262,7 +1263,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -1272,7 +1273,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="public"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1288,7 +1289,7 @@ const ServerEditor = ({ serverIndex }) => {
                         required={true}
                         placeholder="gs://bucket-name/path"
                         validationKey={`servers.${serverIndex}.location`}
-                        validationSection="Servers"
+                        validationSection={es.validationSections.servers}
                       />
                     </div>
                     <div>
@@ -1328,7 +1329,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -1350,7 +1351,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1365,7 +1366,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -1387,7 +1388,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="default"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1402,7 +1403,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -1424,7 +1425,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <ValidatedInput
                       name="schema"
@@ -1434,7 +1435,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="dbo"
                       validationKey={`servers.${serverIndex}.schema`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1449,7 +1450,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="localhost"
                       validationKey={`servers.${serverIndex}.host`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                     <div>
                       <label className="block text-xs font-medium leading-4 text-gray-900 mb-1">
@@ -1471,7 +1472,7 @@ const ServerEditor = ({ serverIndex }) => {
                       required={true}
                       placeholder="mydb"
                       validationKey={`servers.${serverIndex}.database`}
-                      validationSection="Servers"
+                      validationSection={es.validationSections.servers}
                     />
                   </>
                 )}
@@ -1716,7 +1717,7 @@ const ServerEditor = ({ serverIndex }) => {
                     context={serverContext}
                     yamlParts={yamlParts}
                     validationKeyPrefix={`servers.${serverIndex}`}
-                    validationSection="Servers"
+                    validationSection={es.validationSections.servers}
                   />
                 </div>
 
@@ -1730,7 +1731,7 @@ const ServerEditor = ({ serverIndex }) => {
                     context={serverContext}
                     yamlParts={yamlParts}
                     validationKeyPrefix={`servers.${serverIndex}`}
-                    validationSection="Servers"
+                    validationSection={es.validationSections.servers}
                   />
                 </div>
 

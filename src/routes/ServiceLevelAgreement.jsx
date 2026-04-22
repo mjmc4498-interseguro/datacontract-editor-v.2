@@ -4,6 +4,7 @@ import { Combobox, Tooltip } from '../components/ui/index.js';
 import ValidatedInput from '../components/ui/ValidatedInput.jsx';
 import QuestionMarkCircleIcon from '../components/ui/icons/QuestionMarkCircleIcon.jsx';
 import {useShallow} from "zustand/react/shallow";
+import { es } from '../locale/es.js';
 
 const ServiceLevelAgreement = () => {
 	const slaProperties = useEditorStore(useShallow((state) => state.getValue('slaProperties'))) || [];
@@ -121,7 +122,7 @@ const ServiceLevelAgreement = () => {
                           tooltip="SLA metric identifier"
                           placeholder="latency"
                           validationKey={`sla.${index}.property`}
-                          validationSection="SLA"
+                          validationSection={es.validationSections.sla}
                         />
                         <div>
                           <div className="flex items-center gap-1 mb-1">

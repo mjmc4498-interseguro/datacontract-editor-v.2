@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import Combobox from './Combobox.jsx';
 import Tooltip from './Tooltip.jsx';
 import QuestionMarkCircleIcon from './icons/QuestionMarkCircleIcon.jsx';
+import { es } from '../../locale/es.js';
 
 
 /**
@@ -16,7 +17,7 @@ const ValidatedCombobox = forwardRef(({
   options = [],
   required = false,
   tooltip,
-  placeholder = "Select an option...",
+  placeholder = es.combobox.defaultPlaceholder,
   className = '',
   externalErrors = [],
   displayValue,
@@ -49,10 +50,10 @@ const ValidatedCombobox = forwardRef(({
   // Prepare error messages
   const errorMessages = [];
   if (hasInternalError) {
-    errorMessages.push('This field is required');
+    errorMessages.push(es.validated.fieldRequired);
   }
   if (hasPatternError) {
-    errorMessages.push(patternMessage || `Value must match pattern: ${pattern}`);
+    errorMessages.push(patternMessage || es.validated.patternFallback(pattern));
   }
   errorMessages.push(...externalErrors);
 
@@ -70,7 +71,7 @@ const ValidatedCombobox = forwardRef(({
           </Tooltip>
         )}
         {required && (
-          <span className="ml-auto text-xs leading-4 text-gray-500">Required</span>
+          <span className="ml-auto text-xs leading-4 text-gray-500">{es.common.required}</span>
         )}
       </div>
       <Combobox

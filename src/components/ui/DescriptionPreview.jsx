@@ -5,6 +5,7 @@ import { IconResolver } from './IconResolver.jsx';
 import QuestionMarkCircleIcon from './icons/QuestionMarkCircleIcon.jsx';
 import {useEditorStore} from "../../store.js";
 import {useShallow} from "zustand/react/shallow";
+import { es } from '../../locale/es.js';
 
 const hasHeadline = (text) => /^#{1,6}\s/m.test(text || '');
 const LINE_HEIGHT_REM = 1.25;
@@ -43,7 +44,7 @@ const MarkdownField = ({ id, label, text }) => {
                 onClick={() => setExpanded(!expanded)}
                 className="mt-0.5 mb-3 text-xs text-indigo-600 hover:text-indigo-800 cursor-pointer"
               >
-                {expanded ? 'Show less' : 'Show more...'}
+                {expanded ? es.descriptionPreview.showLess : es.descriptionPreview.showMore}
               </button>
             )}
           </>
@@ -74,8 +75,8 @@ const DescriptionPreview = () => {
   return (
     <section>
       <div className="px-4 sm:px-0">
-        <h1 className="text-base font-semibold leading-6 text-gray-900" id="terms-of-use">Terms of Use</h1>
-        <p className="text-sm text-gray-500">High level description of the dataset including purpose, usage guidelines, and limitations</p>
+        <h1 className="text-base font-semibold leading-6 text-gray-900" id="terms-of-use">{es.pages.termsOfUse}</h1>
+        <p className="text-sm text-gray-500">{es.descriptionPreview.termsIntro}</p>
       </div>
       <div className="mt-2 overflow-hidden shadow sm:rounded-lg bg-white">
         <div className="px-4 py-4 sm:px-6">
@@ -104,15 +105,15 @@ const DescriptionPreview = () => {
 
           <div className="flex flex-col gap-3">
             {description.purpose && (
-              <MarkdownField id="description-purpose" label="Purpose" text={description.purpose} />
+              <MarkdownField id="description-purpose" label={es.descriptionPreview.purpose} text={description.purpose} />
             )}
 
             {description.usage && (
-              <MarkdownField id="description-usage" label="Usage" text={description.usage} />
+              <MarkdownField id="description-usage" label={es.descriptionPreview.usage} text={description.usage} />
             )}
 
             {description.limitations && (
-              <MarkdownField id="description-limitations" label="Limitations" text={description.limitations} />
+              <MarkdownField id="description-limitations" label={es.descriptionPreview.limitations} text={description.limitations} />
             )}
 
             {hasCustomProperties && (() => {
@@ -125,7 +126,7 @@ const DescriptionPreview = () => {
                   }));
               return (
                 <div>
-                  <div className="text-sm font-medium text-gray-500 mb-2">Custom Properties</div>
+                  <div className="text-sm font-medium text-gray-500 mb-2">{es.preview.customPropertiesTitle}</div>
                   <div className="flex flex-wrap gap-x-4 gap-y-2">
                     {normalizedCustomProps.map((customProp, index) => (
                       <div key={index} className="min-w-0">

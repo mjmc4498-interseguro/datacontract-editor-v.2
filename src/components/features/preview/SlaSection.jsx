@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import {useEditorStore} from "../../../store.js";
 import {useShallow} from "zustand/react/shallow";
+import { es } from '../../../locale/es.js';
 
 // Memoized SLA Item component
 const SlaItem = memo(({ sla }) => {
@@ -10,7 +11,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.property && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Property</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldProperty}</dt>
 							<dd className="mt-1 text-sm font-medium text-gray-900">{sla.property}</dd>
 						</div>
 					</div>
@@ -18,7 +19,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.value !== undefined && sla.value !== null && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Value</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldValue}</dt>
 							<dd className="mt-1 text-sm font-medium text-gray-900">{sla.value}</dd>
 						</div>
 					</div>
@@ -26,7 +27,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.unit && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Unit</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldUnit}</dt>
 							<dd className="mt-1 text-sm text-gray-900">{sla.unit}</dd>
 						</div>
 					</div>
@@ -34,7 +35,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.element && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Element(s)</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldElements}</dt>
 							<dd className="mt-1 text-sm text-gray-900">{sla.element}</dd>
 						</div>
 					</div>
@@ -42,7 +43,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.driver && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Driver</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldDriver}</dt>
 							<dd className="mt-1 text-sm text-gray-900">{sla.driver}</dd>
 						</div>
 					</div>
@@ -50,7 +51,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.scheduler && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Scheduler</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldScheduler}</dt>
 							<dd className="mt-1 text-sm text-gray-900">{sla.scheduler}</dd>
 						</div>
 					</div>
@@ -58,7 +59,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.schedule && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Schedule</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.slaFieldSchedule}</dt>
 							<dd className="mt-1 text-sm text-gray-900 font-mono">{sla.schedule}</dd>
 						</div>
 					</div>
@@ -66,7 +67,7 @@ const SlaItem = memo(({ sla }) => {
 				{sla.description && (
 					<div className="flex items-center gap-x-4">
 						<div className="flex flex-col">
-							<dt className="text-sm font-medium text-gray-500">Description</dt>
+							<dt className="text-sm font-medium text-gray-500">{es.preview.description}</dt>
 							<dd className="mt-1 text-sm text-gray-900">{sla.description}</dd>
 						</div>
 					</div>
@@ -92,9 +93,8 @@ const SlaSection = () => {
 	return (
 		<section>
 			<div className="px-4 sm:px-0">
-				<h1 className="text-base font-semibold leading-6 text-gray-900" id="sla">Service-Level Agreement
-					(SLA)</h1>
-				<p className="text-sm text-gray-500">This section describes the service-level agreements (SLA).</p>
+				<h1 className="text-base font-semibold leading-6 text-gray-900" id="sla">{es.preview.slaTitle}</h1>
+				<p className="text-sm text-gray-500">{es.preview.slaSubtitle}</p>
 			</div>
 			<ul role="list"
 					className="mt-2 divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-lg">

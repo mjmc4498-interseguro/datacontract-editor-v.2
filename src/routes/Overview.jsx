@@ -169,7 +169,7 @@ const Overview = () => {
 										minLength={nameOverride?.minLength}
 										maxLength={nameOverride?.maxLength}
 										validationKey="root.name"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 										data-1p-ignore
 									/>
 								)}
@@ -189,7 +189,7 @@ const Overview = () => {
 										minLength={versionOverride?.minLength}
 										maxLength={versionOverride?.maxLength}
 										validationKey="root.version"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 									/>
 								)}
 
@@ -208,7 +208,7 @@ const Overview = () => {
 										minLength={idOverride?.minLength}
 										maxLength={idOverride?.maxLength}
 										validationKey="root.id"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 									/>
 								)}
 
@@ -228,7 +228,7 @@ const Overview = () => {
 										pattern={statusOverride?.pattern}
 										patternMessage={statusOverride?.patternMessage}
 										validationKey="root.status"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 									/>
 								)}
 
@@ -247,7 +247,7 @@ const Overview = () => {
 										pattern={tenantOverride?.pattern}
 										patternMessage={tenantOverride?.patternMessage}
 										validationKey="root.tenant"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 									/>
 								)}
 
@@ -266,7 +266,7 @@ const Overview = () => {
 										pattern={domainOverride?.pattern}
 										patternMessage={domainOverride?.patternMessage}
 										validationKey="root.domain"
-										validationSection="Overview"
+										validationSection={es.validationSections.overview}
 									/>
 								)}
 
@@ -307,7 +307,7 @@ const Overview = () => {
 								context={rootContext}
 								yamlParts={yamlParts}
 								validationKeyPrefix="root"
-								validationSection="Overview"
+								validationSection={es.validationSections.overview}
 							/>
 						</div>
 					)}
@@ -321,7 +321,7 @@ const Overview = () => {
 						context={rootContext}
 						yamlParts={yamlParts}
 						validationKeyPrefix="root"
-						validationSection="Overview"
+						validationSection={es.validationSections.overview}
 					/>
 
 				</div>

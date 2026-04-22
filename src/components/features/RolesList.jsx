@@ -7,6 +7,7 @@ import QuestionMarkCircleIcon from '../ui/icons/QuestionMarkCircleIcon.jsx';
 import { useEditorStore } from '../../store.js';
 import { useCustomization, useIsPropertyHidden, useStandardPropertyOverride } from '../../hooks/useCustomization.js';
 import { CustomSections, UngroupedCustomProperties } from '../ui/CustomSection.jsx';
+import { es } from '../../locale/es.js';
 
 const RolesList = ({ roles = [], onUpdate, className = '', serverName = null }) => {
   const [lastAddedIndex, setLastAddedIndex] = useState(null);
@@ -191,7 +192,7 @@ const RoleItem = ({ roleItem, index, updateRole, removeRole, roleInputRefs }) =>
                           className="bg-white"
                           externalErrors={[]}
                           validationKey={`roles.${index}.role`}
-                          validationSection="Roles"
+                          validationSection={es.validationSections.roles}
                         />
                       </div>
                     )}
@@ -287,7 +288,7 @@ const RoleItem = ({ roleItem, index, updateRole, removeRole, roleInputRefs }) =>
                     context={roleContext}
                     yamlParts={yamlParts}
                     validationKeyPrefix={`roles.${index}`}
-                    validationSection="Roles"
+                    validationSection={es.validationSections.roles}
                   />
                 </div>
 
@@ -301,7 +302,7 @@ const RoleItem = ({ roleItem, index, updateRole, removeRole, roleInputRefs }) =>
                     context={roleContext}
                     yamlParts={yamlParts}
                     validationKeyPrefix={`roles.${index}`}
-                    validationSection="Roles"
+                    validationSection={es.validationSections.roles}
                   />
                 </div>
 

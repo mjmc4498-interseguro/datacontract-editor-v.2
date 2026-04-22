@@ -1,5 +1,6 @@
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react'
 import { useState } from 'react'
+import { es } from '../../locale/es.js'
 
 // Placeholder ChevronDown icon component
 const ChevronDownIcon = ({ className }) => (
@@ -13,7 +14,7 @@ const ComboboxComponent = ({
   options = [],
   value,
   onChange,
-  placeholder = "Select an option...",
+  placeholder = es.combobox.defaultPlaceholder,
   displayValue = (item) => item?.name || item?.label || item || '',
   renderOption = null, // New prop for custom option rendering
   renderSelectedIcon = null, // New prop for rendering icon next to selected value
@@ -79,7 +80,7 @@ const ComboboxComponent = ({
           className={`block w-full rounded-md border-0 py-1.5 ${renderSelectedIcon && value ? 'pl-9' : 'pl-2'} pr-8 text-gray-900 bg-white shadow-sm ring-1 ring-inset ${hasError ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-indigo-600'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 text-xs leading-4`}
           onChange={handleInputChange}
           onBlur={() => setQuery('')}
-          displayValue={acceptAnyInput ? (item) => item || '' : displayValue}
+          displayValue={acceptAnyInput ? (displayValue || ((item) => item || '')) : displayValue}
           placeholder={placeholder}
         />
         <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
@@ -118,7 +119,7 @@ const ComboboxComponent = ({
           {/* Show message when no options available and no query */}
           {filteredOptions.length === 0 && !query && (
             <div className="px-3 py-2 text-gray-500 text-xs">
-              {acceptAnyInput ? 'Type to enter a value or select from options' : 'No options available'}
+              {acceptAnyInput ? es.combobox.typeOrSelect : es.combobox.noOptions}
             </div>
           )}
         </ComboboxOptions>

@@ -8,6 +8,7 @@ import { SparkleButton } from '../ai/index.js';
 import { useShallow } from "zustand/react/shallow";
 import { useCustomization, useStandardPropertyOverride, useIsPropertyHidden } from '../hooks/useCustomization.js';
 import { CustomSections, UngroupedCustomProperties } from '../components/ui/CustomSection.jsx';
+import { es } from '../locale/es.js';
 
 const TermsOfUse = () => {
 	const description = useEditorStore(useShallow((state) => state.getValue('description'))) || {};
@@ -82,28 +83,28 @@ const TermsOfUse = () => {
 
           {/* Terms of Use Section */}
           <div>
-            <h3 className="text-base font-semibold leading-6 text-gray-900">Terms of Use</h3>
-            <p className="mt-1 text-xs leading-4 text-gray-500 mb-4">High level description of the dataset including purpose, usage guidelines, and limitations.</p>
+            <h3 className="text-base font-semibold leading-6 text-gray-900">{es.pages.termsOfUse}</h3>
+            <p className="mt-1 text-xs leading-4 text-gray-500 mb-4">{es.termsOfUseForm.sectionIntro}</p>
             <div className="space-y-3">
               {/* Purpose Field */}
               {!isPurposeHidden && (
                 <MarkdownEditor
                   name="description-purpose"
-                  label={purposeOverride?.title || 'Purpose'}
+                  label={purposeOverride?.title || es.termsOfUseForm.purpose}
                   value={description?.purpose}
                   onChange={(value) => setYamlValue('description.purpose', value)}
                   required={purposeOverride?.required}
                   minLength={purposeOverride?.minLength}
                   maxLength={purposeOverride?.maxLength}
-                  tooltip={purposeOverride?.description || "Intended purpose for the provided data"}
-                  placeholder={purposeOverride?.placeholder || "Describe the purpose of this data contract..."}
+                  tooltip={purposeOverride?.description || es.termsOfUseForm.purposeTooltip}
+                  placeholder={purposeOverride?.placeholder || es.termsOfUseForm.purposePlaceholder}
                   actions={
                     <SparkleButton
-                      fieldName={purposeOverride?.title || "Purpose"}
+                      fieldName={purposeOverride?.title || es.termsOfUseForm.purpose}
                       fieldPath="description.purpose"
                       currentValue={description?.purpose}
                       onSuggestion={(value) => setYamlValue('description.purpose', value)}
-                      placeholder={purposeOverride?.description || "Intended purpose for the provided data"}
+                      placeholder={purposeOverride?.description || es.termsOfUseForm.purposeTooltip}
                     />
                   }
                 />
@@ -113,21 +114,21 @@ const TermsOfUse = () => {
               {!isUsageHidden && (
                 <MarkdownEditor
                   name="description-usage"
-                  label={usageOverride?.title || 'Usage'}
+                  label={usageOverride?.title || es.termsOfUseForm.usage}
                   value={description?.usage}
                   onChange={(value) => setYamlValue('description.usage', value)}
                   required={usageOverride?.required}
                   minLength={usageOverride?.minLength}
                   maxLength={usageOverride?.maxLength}
-                  tooltip={usageOverride?.description || "How this data should be used"}
-                  placeholder={usageOverride?.placeholder || "Describe how to use this data..."}
+                  tooltip={usageOverride?.description || es.termsOfUseForm.usageTooltip}
+                  placeholder={usageOverride?.placeholder || es.termsOfUseForm.usagePlaceholder}
                   actions={
                     <SparkleButton
-                      fieldName={usageOverride?.title || "Usage"}
+                      fieldName={usageOverride?.title || es.termsOfUseForm.usage}
                       fieldPath="description.usage"
                       currentValue={description?.usage}
                       onSuggestion={(value) => setYamlValue('description.usage', value)}
-                      placeholder={usageOverride?.description || "How this data should be used"}
+                      placeholder={usageOverride?.description || es.termsOfUseForm.usageTooltip}
                     />
                   }
                 />
@@ -137,21 +138,21 @@ const TermsOfUse = () => {
               {!isLimitationsHidden && (
                 <MarkdownEditor
                   name="description-limitations"
-                  label={limitationsOverride?.title || 'Limitations'}
+                  label={limitationsOverride?.title || es.termsOfUseForm.limitations}
                   value={description?.limitations}
                   onChange={(value) => setYamlValue('description.limitations', value)}
                   required={limitationsOverride?.required}
                   minLength={limitationsOverride?.minLength}
                   maxLength={limitationsOverride?.maxLength}
-                  tooltip={limitationsOverride?.description || "Technical, compliance, and legal limitations for data use"}
-                  placeholder={limitationsOverride?.placeholder || "Describe any limitations or constraints..."}
+                  tooltip={limitationsOverride?.description || es.termsOfUseForm.limitationsTooltip}
+                  placeholder={limitationsOverride?.placeholder || es.termsOfUseForm.limitationsPlaceholder}
                   actions={
                     <SparkleButton
-                      fieldName={limitationsOverride?.title || "Limitations"}
+                      fieldName={limitationsOverride?.title || es.termsOfUseForm.limitations}
                       fieldPath="description.limitations"
                       currentValue={description?.limitations}
                       onSuggestion={(value) => setYamlValue('description.limitations', value)}
-                      placeholder={limitationsOverride?.description || "Technical, compliance, and legal limitations for data use"}
+                      placeholder={limitationsOverride?.description || es.termsOfUseForm.limitationsTooltip}
                     />
                   }
                 />
@@ -177,7 +178,7 @@ const TermsOfUse = () => {
                   context={descriptionContext}
                   yamlParts={yamlParts}
                   validationKeyPrefix="description"
-                  validationSection="Terms of Use"
+                  validationSection={es.validationSections.termsOfUse}
                 />
               )}
 
@@ -190,7 +191,7 @@ const TermsOfUse = () => {
                 context={descriptionContext}
                 yamlParts={yamlParts}
                 validationKeyPrefix="description"
-                validationSection="Terms of Use"
+                validationSection={es.validationSections.termsOfUse}
               />
 
               {/* Fallback Custom Properties Editor (only if no custom schema defined) */}

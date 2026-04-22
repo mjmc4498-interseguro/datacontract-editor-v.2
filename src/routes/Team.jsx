@@ -10,6 +10,7 @@ import { useCustomization, useIsPropertyHidden, useStandardPropertyOverride, con
 import { CustomSections, UngroupedCustomProperties } from '../components/ui/CustomSection.jsx';
 import ValidatedInput from '../components/ui/ValidatedInput.jsx';
 import { ValidatedCombobox } from '../components/ui/index.js';
+import { es } from '../locale/es.js';
 
 const Team = () => {
 	const team = useEditorStore(useShallow((state) => state.getValue('team')))
@@ -236,7 +237,7 @@ const Team = () => {
                 context={teamContext}
                 yamlParts={yamlParts}
                 validationKeyPrefix="team"
-                validationSection="Team"
+                validationSection={es.validationSections.team}
               />
 
               {/* Ungrouped Custom Properties */}
@@ -248,7 +249,7 @@ const Team = () => {
                 context={teamContext}
                 yamlParts={yamlParts}
                 validationKeyPrefix="team"
-                validationSection="Team"
+                validationSection={es.validationSections.team}
               />
 
               {/* Team Custom Properties (raw key-value editor) */}

@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import Tooltip from './Tooltip.jsx';
 import QuestionMarkCircleIcon from "./icons/QuestionMarkCircleIcon.jsx";
+import { es } from '../../locale/es.js';
 
 
 /**
@@ -55,22 +56,22 @@ const ValidatedInput = forwardRef(({
   // Combine internal and external errors
   const errorMessages = [];
   if (hasInternalError) {
-    errorMessages.push('This field is required');
+    errorMessages.push(es.validated.fieldRequired);
   }
   if (hasPatternError) {
-    errorMessages.push(patternMessage || `Value must match pattern: ${pattern}`);
+    errorMessages.push(patternMessage || es.validated.patternFallback(pattern));
   }
   if (hasMinLengthError) {
-    errorMessages.push(`Minimum length is ${minLength} (currently ${trimmed.length})`);
+    errorMessages.push(es.validated.minLength(minLength, trimmed.length));
   }
   if (hasMaxLengthError) {
-    errorMessages.push(`Maximum length is ${maxLength} (currently ${trimmed.length})`);
+    errorMessages.push(es.validated.maxLength(maxLength, trimmed.length));
   }
   if (hasMinimumError) {
-    errorMessages.push(`Minimum value is ${minimum}`);
+    errorMessages.push(es.validated.minValue(minimum));
   }
   if (hasMaximumError) {
-    errorMessages.push(`Maximum value is ${maximum}`);
+    errorMessages.push(es.validated.maxValue(maximum));
   }
   errorMessages.push(...externalErrors);
 
@@ -93,7 +94,7 @@ const ValidatedInput = forwardRef(({
           </Tooltip>
         )}
         {required && (
-          <span className="ml-auto text-xs leading-4 text-gray-500">Required</span>
+          <span className="ml-auto text-xs leading-4 text-gray-500">{es.common.required}</span>
         )}
       </div>
       <input

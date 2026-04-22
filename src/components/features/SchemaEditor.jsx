@@ -20,6 +20,7 @@ import {useSchemaOperations} from './schema/useSchemaOperations.js';
 import {useCustomization, useIsPropertyHidden, useStandardPropertyOverride} from '../../hooks/useCustomization.js';
 import {CustomSections, UngroupedCustomProperties} from '../ui/CustomSection.jsx';
 import {DefinitionSelectionModal} from '../ui/DefinitionSelectionModal.jsx';
+import { es } from '../../locale/es.js';
 import {
 	DndContext,
 	closestCenter,
@@ -437,7 +438,7 @@ const SchemaEditor = ({schemaIndex}) => {
 											minLength={nameOverride?.minLength}
 											maxLength={nameOverride?.maxLength}
 											validationKey={`schema.${schemaIndex}.name`}
-											validationSection="Schema"
+											validationSection={es.validationSections.schema}
 										/>
 									)}
 
@@ -643,7 +644,7 @@ const SchemaEditor = ({schemaIndex}) => {
 															context={schemaContext}
 															yamlParts={yamlParts}
 															validationKeyPrefix={`schema.${schemaIndex}`}
-															validationSection="Schema"
+															validationSection={es.validationSections.schema}
 														/>
 													</div>
 
@@ -657,7 +658,7 @@ const SchemaEditor = ({schemaIndex}) => {
 															context={schemaContext}
 															yamlParts={yamlParts}
 															validationKeyPrefix={`schema.${schemaIndex}`}
-															validationSection="Schema"
+															validationSection={es.validationSections.schema}
 														/>
 													</div>
 

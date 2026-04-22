@@ -8,6 +8,7 @@ import CustomPropertiesPreview from '../../ui/CustomPropertiesPreview.jsx';
 import QuestionMarkCircleIcon from '../../ui/icons/QuestionMarkCircleIcon.jsx';
 import {useEditorStore} from "../../../store.js";
 import {useShallow} from "zustand/react/shallow";
+import { es } from '../../../locale/es.js';
 
 // Memoized Team Member component
 const TeamMember = memo(({ teamMember }) => {
@@ -51,13 +52,13 @@ const TeamMember = memo(({ teamMember }) => {
 			)}
 			<div className="flex flex-wrap gap-x-3 gap-y-1 mt-1 text-xs text-gray-500">
 				{teamMember.dateIn && (
-					<span>In: {teamMember.dateIn}</span>
+					<span>{es.preview.teamDateIn}: {teamMember.dateIn}</span>
 				)}
 				{teamMember.dateOut && (
-					<span>Out: {teamMember.dateOut}</span>
+					<span>{es.preview.teamDateOut}: {teamMember.dateOut}</span>
 				)}
 				{teamMember.replacedByUsername && (
-					<span>Replaced by: {teamMember.replacedByUsername}</span>
+					<span>{es.preview.teamReplacedBy(teamMember.replacedByUsername)}</span>
 				)}
 			</div>
 			{teamMember.tags && Array.isArray(teamMember.tags) && teamMember.tags.length > 0 && <Tags tags={teamMember.tags}/> }
@@ -103,8 +104,8 @@ const TeamSection = () => {
 	return (
 		<section>
 			<div className="px-4 sm:px-0">
-				<h1 className="text-base font-semibold leading-6 text-gray-900" id="team">Team</h1>
-				<p className="text-sm text-gray-500">This section lists team information and members</p>
+				<h1 className="text-base font-semibold leading-6 text-gray-900" id="team">{es.preview.teamTitle}</h1>
+				<p className="text-sm text-gray-500">{es.preview.teamListDescription}</p>
 			</div>
 
 			{/* Team Info */}

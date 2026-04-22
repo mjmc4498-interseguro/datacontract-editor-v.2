@@ -8,6 +8,7 @@ import supportIcons from '../assets/support-icons/supportIcons.jsx';
 import {useShallow} from "zustand/react/shallow";
 import { useCustomization, useIsPropertyHidden, useStandardPropertyOverride, convertEnumToOptions } from '../hooks/useCustomization.js';
 import { CustomSections, UngroupedCustomProperties } from '../components/ui/CustomSection.jsx';
+import { es } from '../locale/es.js';
 
 // Support Item component with customization support
 const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOptions }) => {
@@ -115,7 +116,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
             minLength={channelOverride?.minLength}
             maxLength={channelOverride?.maxLength}
             validationKey={`support.${index}.channel`}
-            validationSection="Support"
+            validationSection={es.validationSections.support}
           />
         )}
         <div>
@@ -136,7 +137,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
                   minLength={urlOverride?.minLength}
                   maxLength={urlOverride?.maxLength}
                   validationKey={`support.${index}.url`}
-                  validationSection="Support"
+                  validationSection={es.validationSections.support}
                 />
               </div>
               <button
@@ -245,7 +246,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
               minLength={invitationUrlOverride?.minLength}
               maxLength={invitationUrlOverride?.maxLength}
               validationKey={`support.${index}.invitationUrl`}
-              validationSection="Support"
+              validationSection={es.validationSections.support}
             />
           </div>
         )}
@@ -260,7 +261,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
             context={supportContext}
             yamlParts={yamlParts}
             validationKeyPrefix={`support.${index}`}
-            validationSection="Support"
+            validationSection={es.validationSections.support}
           />
         </div>
 
@@ -274,7 +275,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
             context={supportContext}
             yamlParts={yamlParts}
             validationKeyPrefix={`support.${index}`}
-            validationSection="Support"
+            validationSection={es.validationSections.support}
           />
         </div>
       </div>
