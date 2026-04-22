@@ -7,13 +7,12 @@ import ChevronRightIcon from './icons/ChevronRightIcon.jsx';
 import { es } from '../../locale/es.js';
 
 /**
- * QualityEditor - Custom component for editing ODCS 3.1.0 quality rules
- * Provides a smart interface that shows relevant fields based on quality type
+ * Editor de reglas de calidad ODCS 3.1.0: muestra los campos pertinentes según el tipo.
  */
 const QualityEditor = ({ value, onChange, context = 'property', label, helpText }) => {
   const jsonSchema = useEditorStore((state) => state.schemaData);
+  const effectiveLabel = label ?? es.forms.qualityRule;
 
-  // Get dynamic enum values from schema
   const qualityDimensionOptions = useMemo(() => {
     return getSchemaEnumValues(jsonSchema, 'quality.dimension', context) ||
            ['accuracy', 'completeness', 'conformity', 'consistency', 'coverage', 'timeliness', 'uniqueness'];
@@ -44,13 +43,13 @@ const QualityEditor = ({ value, onChange, context = 'property', label, helpText 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-medium text-gray-700">{label}</label>
+        <label className="text-xs font-medium text-gray-700">{effectiveLabel}</label>
         <button
           type="button"
           onClick={addRule}
           className="text-xs text-indigo-600 hover:text-indigo-700 font-medium"
         >
-          + Add
+          + {es.qualityEditor.addRule}
         </button>
       </div>
 
@@ -67,7 +66,7 @@ const QualityEditor = ({ value, onChange, context = 'property', label, helpText 
       ))}
 
       {rules.length === 0 && (
-        <div className="text-xs text-gray-500 italic">No quality rules defined</div>
+        <div className="text-xs text-gray-500 italic">{es.qualityEditor.noRulesDefined}</div>
       )}
 
       {helpText && (
@@ -89,14 +88,13 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
   const showCustomFields = ruleType === 'custom';
   const showOperators = showLibraryFields || showSqlFields;
 
-  // Operator definitions
   const operatorOptions = [
-    { value: 'mustBe', label: 'Must Be (=)', symbol: '=' },
-    { value: 'mustNotBe', label: 'Must Not Be (≠)', symbol: '≠' },
-    { value: 'mustBeGreaterThan', label: 'Must Be Greater Than (>)', symbol: '>' },
-    { value: 'mustBeGreaterOrEqualTo', label: 'Must Be Greater Or Equal (≥)', symbol: '≥' },
-    { value: 'mustBeLessThan', label: 'Must Be Less Than (<)', symbol: '<' },
-    { value: 'mustBeLessOrEqualTo', label: 'Must Be Less Or Equal (≤)', symbol: '≤' }
+    { value: 'mustBe', label: es.qualityEditor.opMustBe, symbol: '=' },
+    { value: 'mustNotBe', label: es.qualityEditor.opMustNotBe, symbol: '≠' },
+    { value: 'mustBeGreaterThan', label: es.qualityEditor.opMustBeGreaterThan, symbol: '>' },
+    { value: 'mustBeGreaterOrEqualTo', label: es.qualityEditor.opMustBeGreaterOrEqual, symbol: '≥' },
+    { value: 'mustBeLessThan', label: es.qualityEditor.opMustBeLessThan, symbol: '<' },
+    { value: 'mustBeLessOrEqualTo', label: es.qualityEditor.opMustBeLessOrEqual, symbol: '≤' }
   ];
 
   // Initialize selected operator from rule data on mount and when rule changes
@@ -141,8 +139,8 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
   const getSummary = () => {
     const parts = [];
     if (rule.name) parts.push(rule.name);
-    if (rule.metric) parts.push(`Metric: ${rule.metric}`);
-    if (rule.dimension) parts.push(`Dimension: ${rule.dimension}`);
+    if (rule.metric) parts.push(es.qualityEditor.metricSummary(rule.metric));
+    if (rule.dimension) parts.push(es.qualityEditor.dimensionSummary(rule.dimension));
 
     // Show operator summary with actual symbol and value
     const activeOps = operatorOptions.filter(op => rule[op.value] !== undefined);
@@ -150,7 +148,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
       parts.push(`${op.value} ${rule[op.value]}${rule.unit === 'percent' ? '%' : ''}`);
     });
 
-    return parts.length > 0 ? parts.join(' • ') : 'New rule';
+    return parts.length > 0 ? parts.join(' • ') : es.qualityEditor.newRuleSummary;
   };
 
   return (
@@ -191,28 +189,28 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
           {/* Core Fields - Always shown */}
           <div className="grid grid-cols-12 gap-3 items-end">
             <div className="col-span-4">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Type</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.type}</label>
               <select
                 value={rule.type || ''}
                 onChange={(e) => onUpdate(index, 'type', e.target.value)}
                 className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
               >
-                <option value="">Select...</option>
-                <option value="text">Text</option>
-                <option value="library">Library (Metric)</option>
-                <option value="sql">SQL</option>
-                <option value="custom">Custom</option>
+                <option value="">{es.qualityEditor.selectPlaceholder}</option>
+                <option value="text">{es.qualityEditor.typeText}</option>
+                <option value="library">{es.qualityEditor.typeLibrary}</option>
+                <option value="sql">{es.qualityEditor.typeSql}</option>
+                <option value="custom">{es.qualityEditor.typeCustom}</option>
               </select>
             </div>
 
             <div className="col-span-7">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Name</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.name}</label>
               <input
                 type="text"
                 value={rule.name || ''}
                 onChange={(e) => onUpdate(index, 'name', e.target.value)}
                 className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-                placeholder="Rule identifier"
+                placeholder={es.forms.ruleIdentifier}
               />
             </div>
 
@@ -220,7 +218,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
               type="button"
               onClick={() => onRemove(index)}
               className="p-1 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors justify-self-end"
-              title="Remove Rule"
+              title={es.forms.removeRule}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -229,27 +227,26 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">Description</label>
+            <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.description}</label>
             <textarea
               value={rule.description || ''}
               onChange={(e) => onUpdate(index, 'description', e.target.value)}
               rows={2}
               className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
-              placeholder="Human-readable explanation of the check"
+              placeholder={es.forms.ruleExplanation}
             />
           </div>
 
-          {/* Library-specific fields */}
           {showLibraryFields && (
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Metric</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.metric}</label>
                 <select
                   value={rule.metric || ''}
                   onChange={(e) => onUpdate(index, 'metric', e.target.value)}
                   className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs"
                 >
-                  <option value="">Select metric...</option>
+                  <option value="">{es.qualityEditor.selectMetric}</option>
                   <option value="nullValues">nullValues</option>
                   <option value="missingValues">missingValues</option>
                   <option value="invalidValues">invalidValues</option>
@@ -261,7 +258,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
               {/* Metric-specific arguments */}
               {rule.metric === 'missingValues' && (
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Missing Values (one per line)</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.missingValuesLabel}</label>
                   <textarea
                     value={rule.arguments?.missingValues?.join('\n') || ''}
                     onChange={(e) => {
@@ -271,9 +268,9 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                     }}
                     rows={3}
                     className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
-                    placeholder="null&#10;&#10;N/A&#10;n/a"
+                    placeholder={es.forms.nullNaPlaceholders}
                   />
-                  <p className="text-xs text-gray-500 mt-1">Values considered as missing beyond null</p>
+                  <p className="text-xs text-gray-500 mt-1">{es.qualityEditor.missingBeyondNull}</p>
                 </div>
               )}
 
@@ -281,7 +278,7 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                 <div className="space-y-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Valid Values (one per line) <span className="text-gray-500">OR Pattern</span>
+                      {es.qualityEditor.validValuesOrPattern}
                     </label>
                     <textarea
                       value={rule.arguments?.validValues?.join('\n') || ''}
@@ -298,13 +295,13 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                       }}
                       rows={3}
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
-                      placeholder="pounds&#10;kg"
+                      placeholder={es.forms.exampleUnits}
                     />
-                    <p className="text-xs text-gray-500 mt-1">List of acceptable values</p>
+                    <p className="text-xs text-gray-500 mt-1">{es.qualityEditor.acceptableValuesList}</p>
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
-                      <span className="text-gray-500">Valid Values OR</span> Pattern (Regex)
+                      {es.qualityEditor.patternRegexLead}
                     </label>
                     <input
                       type="text"
@@ -322,14 +319,14 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                       className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
                       placeholder="^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Regular expression for validation</p>
+                    <p className="text-xs text-gray-500 mt-1">{es.qualityEditor.regexValidationHelp}</p>
                   </div>
                 </div>
               )}
 
               {rule.metric === 'duplicateValues' && context === 'schema' && (
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Properties (one per line)</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">{es.qualityEditor.propertiesLabel}</label>
                   <textarea
                     value={rule.arguments?.properties?.join('\n') || ''}
                     onChange={(e) => {
@@ -339,9 +336,9 @@ const QualityRuleCard = ({ rule, index, dimensionOptions, onUpdate, onRemove, co
                     }}
                     rows={3}
                     className="w-full rounded border border-gray-300 bg-white px-2 py-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs font-mono"
-                    placeholder="tenant_id&#10;order_id"
+                    placeholder={es.forms.exampleColumns}
                   />
-                  <p className="text-xs text-gray-500 mt-1">Column names to check for duplicate combinations</p>
+                  <p className="text-xs text-gray-500 mt-1">{es.qualityEditor.dupColumnHint}</p>
                 </div>
               )}
             </div>
