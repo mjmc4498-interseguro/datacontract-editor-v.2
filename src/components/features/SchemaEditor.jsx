@@ -412,7 +412,7 @@ const SchemaEditor = ({schemaIndex}) => {
 										}
 									}}
 									className="absolute top-0 right-0 p-1 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors"
-									title="Remove Schema"
+									title={es.forms.removeSchema}
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24"
 											 stroke="currentColor">
@@ -462,7 +462,7 @@ const SchemaEditor = ({schemaIndex}) => {
 													fieldPath={`schema[${schemaIndex}].description`}
 													currentValue={schema[schemaIndex].description || ''}
 													onSuggestion={(value) => setValue(`schema[${schemaIndex}].description`, value)}
-													placeholder="Description of what this schema/table contains and its purpose"
+													placeholder={es.forms.schemaDescription}
 												/>
 											}
 										/>
@@ -588,7 +588,7 @@ const SchemaEditor = ({schemaIndex}) => {
 																value={schema[schemaIndex].dataGranularityDescription || ''}
 																onChange={(e) => setValue(`schema[${schemaIndex}].dataGranularityDescription`, e.target.value)}
 																className="mt-1 block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-																placeholder="e.g., One record per customer per day"
+																placeholder={es.forms.recordGranularityEj}
 															/>
 														</div>
 													)}
@@ -601,7 +601,7 @@ const SchemaEditor = ({schemaIndex}) => {
 																value={schema[schemaIndex].tags || []}
 																onChange={(value) => setValue(`schema[${schemaIndex}].tags`, value)}
 																tooltip="Tags for categorizing and organizing schemas"
-																placeholder="Add a tag..."
+																placeholder={es.forms.addTag}
 															/>
 														</div>
 													)}
@@ -689,7 +689,7 @@ const SchemaEditor = ({schemaIndex}) => {
 													<button
 														onClick={() => setIsDefinitionModalOpen(true)}
 														className="rounded-sm bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50"
-														title="Add from Definition"
+														title={es.forms.addFromDefinition}
 													>
 														Add from Definition
 													</button>
@@ -697,7 +697,7 @@ const SchemaEditor = ({schemaIndex}) => {
 												<button
 													onClick={() => addProperty()}
 													className="text-gray-400 hover:text-indigo-600 cursor-pointer"
-													title="Add property"
+													title={es.forms.addProperty}
 												>
 													<svg className="w-4 h-4" fill="none" stroke="currentColor"
 															 viewBox="0 0 24 24">

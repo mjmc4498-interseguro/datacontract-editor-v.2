@@ -144,7 +144,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
                 type="button"
                 onClick={() => onRemove(index)}
                 className="p-1.5 mb-0.5 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors flex-shrink-0"
-                title="Remove channel"
+                title={es.forms.removeChannel}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -157,7 +157,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
               type="button"
               onClick={() => onRemove(index)}
               className="p-1.5 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors flex-shrink-0"
-              title="Remove channel"
+              title={es.forms.removeChannel}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -179,7 +179,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
               options={effectiveToolOptions}
               value={item.tool || ''}
               onChange={(selectedValue) => onUpdate(index, 'tool', selectedValue || '')}
-              placeholder="Select a tool..."
+              placeholder={es.forms.selectTool}
               acceptAnyInput={true}
               renderSelectedIcon={(value) => {
                 const IconComponent = supportIcons[value];
@@ -211,7 +211,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
               options={effectiveScopeOptions}
               value={item.scope || ''}
               onChange={(selectedValue) => onUpdate(index, 'scope', selectedValue || '')}
-              placeholder="Select a scope..."
+              placeholder={es.forms.selectScope}
               acceptAnyInput={true}
             />
           </div>
@@ -226,7 +226,7 @@ const SupportItem = ({ item, index, onUpdate, onRemove, toolOptions, scopeOption
               value={item.description || ''}
               onChange={(e) => onUpdate(index, 'description', e.target.value)}
               className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-              placeholder="Channel details for users..."
+              placeholder={es.forms.channelDetails}
             />
           </div>
         )}

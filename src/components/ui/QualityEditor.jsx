@@ -10,7 +10,7 @@ import { es } from '../../locale/es.js';
  * QualityEditor - Custom component for editing ODCS 3.1.0 quality rules
  * Provides a smart interface that shows relevant fields based on quality type
  */
-const QualityEditor = ({ value, onChange, context = 'property', label = 'Quality Rule', helpText }) => {
+const QualityEditor = ({ value, onChange, context = 'property', label, helpText }) => {
   const jsonSchema = useEditorStore((state) => state.schemaData);
 
   // Get dynamic enum values from schema

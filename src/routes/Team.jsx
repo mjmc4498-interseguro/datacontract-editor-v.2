@@ -214,7 +214,7 @@ const Team = () => {
                     value={team?.description}
                     onChange={(e) => updateTeamField('description', e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                    placeholder="Description of the team..."
+                    placeholder={es.forms.teamDescription}
                     rows={3}
                   />
                 </div>
@@ -225,7 +225,7 @@ const Team = () => {
                 label="Tags"
                 value={team?.tags}
                 onChange={(value) => updateTeamField('tags', value)}
-                placeholder="Add a tag..."
+                placeholder={es.forms.addTag}
               />
 
               {/* Custom Sections from Customization */}

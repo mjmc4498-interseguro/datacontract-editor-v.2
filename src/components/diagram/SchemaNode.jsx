@@ -19,11 +19,12 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
+import { es } from '../../locale/es.js';
 
-// Disable layout animation to prevent visual glitch on drop
+/** Desactiva la animación de disposición para evitar parpadeos al soltar */
 const animateLayoutChanges = () => false;
 
-// Sortable property row wrapper component
+/** Fila de propiedad reordenable */
 const SortablePropertyRow = ({ id: propId, children }) => {
   const {
     attributes,
@@ -370,7 +371,7 @@ const SchemaNode = ({ data, id }) => {
           <button
             onClick={handleAddProperty}
             className="p-1.5 text-gray-700 hover:bg-gray-100 rounded transition-colors"
-            title="Add property"
+            title={es.diagram.addProperty}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -380,7 +381,7 @@ const SchemaNode = ({ data, id }) => {
             <button
               onClick={() => setShowMenu(!showMenu)}
               className="p-1.5 text-gray-700 hover:bg-gray-100 rounded transition-colors"
-              title="More options"
+              title={es.diagram.moreOptions}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
@@ -439,7 +440,7 @@ const SchemaNode = ({ data, id }) => {
             <div
               className="cursor-pointer hover:opacity-80 flex-1 min-w-0"
               onClick={handleStartEditSchemaName}
-              title="Click to edit"
+              title={es.diagram.clickToEdit}
             >
               <span className="font-bold text-md truncate">{data.schema.name || 'Unnamed Schema'}</span>
             </div>
@@ -452,7 +453,7 @@ const SchemaNode = ({ data, id }) => {
               data.onToggleCollapse?.(data.schema.name);
             }}
             className="ml-1 flex-shrink-0 p-1 rounded text-gray-600 hover:bg-white hover:text-gray-900 transition-colors"
-            title={data.collapseMode === 'keys' ? 'Show all properties' : 'Show keys only'}
+            title={data.collapseMode === 'keys' ? es.diagram.showAllProperties : es.diagram.showKeysOnlyProp}
           >
             {data.collapseMode === 'keys' ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -529,7 +530,7 @@ const SchemaNode = ({ data, id }) => {
                 id={`${id}-prop-${index}-source`}
                 className="dce-prop-handle dce-prop-handle-source"
                 style={{ left: -1 }}
-                title="Drag from here to a property on another table to create a relationship"
+                title={es.diagram.dragToCreateRelationship}
               />
               <Handle
                 type="target"
@@ -538,7 +539,7 @@ const SchemaNode = ({ data, id }) => {
                 isConnectableStart={false}
                 className="dce-prop-handle dce-prop-handle-target"
                 style={{ right: -1 }}
-                title="Drop a relationship here"
+                title={es.diagram.dropRelationshipHere}
               />
               <div className="flex justify-between items-center">
                 {/* Left side: Name and icons */}
@@ -574,7 +575,7 @@ const SchemaNode = ({ data, id }) => {
                         {...dragHandleProps}
                         className="nodrag cursor-grab active:cursor-grabbing touch-none"
                         onClick={(e) => e.stopPropagation()}
-                        title="Drag to reorder"
+                        title={es.diagram.dragToReorder}
                       >
                         {(() => {
                           const TypeIcon = getLogicalTypeIcon(prop.logicalType);
@@ -597,7 +598,7 @@ const SchemaNode = ({ data, id }) => {
                             data.onShowPropertyDetails?.(id, index, node.position, propertyOffset, 'click');
                           }
                         }}
-                        title="Click to edit"
+                        title={es.diagram.clickToEdit}
                       >
                         {!prop.name || (typeof prop.name === 'string' && prop.name.trim() === '') ? 'unnamed property' : prop.name}
                       </span>
@@ -609,7 +610,7 @@ const SchemaNode = ({ data, id }) => {
                             handleAddNestedProperty(index);
                           }}
                           className="p-0.5 text-indigo-600 rounded transition-opacity flex-shrink-0 opacity-0 group-hover:opacity-100 hover:opacity-100 hover:bg-indigo-50"
-                          title="Add nested property"
+                          title={es.diagram.addNestedProperty}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -766,7 +767,7 @@ const SchemaNode = ({ data, id }) => {
                                 setEditingNestedProperty({ parentIndex: index, nestedIndex: `items-${itemPropIndex}`, field: 'name' });
                                 setEditedNestedValue(itemProp.name || '');
                               }}
-                              title="Click to edit"
+                              title={es.diagram.clickToEdit}
                             >
                               {itemProp.name || 'unnamed'}
                             </span>
@@ -917,7 +918,7 @@ const SchemaNode = ({ data, id }) => {
                             e.stopPropagation();
                             handleStartEditNestedProperty(index, nestedIndex, 'name', nestedProp.name);
                           }}
-                          title="Click to edit"
+                          title={es.diagram.clickToEdit}
                         >
                           {nestedProp.name || 'unnamed'}
                         </span>
@@ -971,11 +972,11 @@ const SchemaNode = ({ data, id }) => {
                 data.onToggleCollapse?.(data.schema.name, 'full');
               }}
               className="w-full px-3 py-1.5 text-xs text-gray-500 hover:text-indigo-700 hover:bg-indigo-50 flex items-center justify-center gap-1 transition-colors"
-              title="Show all properties"
+              title={es.diagram.showAllProperties}
             >
               <span>+{hidden} hidden</span>
               <span className="text-gray-400">·</span>
-              <span className="font-medium">Show all</span>
+              <span className="font-medium">{es.diagram.showAll}</span>
             </button>
           );
         })()}

@@ -107,7 +107,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
               label={usernameOverride?.title || "Username"}
               value={member.username || ''}
               onChange={(e) => onUpdate(index, 'username', e.target.value)}
-              placeholder={usernameOverride?.placeholder || "user@example.com"}
+              placeholder={usernameOverride?.placeholder || es.forms.emailPlaceholder}
               required={usernameOverride?.required ?? true}
               tooltip={usernameOverride?.description}
               pattern={usernameOverride?.pattern}
@@ -129,7 +129,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
                     label={nameOverride?.title || "Full Name"}
                     value={member.name || ''}
                     onChange={(e) => onUpdate(index, 'name', e.target.value)}
-                    placeholder={nameOverride?.placeholder || "John Doe"}
+                    placeholder={nameOverride?.placeholder || es.forms.personNamePlaceholder}
                     required={nameOverride?.required}
                     tooltip={nameOverride?.description}
                     pattern={nameOverride?.pattern}
@@ -144,7 +144,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
                   type="button"
                   onClick={() => onRemove(index)}
                   className="p-1.5 mb-0.5 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors flex-shrink-0"
-                  title="Remove member"
+                  title={es.forms.removeMember}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -157,7 +157,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
                 type="button"
                 onClick={() => onRemove(index)}
                 className="p-1.5 text-gray-400 cursor-pointer border border-gray-300 rounded hover:text-red-400 hover:border-red-400 transition-colors flex-shrink-0"
-                title="Remove member"
+                title={es.forms.removeMember}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -178,7 +178,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
                 value={member.description || ''}
                 onChange={(e) => onUpdate(index, 'description', e.target.value)}
                 className="block w-full rounded-md border-0 py-1.5 pl-2 pr-3 text-gray-900 bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs leading-4"
-                placeholder="Description of the team member..."
+                placeholder={es.forms.memberDescription}
                 rows={2}
               />
             </div>
@@ -190,7 +190,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
               label={roleOverride?.title || "Role"}
               value={member.role || ''}
               onChange={(e) => onUpdate(index, 'role', e.target.value)}
-              placeholder={roleOverride?.placeholder || "e.g., owner, data steward"}
+              placeholder={roleOverride?.placeholder || es.forms.roleExamples}
               required={roleOverride?.required}
               tooltip={roleOverride?.description}
               pattern={roleOverride?.pattern}
@@ -241,7 +241,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
             label="Replaced By"
             value={member.replacedByUsername || ''}
             onChange={(e) => onUpdate(index, 'replacedByUsername', e.target.value)}
-            placeholder="successor@example.com"
+            placeholder={es.forms.successorEmail}
 						className="bg-white"
             data-1p-ignore
           />
@@ -252,7 +252,7 @@ const TeamMember = ({ member, index, onUpdate, onRemove }) => {
           label="Tags"
           value={member.tags || []}
           onChange={(value) => onUpdate(index, 'tags', value)}
-          placeholder="Add a tag..."
+          placeholder={es.forms.addTag}
         />
 
         {/* Custom Sections from Customization */}
